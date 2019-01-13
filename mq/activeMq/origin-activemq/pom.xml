@@ -7,4 +7,13 @@
 		<version>0.0.1-SNAPSHOT</version>
 	</parent>
 	<artifactId>origin-activemq</artifactId>
+
+	<dependencies>
+		<dependency>
+			<groupId>org.apache.activemq</groupId>
+			<artifactId>activemq-all</artifactId>
+			<version>5.15.0</version>
+		</dependency>
+	</dependencies>
+
 </project>
