@@ -22,6 +22,6 @@
 
 	<modules>
 		<module>rabbitMQ</module>
-		<module>activeMq</module>
+		<module>activeMQ</module>
 	</modules>
 </project>

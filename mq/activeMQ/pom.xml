@@ -5,7 +5,7 @@
     <artifactId>mq</artifactId>
     <version>0.0.1-SNAPSHOT</version>
   </parent>
-  <artifactId>activeMq</artifactId>
+  <artifactId>activeMQ</artifactId>
   <packaging>pom</packaging>
   <modules>
   	<module>origin-activemq</module>
