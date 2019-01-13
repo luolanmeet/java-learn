@@ -22,5 +22,6 @@
 	
 	<modules>
 		<module>origin-zk</module>
+		<module>curator-zk</module>
 	</modules>
 </project>
