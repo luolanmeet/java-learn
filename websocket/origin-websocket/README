@@ -1,0 +1,18 @@
+
+运行方式一    
+    （使用tomcat插件）
+    （默认，过程中遇到不少问题，主要是tomcat版本问题）
+    右键项目 
+    点run as
+    点maven build
+    在 goals 中填  tomcat7:run
+    点run
+    在浏览器中访问 localhost:8080/ 即可
+
+
+运行方式二   
+    （打包丢tomcat里,tomcat要自备）
+    （需要pom文件打开注释）
+    进入到当前项目下  执行 mvn clean package
+    然后在 target 中就看到了一个war包
+    把war包丢 tomcat里 （用的时候是用 apache-tomcat-7.0.56）

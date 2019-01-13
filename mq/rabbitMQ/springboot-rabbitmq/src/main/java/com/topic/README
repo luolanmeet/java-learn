@@ -1,0 +1,13 @@
+rabbtiMQ 和 springboot topic模式
+
+配置路由时出了些问题，代码看不出问题，然后是删了队列重新试就性了。。
+
+// 删除队列
+需要先关闭应用
+rabbitmqctl stop_app
+rabbitmqctl reset
+之后再重启
+rabbitmqctl start_app
+
+
+跑下test可看结果

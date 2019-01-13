@@ -1,0 +1,4 @@
+把 WebSocketServer 跑起来
+然后浏览器访问 localhost:8989
+
+没有用 tomcat 存放页面，是直接发送 html 文件给前端。

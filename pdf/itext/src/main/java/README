@@ -1,0 +1,7 @@
+官网文档还是比较好看的，例子也很多呀 吼吼
+https://developers.itextpdf.com/examples/image-examples-itext5
+
+坑：
+1. IText 不支持中文 有几种解决方案，这里是使用加jar包解决 itext-asian
+
+2. 插入图片之后，没有换行
