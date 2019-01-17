@@ -28,3 +28,4 @@ build
 **/logs
 .metadata
 .recommenders
+**/Servers
