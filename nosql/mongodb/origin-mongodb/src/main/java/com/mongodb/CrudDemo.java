@@ -20,7 +20,7 @@ import com.mongodb.client.model.Filters;
  * 
  * 简单的 CRUD api
  * http://mongodb.github.io/mongo-java-driver/3.9/driver/getting-started/quick-start/
- * @author Ryan
+ * @author cck
  */
 public class CrudDemo {
 
@@ -39,7 +39,7 @@ public class CrudDemo {
                 .append("hobby", Arrays.asList("codeing", "reading"));
         
         /**
-         * 新增
+         * 增加
          */
         coll.insertOne(document);
         

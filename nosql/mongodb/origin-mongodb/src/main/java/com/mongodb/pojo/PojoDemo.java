@@ -15,6 +15,10 @@ import com.mongodb.client.MongoCollection;
 import com.mongodb.client.MongoDatabase;
 import com.mongodb.client.model.Filters;
 
+/**
+ * http://mongodb.github.io/mongo-java-driver/3.9/driver/getting-started/quick-start-pojo/#prerequisites
+ * @author cck
+ */
 public class PojoDemo {
     
     public static void main(String[] args) {
@@ -41,25 +45,25 @@ public class PojoDemo {
         user.setHobby(Arrays.asList("codeing", "reading"));
         
         /**
-         * 增
+         * 增加
          */
         coll.insertOne(user);
         
         /**
-         * 查
+         * 查询
          */
         user = coll.find(Filters.eq("name", "cck")).first();
         System.out.println(user);
         
         /**
-         * 改
+         * 修改
          */
         coll.updateOne(Filters.eq("name", "cck"), new Document("$set", new Document("name", "ck")));
         user = coll.find(Filters.eq("name", "ck")).first();
         System.out.println(user);
         
         /**
-         * 删
+         * 删除
          */
         coll.deleteMany(Filters.eq("age", 24));
         System.out.println(coll.countDocuments());
