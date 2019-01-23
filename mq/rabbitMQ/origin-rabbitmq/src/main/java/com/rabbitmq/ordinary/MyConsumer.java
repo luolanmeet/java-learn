@@ -1,4 +1,4 @@
-package consumer;
+package com.rabbitmq.ordinary;
 
 import java.io.IOException;
 

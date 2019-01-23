@@ -1,4 +1,4 @@
-package publisher;
+package com.rabbitmq.ordinary;
 
 import java.io.IOException;
 import java.util.concurrent.TimeoutException;
