@@ -50,7 +50,6 @@ public class DLXConsumer {
         channel.basicConsume(DLX_QUEUE_NAME, true, consumer);
         
         System.in.read();
-        
         channel.close();
         connection.close();
         factory.clone();
