@@ -14,10 +14,9 @@ import org.springframework.stereotype.Component;
 import pers.custom.annotation.handler.ICmdHandler;
 
 @Component
-public class HandlerDispatcherServlet implements 
-    InitializingBean, ApplicationContextAware {
+public class HandlerDispatcherServlet implements InitializingBean, ApplicationContextAware {
 
-    private ApplicationContext applicationContext;
+    private ApplicationContext context;
 
     private Map<Integer, ICmdHandler> handlers = new HashMap<>();
     
@@ -27,25 +26,33 @@ public class HandlerDispatcherServlet implements
     
     public void afterPropertiesSet() {
         
-        String[] beanNames = this.applicationContext.getBeanNamesForType(Object.class);
+        String[] beanNames = this.context.getBeanNamesForType(Object.class);
 
         for (String beanName : beanNames) {
-            if (!ScopedProxyUtils.isScopedTarget(beanName)) {
-                Class<?> beanType = null;
-                beanType = this.applicationContext.getType(beanName);
-                if (beanType != null) {
-                    CmdInMapping annotation = AnnotatedElementUtils.findMergedAnnotation(beanType, CmdInMapping.class);
-                    if(annotation != null) {
-                        handlers.put(annotation.value(), (ICmdHandler) applicationContext.getBean(beanType));
-                    }
+            
+            if (ScopedProxyUtils.isScopedTarget(beanName)) {
+                continue;
+            }
+            
+            Class<?> beanType = this.context.getType(beanName);
+            
+            if (beanType != null) {
+                
+                CmdMapping annotation = AnnotatedElementUtils.findMergedAnnotation(
+                        beanType, CmdMapping.class);
+                
+                if(annotation != null) {
+                    handlers.put(annotation.value(), (ICmdHandler) context.getBean(beanType));
                 }
             }
         }
         
     }
 
-    public void setApplicationContext(ApplicationContext applicationContext) throws BeansException {
-        this.applicationContext = applicationContext;
+    public void setApplicationContext(ApplicationContext applicationContext)
+            throws BeansException {
+        
+        this.context = applicationContext;
     }
 
 }

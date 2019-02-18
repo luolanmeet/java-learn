@@ -1,9 +1,9 @@
 package pers.custom.annotation.handler;
 
 import pers.custom.annotation.Cmd;
-import pers.custom.annotation.CmdInMapping;
+import pers.custom.annotation.CmdMapping;
 
-@CmdInMapping(Cmd.REGISTER)
+@CmdMapping(Cmd.REGISTER)
 public class RegisterHandler implements ICmdHandler {
 
     @Override

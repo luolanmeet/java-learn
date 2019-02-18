@@ -12,7 +12,7 @@ import org.springframework.stereotype.Component;
 @Target(ElementType.TYPE)
 @Retention(RetentionPolicy.RUNTIME)
 @Component
-public @interface CmdInMapping {
+public @interface CmdMapping {
 
     int value();
     

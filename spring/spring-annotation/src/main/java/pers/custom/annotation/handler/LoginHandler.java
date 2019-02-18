@@ -1,9 +1,9 @@
 package pers.custom.annotation.handler;
 
 import pers.custom.annotation.Cmd;
-import pers.custom.annotation.CmdInMapping;
+import pers.custom.annotation.CmdMapping;
 
-@CmdInMapping(value = Cmd.LOGIN)
+@CmdMapping(Cmd.LOGIN)
 public class LoginHandler implements ICmdHandler {
 
     @Override

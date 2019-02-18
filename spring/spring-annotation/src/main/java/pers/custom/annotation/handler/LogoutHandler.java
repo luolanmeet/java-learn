@@ -1,9 +1,9 @@
 package pers.custom.annotation.handler;
 
 import pers.custom.annotation.Cmd;
-import pers.custom.annotation.CmdInMapping;
+import pers.custom.annotation.CmdMapping;
 
-@CmdInMapping(Cmd.LOGOUT)
+@CmdMapping(Cmd.LOGOUT)
 public class LogoutHandler implements ICmdHandler {
 
     @Override
