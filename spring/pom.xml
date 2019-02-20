@@ -22,5 +22,6 @@
 	
 	<modules>
 		<module>spring-annotation</module>
+		<module>spring-aop</module>
 	</modules>
 </project>
