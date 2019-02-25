@@ -1,12 +1,11 @@
 package test.origin;
 
-import java.util.Date;
-
+import com.origin.Email;
+import com.origin.EmailUtil;
 import org.junit.Before;
 import org.junit.Test;
 
-import com.origin.Email;
-import com.origin.EmailUtil;
+import java.util.Date;
 
 /**
  * 

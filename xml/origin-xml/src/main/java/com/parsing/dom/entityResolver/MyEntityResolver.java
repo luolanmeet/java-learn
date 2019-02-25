@@ -1,13 +1,12 @@
 package com.parsing.dom.entityResolver;
 
-import java.io.IOException;
-import java.io.InputStream;
-
+import com.parsing.dom.DomParser;
 import org.xml.sax.EntityResolver;
 import org.xml.sax.InputSource;
 import org.xml.sax.SAXException;
 
-import com.parsing.dom.DomParser;
+import java.io.IOException;
+import java.io.InputStream;
 
 /**
  * 当要解析一个流时，需要实体解析器来支持DTD
