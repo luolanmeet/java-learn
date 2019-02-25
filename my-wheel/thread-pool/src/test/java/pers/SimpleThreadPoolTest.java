@@ -1,8 +1,8 @@
 package pers;
 
-import java.io.IOException;
-
 import org.junit.Test;
+
+import java.io.IOException;
 
 public class SimpleThreadPoolTest {
     
@@ -16,13 +16,8 @@ public class SimpleThreadPoolTest {
             String task = "task" + i;
             
             tp.submit(
-                    new Runnable() {
-                        @Override
-                        public void run() {
-                            System.out.println(task);
-                        }
-                    }
-                );
+                    () -> System.out.println(task)
+            );
         }
         
         System.in.read();
