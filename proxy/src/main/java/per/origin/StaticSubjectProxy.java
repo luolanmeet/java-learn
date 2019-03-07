@@ -10,6 +10,8 @@ public class StaticSubjectProxy implements Subject {
 
     @Override
     public void sayHello(String name) {
+        System.out.println("before sayHello");
         subject.sayHello(name);
+        System.out.println("after sayHello");
     }
 }

@@ -15,6 +15,9 @@ public class DynamicSubjectProxy implements InvocationHandler {
 
     @Override
     public Object invoke(Object proxy, Method method, Object[] args) throws Throwable {
-        return method.invoke(object, args);
+        System.out.println("before sayHello");
+        Object result = method.invoke(object, args);
+        System.out.println("after sayHello");
+        return result;
     }
 }
