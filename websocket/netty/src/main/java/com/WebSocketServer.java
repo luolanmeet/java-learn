@@ -50,7 +50,6 @@ public class WebSocketServer {
     
     
     public static void main(String[] args) throws InterruptedException {
-        // https://www.cnblogs.com/damowang/p/6226190.html
         new WebSocketServer().run();
     }
     
