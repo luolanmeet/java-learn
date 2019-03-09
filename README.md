@@ -2,18 +2,18 @@
 
 项目名|内容
 ---|---
-🍈[guava]          | guava
-✉️[mail]           | 邮件相关框架
-📬[mq]             | 消息队列
+🍈 [guava]          | guava
+✉️ [mail]           | 邮件相关框架
+📬 [mq]             | 消息队列
 ⛱ [my-wheel]       | 轮子
-🍋[nosql]          | 非关系型数据库、缓存数据库
-📝[pdf]            | pdf
-💁🏻‍♂️[proxy]         | 动态代理框架
-🍳[search-engines] | 搜索引擎
-🌿[spring]         | spring系列
-🌈[websocket]      | 实现websockt的框架，如:netty
-📃[xml]            | xml
-👨🏼‍✈️[zookeeper]     | zookeeper
+🍋 [nosql]          | 非关系型数据库、缓存数据库
+📝 [pdf]            | pdf
+💁🏻‍♂️ [proxy]         | 动态代理框架
+🍳 [search-engines] | 搜索引擎
+🌿 [spring]         | spring系列
+🌈 [websocket]      | 实现websockt的框架，如:netty
+📃 [xml]            | xml
+👨🏼‍✈️ [zookeeper]     | zookeeper
 
 [guava]: https://github.com/luolanmeet/java-learn/tree/master/guava
 [mail]: https://github.com/luolanmeet/java-learn/tree/master/mail
