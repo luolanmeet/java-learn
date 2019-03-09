@@ -1,6 +1,7 @@
 package pers.mybatis.session.defaults;
 
 import pers.mybatis.executor.Executor;
+import pers.mybatis.mapping.MappedStatement;
 import pers.mybatis.session.Configuration;
 import pers.mybatis.session.SqlSession;
 
@@ -21,8 +22,14 @@ public class DefaultSqlSession implements SqlSession {
     }
 
     @Override
-    public <T> T selectOne(String statement, String parameter) {
-        return executor.query(statement, parameter);
+    public <T> T selectOne(String statement, Object parameter) {
+
+        MappedStatement ms = configuration.getMappedStatement(statement);
+        return executor.query(ms, parameter);
     }
 
+    @Override
+    public Configuration getConfiguration() {
+        return this.configuration;
+    }
 }

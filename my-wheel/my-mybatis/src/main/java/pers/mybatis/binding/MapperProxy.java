@@ -1,19 +1,27 @@
 package pers.mybatis.binding;
 
-import pers.mybatis.annotations.Select;
-import pers.mybatis.session.SqlSession;
-
-import java.lang.annotation.Annotation;
 import java.lang.reflect.InvocationHandler;
 import java.lang.reflect.Method;
 import java.lang.reflect.Modifier;
+import java.util.Map;
 
-public class MapperProxy implements InvocationHandler {
+import pers.mybatis.session.SqlSession;
+
+/**
+ * 主要职责就是获取 根据method 获取 MapperMethod
+ * 之后就交给MapperMethod了
+ * @param <T>
+ */
+public class MapperProxy<T> implements InvocationHandler {
 
     private final SqlSession sqlSession;
+    private final Class<T> mapperInterface;
+    private final Map<Method, MapperMethod> methodCache;
 
-    public MapperProxy(SqlSession sqlSession) {
+    public MapperProxy(SqlSession sqlSession, Class<T> mapperInterface, Map<Method, MapperMethod> methodCache) {
         this.sqlSession = sqlSession;
+        this.mapperInterface = mapperInterface;
+        this.methodCache = methodCache;
     }
 
     @Override
@@ -28,17 +36,23 @@ public class MapperProxy implements InvocationHandler {
             throw new RuntimeException("my-mybatis 不支持接口有默认方法");
         }
 
-        Annotation[] annotations = method.getAnnotations();
-        if (annotations != null && annotations.length > 0) {
+        // 获取MapperMethod，调用execute方法
+        final MapperMethod mapperMethod = cachedMapperMethod(method);
 
-            Select select = (Select) annotations[0];
-            String sql = select.value();
-            return sqlSession.selectOne(sql, String.valueOf(args[0]));
-        }
-
-        return method.invoke(this, args);
+        return mapperMethod.execute(sqlSession, args);
     }
 
+    private MapperMethod cachedMapperMethod(Method method) {
+
+        MapperMethod mapperMethod = methodCache.get(method);
+
+        if (mapperMethod == null) {
+            mapperMethod = new MapperMethod(mapperInterface, method, sqlSession.getConfiguration());
+            methodCache.put(method, mapperMethod);
+        }
+        return mapperMethod;
+    }
+    
     private boolean isDefaultMethod(Method method) {
         return
                 ((method.getModifiers() & (Modifier.ABSTRACT | Modifier.PUBLIC | Modifier.STATIC))

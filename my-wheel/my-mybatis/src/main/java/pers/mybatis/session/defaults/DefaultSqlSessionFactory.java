@@ -5,8 +5,6 @@ import pers.mybatis.session.Configuration;
 import pers.mybatis.session.SqlSession;
 import pers.mybatis.session.SqlSessionFactory;
 
-import java.util.Map;
-
 public class DefaultSqlSessionFactory implements SqlSessionFactory {
 
     private final Configuration configuration;

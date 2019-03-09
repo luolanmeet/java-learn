@@ -1,9 +1,11 @@
 package pers.mybatis.executor;
 
+import pers.mybatis.mapping.MappedStatement;
+
 public interface Executor {
 
     <T> T query(
-            String statement,
-            String parameter);
+            MappedStatement ms,
+            Object parameter);
 
 }
