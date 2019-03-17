@@ -1,39 +1,41 @@
 package pers.mybatis.executor;
 
 import java.sql.Connection;
-import java.sql.DriverManager;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 
 import pers.mybatis.mapping.BoundSql;
 import pers.mybatis.mapping.MappedStatement;
+import pers.mybatis.session.Configuration;
 import pers.mybatis.test.Test;
+import pers.mybatis.transaction.Transaction;
 
-public class SimpleExecutor implements Executor {
-
+public class SimpleExecutor extends BaseExecutor {
+    
+    public SimpleExecutor(Configuration configuration, Transaction transaction) {
+        super(configuration, transaction);
+    }
+    
     @Override
     public <T> T query(MappedStatement ms, Object parameter) {
         
         // 拿到我们的SQL
         BoundSql boundSql = ms.getBoundSql(parameter);
         
+        Connection connection = null;
+        
         // FIXME
         String statement = boundSql.getSql();
         
-        Connection connection = null;
         PreparedStatement preparedStatement = null;
 
         Test test = null;
-
+        
         try {
             
-            Class.forName("com.mysql.jdbc.Driver");
-            connection = DriverManager.getConnection("jdbc:mysql://localhost:3306/mybatis?useUnicode=true&characterEncoding=utf-8&useSSL=false&useJDBCCompliantTimezoneShift=true&useLegacyDatetimeCode=false&serverTimezone=UTC",
-                    "root",
-                    "121213");
-
-            connection.setAutoCommit(false);
+            connection = transaction.getConnection();
+            
             preparedStatement = connection.prepareStatement(String.format(statement, Integer.parseInt(parameter.toString())));
             ResultSet rs = preparedStatement.executeQuery();
 
@@ -43,8 +45,6 @@ public class SimpleExecutor implements Executor {
                 test.setNums(2);
                 test.setName(rs.getString(3));
             }
-        } catch (ClassNotFoundException e) {
-            e.printStackTrace();
         } catch (SQLException e) {
             e.printStackTrace();
         } finally {

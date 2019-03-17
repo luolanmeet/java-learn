@@ -13,6 +13,7 @@ import pers.mybatis.mapping.MappedStatement;
 import pers.mybatis.mapping.SqlCommandType;
 import pers.mybatis.mapping.SqlSource;
 import pers.mybatis.test.TestMapper;
+import pers.mybatis.transaction.Transaction;
 
 public class Configuration {
 
@@ -45,8 +46,8 @@ public class Configuration {
         
     }
     
-    public Executor newExecutor() {
-        return new SimpleExecutor();
+    public Executor newExecutor(Transaction tx) {
+        return new SimpleExecutor(this, tx);
     }
 
     @SuppressWarnings("unchecked")
