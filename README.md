@@ -23,6 +23,7 @@
 [my-wheel]: https://github.com/luolanmeet/java-learn/tree/master/my-wheel
 [nosql]: https://github.com/luolanmeet/java-learn/tree/master/nosql
 [office]: https://github.com/luolanmeet/java-learn/tree/master/office
+[orm]: https://github.com/luolanmeet/java-learn/tree/master/orm
 [pdf]: https://github.com/luolanmeet/java-learn/tree/master/pdf
 [proxy]: https://github.com/luolanmeet/java-learn/tree/master/proxy
 [search-engines]: https://github.com/luolanmeet/java-learn/tree/master/search-engines
