@@ -1,11 +1,13 @@
 package pers.mybatis.binding;
 
+import java.lang.reflect.Method;
+import java.util.HashMap;
+
 import pers.mybatis.mapping.MappedStatement;
 import pers.mybatis.mapping.SqlCommandType;
+import pers.mybatis.reflection.ParamNameResolver;
 import pers.mybatis.session.Configuration;
 import pers.mybatis.session.SqlSession;
-
-import java.lang.reflect.Method;
 
 public class MapperMethod {
 
@@ -24,16 +26,27 @@ public class MapperMethod {
         Object result = null;
         switch (command.getType()) {
             case SELECT:
-                result = sqlSession.selectOne(command.getName(), args[0]);
+                Object param = method.convertArgsToSqlCommandParam(args);
+                result = sqlSession.selectOne(command.getName(), param);
                 break;
         }
         return result;
     }
 
     private static class MethodSignature {
-
+        
+        private final ParamNameResolver paramNameResolver;
+        
         public MethodSignature(Configuration config, Class<?> mapperInterface, Method method) {
+            
+            this.paramNameResolver = new ParamNameResolver(config, method);
         }
+        
+        // 封装方法的入参
+        public Object convertArgsToSqlCommandParam(Object[] args) {
+            return paramNameResolver.getNamedParams(args);
+        }
+        
     }
 
     public static class SqlCommand {
@@ -73,5 +86,21 @@ public class MapperMethod {
             return type;
         }
     }
+    
+    public static class ParamMap<V> extends HashMap<String, V> {
 
+        private static final long serialVersionUID = -2212268410512043556L;
+
+        @Override
+        public V get(Object key) {
+
+            if (!super.containsKey(key)) {
+                throw new RuntimeException("Parameter '" + key + "' not found. Available parameters are " + keySet());
+            }
+
+            return super.get(key);
+        }
+
+    }
+    
 }

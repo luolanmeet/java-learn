@@ -21,4 +21,14 @@
             user_id = #{userId} 
     </select>
     
+    <select id="findByIdAndName" resultMap="resultMap">
+        SELECT <include refid="columns" />
+        FROM 
+            t_user
+        WHERE
+            user_id = #{param1}
+                AND
+            name = #{name}     
+    </select>
+    
 </mapper>

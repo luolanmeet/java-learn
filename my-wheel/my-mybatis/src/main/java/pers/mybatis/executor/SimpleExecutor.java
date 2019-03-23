@@ -36,7 +36,10 @@ public class SimpleExecutor extends BaseExecutor {
             
             connection = transaction.getConnection();
             
-            preparedStatement = connection.prepareStatement(String.format(statement, Integer.parseInt(parameter.toString())));
+//            preparedStatement = connection.prepareStatement(String.format(statement, Integer.parseInt(parameter.toString())));
+            preparedStatement = connection.prepareStatement(statement);
+            preparedStatement.setObject(1, parameter);
+            
             ResultSet rs = preparedStatement.executeQuery();
 
             while (rs.next()) {

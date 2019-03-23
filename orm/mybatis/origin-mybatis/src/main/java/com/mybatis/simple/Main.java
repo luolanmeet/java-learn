@@ -30,7 +30,8 @@ public class Main {
         // 获取Mapper代理实例
         IUserMapper userMapper = session.getMapper(IUserMapper.class);
         
-        User user = userMapper.findById(1);
+//        User user = userMapper.findById(1);
+        User user = userMapper.findByIdAndName(1, "cck");
         
         System.out.println(user);
     }

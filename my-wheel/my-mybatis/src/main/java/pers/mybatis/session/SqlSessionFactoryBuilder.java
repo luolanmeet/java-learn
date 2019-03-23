@@ -2,8 +2,6 @@ package pers.mybatis.session;
 
 import pers.mybatis.session.defaults.DefaultSqlSessionFactory;
 
-import java.util.Map;
-
 public class SqlSessionFactoryBuilder {
 
     // 传入配置文件xml

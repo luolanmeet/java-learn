@@ -6,7 +6,7 @@ import java.util.Map;
 
 import pers.mybatis.annotations.Select;
 import pers.mybatis.binding.MapperRegistry;
-import pers.mybatis.builder.StaticSqlSource;
+import pers.mybatis.builder.SqlSourceBuilder;
 import pers.mybatis.executor.Executor;
 import pers.mybatis.executor.SimpleExecutor;
 import pers.mybatis.mapping.MappedStatement;
@@ -35,7 +35,10 @@ public class Configuration {
             ms.setSqlCommandType(SqlCommandType.SELECT);
             Method method = TestMapper.class.getMethod("findByid", Integer.class);
             Select select = method.getAnnotation(Select.class);
-            SqlSource sqlSource = new StaticSqlSource(this, select.value(), null);
+            
+            SqlSourceBuilder sqlSourceBuilder = new SqlSourceBuilder(this);
+            SqlSource sqlSource = sqlSourceBuilder.parse(select.value(), null, null);
+            
             ms.setSqlSource(sqlSource);
             
             mappedStatements.put("pers.mybatis.test.TestMapper.findByid", ms);
