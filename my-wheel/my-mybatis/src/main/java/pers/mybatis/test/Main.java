@@ -18,6 +18,9 @@ public class Main {
         
         test = testMapper.findByIdAndName(1, "233");
         System.out.println(test);
+        
+        test = testMapper.findByIdAndNums(2, 111);
+        System.out.println(test);
     }
 
 }

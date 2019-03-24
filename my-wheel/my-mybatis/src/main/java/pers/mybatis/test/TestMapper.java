@@ -4,9 +4,21 @@ import pers.mybatis.annotations.Select;
 
 public interface TestMapper {
     
-    @Select("select * from t_mybatis where id = #{param1}")
+    @Select("SELECT * FROM t_mybatis "
+            + "WHERE "
+            + "id = #{param1}")
     Test findByid(Integer id);
     
-    @Select("select * from t_mybatis where id = #{param1} AND name = #{name}")
+    @Select("SELECT * FROM t_mybatis "
+            + "WHERE "
+            + "id = #{param1} "
+            + "AND name = #{param2}")
     Test findByIdAndName(Integer id, String name);
+    
+    @Select("SELECT * FROM t_mybatis "
+            + "WHERE "
+            + "id = #{param1} "
+            + "AND nums = #{param2}" )
+    Test findByIdAndNums(Integer id, Integer nums);
+    
 }

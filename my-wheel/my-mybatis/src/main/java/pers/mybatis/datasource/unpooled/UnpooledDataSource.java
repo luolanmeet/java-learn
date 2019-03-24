@@ -67,8 +67,8 @@ public class UnpooledDataSource implements DataSource {
         
         try {
             
+            InputStream is = this.getClass().getClassLoader().getResourceAsStream("mybatis.properties");
             Properties properties = new Properties();
-            InputStream is = this.getClass().getClassLoader().getResourceAsStream("jdbc.properties");
             properties.load(is);
             Class.forName(properties.getProperty("driver"));
             
