@@ -4,6 +4,7 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.HashMap;
 
 import pers.mybatis.mapping.BoundSql;
 import pers.mybatis.mapping.MappedStatement;
@@ -38,7 +39,18 @@ public class SimpleExecutor extends BaseExecutor {
             
 //            preparedStatement = connection.prepareStatement(String.format(statement, Integer.parseInt(parameter.toString())));
             preparedStatement = connection.prepareStatement(statement);
-            preparedStatement.setObject(1, parameter);
+            
+            if (parameter instanceof HashMap) {
+                
+                HashMap temp = (HashMap) parameter;
+                int size = temp.size() / 2;
+                
+                for (int i = 1; i <= size; i++) {
+                    preparedStatement.setObject(i, temp.get("param" + i));
+                }
+            } else {
+                preparedStatement.setObject(1, parameter);
+            }
             
             ResultSet rs = preparedStatement.executeQuery();
 
@@ -52,8 +64,8 @@ public class SimpleExecutor extends BaseExecutor {
             e.printStackTrace();
         } finally {
             try {
-                if (null != connection) {
-                    connection.close();
+                if (null != preparedStatement) {
+                    preparedStatement.close();
                 }
             } catch (SQLException e) {
                 e.printStackTrace();

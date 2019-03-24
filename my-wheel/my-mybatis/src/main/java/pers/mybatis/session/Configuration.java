@@ -26,22 +26,29 @@ public class Configuration {
     
     public Configuration() {
         
-        // FIXME 这里直接初始化了 mappedStatements，没有通过解析的方式获取
-        
         try {
             
+            SqlSourceBuilder sqlSourceBuilder = new SqlSourceBuilder(this);
+            
+            // FIXME 这里直接初始化了 mappedStatements，没有通过解析的方式获取
             MappedStatement ms = new MappedStatement(); 
             ms.setId("pers.mybatis.test.TestMapper.findByid");
             ms.setSqlCommandType(SqlCommandType.SELECT);
             Method method = TestMapper.class.getMethod("findByid", Integer.class);
             Select select = method.getAnnotation(Select.class);
-            
-            SqlSourceBuilder sqlSourceBuilder = new SqlSourceBuilder(this);
             SqlSource sqlSource = sqlSourceBuilder.parse(select.value(), null, null);
-            
             ms.setSqlSource(sqlSource);
-            
             mappedStatements.put("pers.mybatis.test.TestMapper.findByid", ms);
+            
+            
+            ms = new MappedStatement(); 
+            ms.setId("pers.mybatis.test.TestMapper.findByIdAndName");
+            ms.setSqlCommandType(SqlCommandType.SELECT);
+            method = TestMapper.class.getMethod("findByIdAndName", Integer.class, String.class);
+            select = method.getAnnotation(Select.class);
+            sqlSource = sqlSourceBuilder.parse(select.value(), null, null);
+            ms.setSqlSource(sqlSource);
+            mappedStatements.put("pers.mybatis.test.TestMapper.findByIdAndName", ms);
             
         } catch (Exception e) {
             e.printStackTrace();

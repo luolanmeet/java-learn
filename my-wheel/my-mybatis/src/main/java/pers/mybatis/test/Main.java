@@ -15,6 +15,9 @@ public class Main {
         TestMapper testMapper = session.getMapper(TestMapper.class);
         Test test = testMapper.findByid(1);
         System.out.println(test);
+        
+        test = testMapper.findByIdAndName(1, "233");
+        System.out.println(test);
     }
 
 }
