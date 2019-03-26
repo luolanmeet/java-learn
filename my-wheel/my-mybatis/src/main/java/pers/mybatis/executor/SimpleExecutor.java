@@ -1,15 +1,16 @@
 package pers.mybatis.executor;
 
+import java.lang.reflect.Field;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
-import java.sql.SQLException;
+import java.sql.ResultSetMetaData;
 import java.util.HashMap;
+import java.util.Map;
 
 import pers.mybatis.mapping.BoundSql;
 import pers.mybatis.mapping.MappedStatement;
 import pers.mybatis.session.Configuration;
-import pers.mybatis.test.Test;
 import pers.mybatis.transaction.Transaction;
 
 public class SimpleExecutor extends BaseExecutor {
@@ -24,27 +25,31 @@ public class SimpleExecutor extends BaseExecutor {
         // 拿到我们的SQL
         BoundSql boundSql = ms.getBoundSql(parameter);
         
-        Connection connection = null;
         
         // FIXME
         String statement = boundSql.getSql();
         
-        PreparedStatement preparedStatement = null;
-
-        Test test = null;
+        Object result = null;
+        Connection connection = null;
+        
+        Class resultType = ms.getResultType();
         
         try {
             
             connection = transaction.getConnection();
+            result = resultType.newInstance();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        
+        try(PreparedStatement preparedStatement = connection.prepareStatement(statement)) {
             
-//            preparedStatement = connection.prepareStatement(String.format(statement, Integer.parseInt(parameter.toString())));
-            preparedStatement = connection.prepareStatement(statement);
-            
+            // 入参
             if (parameter instanceof HashMap) {
                 
-                HashMap temp = (HashMap) parameter;
-                int size = temp.size() / 2;
+                HashMap<?, ?> temp = (HashMap<?, ?>) parameter;
                 
+                int size = temp.size() / 2;
                 for (int i = 1; i <= size; i++) {
                     preparedStatement.setObject(i, temp.get("param" + i));
                 }
@@ -53,26 +58,36 @@ public class SimpleExecutor extends BaseExecutor {
             }
             
             ResultSet rs = preparedStatement.executeQuery();
-
-            while (rs.next()) {
-                test = new Test();
-                test.setId(rs.getInt(1));
-                test.setNums(2);
-                test.setName(rs.getString(3));
-            }
-        } catch (SQLException e) {
-            e.printStackTrace();
-        } finally {
-            try {
-                if (null != preparedStatement) {
-                    preparedStatement.close();
+            
+            // 这里进行结果映射
+            Map<String, Object> valMap = new HashMap<>();
+            ResultSetMetaData metaData = rs.getMetaData();
+            if (rs.next()) {
+                
+                for (int i = 0; i < metaData.getColumnCount(); i++) {
+                    String columnLabel = metaData.getColumnLabel(i + 1);
+                    Object object = rs.getObject(i + 1);
+                    valMap.put(columnLabel, object);
                 }
-            } catch (SQLException e) {
-                e.printStackTrace();
             }
-        }
+            
+            // 为结果对象赋值
+            for (Map.Entry<String, Object> entry : valMap.entrySet()) {
+                
+                String fieldName = entry.getKey();
+                Object value = entry.getValue();
+                Field field = resultType.getDeclaredField(fieldName);
+                if (!field.isAccessible()) {
+                    field.setAccessible(true);
+                }
+                field.set(result, value);
+            }
+            
+        } catch (Exception e) {
+            e.printStackTrace();
+        } 
 
-        return (T)test;
+        return (T)result;
     }
 
 }

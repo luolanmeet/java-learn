@@ -14,12 +14,9 @@ import pers.mybatis.executor.SimpleExecutor;
 import pers.mybatis.mapping.MappedStatement;
 import pers.mybatis.mapping.SqlCommandType;
 import pers.mybatis.mapping.SqlSource;
-import pers.mybatis.test.TestMapper;
 import pers.mybatis.transaction.Transaction;
 
 public class Configuration {
-
-    private static final Class S = null;
 
     protected final MapperRegistry mapperRegistry = new MapperRegistry(this);
 
@@ -32,28 +29,6 @@ public class Configuration {
         
         try {
             
-//            SqlSourceBuilder sqlSourceBuilder = new SqlSourceBuilder(this);
-//            
-//            // FIXME 这里直接初始化了 mappedStatements，没有通过解析的方式获取
-//            MappedStatement ms = new MappedStatement(); 
-//            ms.setId("pers.mybatis.test.TestMapper.findByid");
-//            ms.setSqlCommandType(SqlCommandType.SELECT);
-//            Method method = TestMapper.class.getMethod("findByid", Integer.class);
-//            Select select = method.getAnnotation(Select.class);
-//            SqlSource sqlSource = sqlSourceBuilder.parse(select.value(), null, null);
-//            ms.setSqlSource(sqlSource);
-//            mappedStatements.put("pers.mybatis.test.TestMapper.findByid", ms);
-//            
-//            
-//            ms = new MappedStatement(); 
-//            ms.setId("pers.mybatis.test.TestMapper.findByIdAndName");
-//            ms.setSqlCommandType(SqlCommandType.SELECT);
-//            method = TestMapper.class.getMethod("findByIdAndName", Integer.class, String.class);
-//            select = method.getAnnotation(Select.class);
-//            sqlSource = sqlSourceBuilder.parse(select.value(), null, null);
-//            ms.setSqlSource(sqlSource);
-//            mappedStatements.put("pers.mybatis.test.TestMapper.findByIdAndName", ms);
-//            
             buildAllStatements();
             
         } catch (Exception e) {
@@ -67,8 +42,6 @@ public class Configuration {
     }
 
     public <T> T getMapper(Class<T> clazz, SqlSession sqlSession) {
-
-        mapperRegistry.addMapper(TestMapper.class);
 
         return mapperRegistry.getMapper(clazz, sqlSession);
     }
@@ -91,15 +64,17 @@ public class Configuration {
             String mappers = (String) properties.get("mappers");
             String[] mapperClasss = mappers.split(",");
             
-            
             SqlSourceBuilder sqlSourceBuilder = new SqlSourceBuilder(this);
             
             for (String mapperClass : mapperClasss) {
                 
                 Class<?> clazz = Class.forName(mapperClass);
+                
                 if (!clazz.isInterface()) {
                     continue;
                 }
+                
+                mapperRegistry.addMapper(clazz);
                 
                 Method[] methods = clazz.getMethods();
                 
@@ -113,6 +88,7 @@ public class Configuration {
                     Select select = method.getAnnotation(Select.class);
                     SqlSource sqlSource = sqlSourceBuilder.parse(select.value(), null, null);
                     ms.setSqlSource(sqlSource);
+                    ms.setResultType(method.getReturnType());
                     mappedStatements.put(methodId, ms);
                 }
                 

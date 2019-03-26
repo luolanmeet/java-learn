@@ -1,4 +1,4 @@
-package pers.mybatis.test;
+package pers.mybatis.mapper;
 
 import pers.mybatis.annotations.Select;
 

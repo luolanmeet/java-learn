@@ -25,9 +25,13 @@ public class MapperMethod {
 
         Object result = null;
         switch (command.getType()) {
+        
             case SELECT:
                 Object param = method.convertArgsToSqlCommandParam(args);
                 result = sqlSession.selectOne(command.getName(), param);
+                break;
+                
+            default:
                 break;
         }
         return result;

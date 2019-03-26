@@ -1,4 +1,4 @@
-package pers.mybatis.test;
+package pers.mybatis.mapper;
 
 import lombok.Data;
 
@@ -6,7 +6,7 @@ import lombok.Data;
 public class Test {
     
     private Integer id;
-    private Integer nums;
+    private int nums;
     private String name;
     
 }

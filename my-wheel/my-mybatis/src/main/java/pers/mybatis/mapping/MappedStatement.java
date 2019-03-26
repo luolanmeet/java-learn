@@ -15,6 +15,9 @@ public final class MappedStatement {
     // 存放SQL
     private SqlSource sqlSource;
     
+    // 返回结果
+    private Class resultType;
+    
     public BoundSql getBoundSql(Object parameterObject) {
         
         // 这里获取我们的SQL
