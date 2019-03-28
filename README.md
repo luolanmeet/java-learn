@@ -3,6 +3,7 @@
 项目名|内容
 ---|---
 🍈 [guava]          | guava
+📜 [json]           | json
 ✉️ [mail]           | 邮件相关框架
 📬 [mq]             | 消息队列
 ⛱ [my-wheel]       | 轮子
@@ -18,6 +19,7 @@
 👨🏼‍✈️ [zookeeper]     | zookeeper
 
 [guava]: https://github.com/luolanmeet/java-learn/tree/master/guava
+[json]: https://github.com/luolanmeet/java-learn/tree/master/json
 [mail]: https://github.com/luolanmeet/java-learn/tree/master/mail
 [mq]: https://github.com/luolanmeet/java-learn/tree/master/mq
 [my-wheel]: https://github.com/luolanmeet/java-learn/tree/master/my-wheel
