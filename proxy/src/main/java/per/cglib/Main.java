@@ -6,7 +6,6 @@ public class Main {
 
     public static void main(String[] args) {
 
-        RealSubject realSubject = new RealSubject();
         DynamicSubjectProxy dynamicSubjectProxy = new DynamicSubjectProxy();
         Enhancer enhancer = new Enhancer();
         enhancer.setSuperclass(RealSubject.class);
