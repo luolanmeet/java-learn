@@ -24,5 +24,6 @@
 		<module>spring-annotation</module>
 		<module>spring-aop</module>
         <module>spring-boot</module>
-    </modules>
+        <module>spring-cloud</module>
+	</modules>
 </project>
