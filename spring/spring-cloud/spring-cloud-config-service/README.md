@@ -2,7 +2,7 @@
 > 使用了 spring cloud 提供的 git 的实现方案
 
 ### 实现步骤
-1. 创建配置文件，用保存在git仓库中，这里建了三个配置文件对应不同环境，`app`是应用名称
+1. 创建配置文件，用保存在git仓库中（和.git在同一级），这里建了三个配置文件对应不同环境，`app`是应用名称
 ```
 app.properties
 app-dev.properties
