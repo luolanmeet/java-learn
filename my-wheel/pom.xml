@@ -23,5 +23,6 @@
 	<modules>
 		<module>thread-pool</module>
         <module>my-mybatis</module>
-    </modules>
+        <module>dynamic-compile</module>
+	</modules>
 </project>
