@@ -21,12 +21,19 @@ public class App {
     
     public static void main( String[] args ) throws Exception {
         
+        // 代码
         String code = "public class Man {\n" +
                         "\t public void hello(){\n" +
                             "\t System.out.println(\"hello world\");\n" +
                         "\t }\n" +
                        "}";
-
+        
+        // 从字符串中找到类名
+        Pattern CLASS_PATTERN = Pattern.compile("class\\s+([$_a-zA-Z][$_a-zA-Z0-9]*)\\s*");
+        Matcher matcher = CLASS_PATTERN.matcher(code);
+        matcher.find();
+        String className = matcher.group(1);
+        
         JavaCompiler compiler = ToolProvider.getSystemJavaCompiler();
         DiagnosticCollector<JavaFileObject> collector = new DiagnosticCollector<>();
         
@@ -38,15 +45,9 @@ public class App {
         List<String> options = new ArrayList<>();
         options.add("-target");
         options.add("1.8");
-
-        // 从字符串中找到类名
-        Pattern CLASS_PATTERN = Pattern.compile("class\\s+([$_a-zA-Z][$_a-zA-Z0-9]*)\\s*");
-        Matcher matcher = CLASS_PATTERN.matcher(code);
-        matcher.find();
-        String cls = matcher.group(1);
         
         // 提交一个编译任务
-        JavaFileObject javaFileObject = new MyJavaFileObject(cls, code);
+        JavaFileObject javaFileObject = new MyJavaFileObject(className, code);
         compiler.getTask(
                 null, 
                 javaFileManager, 
@@ -58,7 +59,7 @@ public class App {
 
         // 加载类
         ClassLoader classloader = new MyClassLoader(fileObjects);
-        Class<?> clazz = classloader.loadClass(cls);
+        Class<?> clazz = classloader.loadClass(className);
 
         Method method = clazz.getMethod("hello");
         method.invoke(clazz.newInstance());
