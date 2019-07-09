@@ -8,7 +8,11 @@ import javassist.CtClass;
 import javassist.CtField;
 import javassist.CtNewMethod;
 
-public class Main {
+/**
+ * 直接创建一个类
+ * @author cck
+ */
+public class MainOne {
 
     /**
      * 各个类的用处见 use.demo 
