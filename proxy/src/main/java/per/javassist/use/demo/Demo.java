@@ -47,13 +47,14 @@ public class Demo {
 
         // 创建一个方法
         CtMethod ctMethod = CtNewMethod.make("public void showVal() {System.out.println(val);}", ctClass);
-        ctMethod.insertBefore("System.out.println(\"before\");"); // 如果是继承了父类，没法用getDeclaredMethod获取父类的方法。
+        ctMethod.insertBefore("System.out.println(\"before\");");
         ctMethod.insertAfter("System.out.println(\"after\");");
         // 添加方法
         ctClass.addMethod(ctMethod);
         
+        // 如果是继承了父类，没法用getDeclaredMethod获取父类的方法。（代理注释里写了）
+        // 使用getMethods是可以的，不过获得的父类的CtMethod实例没办法是用 insertBefore 这类操作
         System.out.println(ctClass.getDeclaredMethod("showVal"));
-        System.out.println(ctClass.getDeclaredMethod("toString"));
         
         // 创建实例
         Class<?> clazz = ctClass.toClass();
