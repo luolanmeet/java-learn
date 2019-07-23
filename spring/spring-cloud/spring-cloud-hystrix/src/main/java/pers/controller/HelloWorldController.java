@@ -30,13 +30,13 @@ public class HelloWorldController {
         int time = random.nextInt(200);
         Thread.sleep(time);
 
-        System.out.println("new time:" + time);
+        System.out.println("need time:" + time);
 
         return "Hello World";
     }
 
     public String errorContent() {
-        return "Failut";
+        return "Fault";
     }
 
 }
