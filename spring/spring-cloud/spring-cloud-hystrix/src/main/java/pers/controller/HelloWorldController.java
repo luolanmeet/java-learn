@@ -8,7 +8,8 @@ import org.springframework.web.bind.annotation.RestController;
 import java.util.Random;
 
 /**
- * 
+ *  http://localhost:8080/actuator/hystrix.stream  健康检查，查看Hystrix Metrics Stream
+ *  http://localhost:8080/hello 调用服务
  * @author cck
  */
 @RestController
