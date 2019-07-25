@@ -16,6 +16,7 @@
 		<module>spring-cloud-eureka-consumer</module>
 		<module>spring-cloud-hystrix</module>
         <module>spring-cloud-hystrix-dashborad</module>
+        <module>spring-cloud-feign</module>
     </modules>
 
 </project>
