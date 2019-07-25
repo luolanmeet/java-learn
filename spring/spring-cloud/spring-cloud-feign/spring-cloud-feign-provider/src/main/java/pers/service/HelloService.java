@@ -6,7 +6,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 /**
  *
- * hello-service/hello
+ * 不要求实现接口，只要 hello-service/hello 能对应上即可调用
  * @author cck
  */
 @RestController
