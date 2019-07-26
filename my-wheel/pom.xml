@@ -25,5 +25,6 @@
         <module>my-mybatis</module>
         <module>dynamic-compile</module>
         <module>job-scheduling</module>
-	</modules>
+        <module>zk-config-center</module>
+    </modules>
 </project>
