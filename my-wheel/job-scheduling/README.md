@@ -1,5 +1,5 @@
 ### 运行
-运行`Main`类中的测试方法即可
+运行`JobSchedulingTest`测试类即可
 
 #### 各个类的作用
 **`JobActuator`**
