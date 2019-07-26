@@ -5,5 +5,5 @@
     <artifactId>my-wheel</artifactId>
     <version>0.0.1-SNAPSHOT</version>
   </parent>
-  <artifactId>dynamic-compilation</artifactId>
+  <artifactId>dynamic-compile</artifactId>
 </project>
