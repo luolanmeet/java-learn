@@ -2,7 +2,8 @@
 SQLyog Professional v12.09 (64 bit)
 MySQL - 5.7.18 : Database - mybatis
 *********************************************************************
-*/
+*/
+
 
 /*!40101 SET NAMES utf8 */;
 
@@ -44,20 +45,6 @@ CREATE TABLE `t_user` (
 /*Data for the table `t_user` */
 
 insert  into `t_user`(`id`,`name`) values (1,'Luffy');
-
-/*Table structure for table `tbl_employee` */
-
-DROP TABLE IF EXISTS `tbl_employee`;
-
-CREATE TABLE `tbl_employee` (
-  `id` int(11) NOT NULL AUTO_INCREMENT,
-  `last_name` varchar(20) DEFAULT NULL,
-  `email` varchar(20) DEFAULT NULL,
-  `gender` varchar(20) DEFAULT NULL,
-  PRIMARY KEY (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
-
-/*Data for the table `tbl_employee` */
 
 /*!40101 SET SQL_MODE=@OLD_SQL_MODE */;
 /*!40014 SET FOREIGN_KEY_CHECKS=@OLD_FOREIGN_KEY_CHECKS */;
