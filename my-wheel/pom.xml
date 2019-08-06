@@ -26,5 +26,6 @@
         <module>dynamic-compile</module>
         <module>job-scheduling</module>
         <module>zk-config-center</module>
+        <module>my-spring</module>
     </modules>
 </project>
