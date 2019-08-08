@@ -27,5 +27,6 @@
         <module>job-scheduling</module>
         <module>zk-config-center</module>
         <module>my-spring</module>
+        <module>my-spring-boot-start</module>
     </modules>
 </project>
