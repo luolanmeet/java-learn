@@ -22,7 +22,7 @@ public class MyFormatTemplate {
     
         return new StringBuilder()
                 .append("properties: ")
-                .append(myProperties)
+                .append(myProperties.getInfo())
                 .append(" result: ")
                 .append(formatProcessor.format(obj))
                 .toString();

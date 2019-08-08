@@ -10,6 +10,6 @@ public class JsonFormatProcessor implements FormatProcessor {
     
     @Override
     public <T> String format(T obj) {
-        return JSON.toJSONString(obj);
+        return "JsonFormatProcessor: " + JSON.toJSONString(obj);
     }
 }
