@@ -1,0 +1,70 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+    <parent>
+        <artifactId>dubbo</artifactId>
+        <groupId>com.cck.learn</groupId>
+        <version>0.0.1-SNAPSHOT</version>
+    </parent>
+    <modelVersion>4.0.0</modelVersion>
+    <artifactId>springboot-dubbo</artifactId>
+    <packaging>pom</packaging>
+    <modules>
+        <module>springboot-dubbo-provider</module>
+        <module>springboot-dubbo-consumer</module>
+    </modules>
+
+    <properties>
+        <dubbo.version>2.7.3</dubbo.version>
+    </properties>
+
+    <dependencyManagement>
+
+        <dependencies>
+            <dependency>
+                <groupId>com.cck.learn</groupId>
+                <artifactId>springboot-dubbo-provider-api</artifactId>
+                <version>0.0.1-SNAPSHOT</version>
+            </dependency>
+
+            <dependency>
+                <groupId>org.apache.dubbo</groupId>
+                <artifactId>dubbo</artifactId>
+                <version>${dubbo.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>org.apache.dubbo</groupId>
+                <artifactId>dubbo-dependencies-zookeeper</artifactId>
+                <version>${dubbo.version}</version>
+                <type>pom</type>
+            </dependency>
+
+            <dependency>
+                <groupId>org.springframework.boot</groupId>
+                <artifactId>spring-boot-starter</artifactId>
+                <version>2.1.6.RELEASE</version>
+            </dependency>
+
+            <dependency>
+                <groupId>org.apache.dubbo</groupId>
+                <artifactId>dubbo-spring-boot-starter</artifactId>
+                <version>2.7.3</version>
+            </dependency>
+
+            <dependency>
+                <groupId>org.slf4j</groupId>
+                <artifactId>slf4j-api</artifactId>
+                <version>1.7.26</version>
+            </dependency>
+            <dependency>
+                <groupId>ch.qos.logback</groupId>
+                <artifactId>logback-classic</artifactId>
+                <version>1.2.3</version>
+            </dependency>
+        </dependencies>
+
+    </dependencyManagement>
+
+
+</project>
