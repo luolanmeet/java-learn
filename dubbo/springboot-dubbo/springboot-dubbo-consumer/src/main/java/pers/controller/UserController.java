@@ -12,8 +12,9 @@ import pers.IUserService;
  */
 @RestController
 public class UserController {
-    
-    @Reference
+
+    // 容错指定为 failfast ， 才不会再重试2次（默认）
+    @Reference(mock="pers.mock.UserServiceMock", timeout=500, cluster = "failfast")
     private IUserService userService;
     
     @GetMapping("hello/{str}")
