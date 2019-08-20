@@ -12,6 +12,7 @@
     <modules>
         <module>origin-dubbo</module>
         <module>springboot-dubbo</module>
+        <module>dubbo-spi</module>
     </modules>
 
     <build>

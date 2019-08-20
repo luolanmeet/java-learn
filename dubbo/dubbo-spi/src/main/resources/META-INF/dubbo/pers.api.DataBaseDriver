@@ -1,0 +1,2 @@
+mysqlDriver=pers.impl.MySqlDriver
+oracleDriver=pers.impl.OracleDriver
