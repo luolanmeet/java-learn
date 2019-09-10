@@ -20,18 +20,13 @@ public class FlowQpsDemo {
         
         while (true) {
             
-            Thread.sleep(200);
-            Entry entry = null;
-            try {
-                entry = SphU.entry(resource);
+            Thread.sleep(100);
+
+            try (Entry entry = SphU.entry(resource)) {
                 System.out.println("invoke : " + resource);
             } catch (BlockException e) {
                 // 被限流
                 System.out.println("被限流");
-            } finally {
-                if (entry != null) {
-                    entry.exit();
-                }
             }
         }
     }
