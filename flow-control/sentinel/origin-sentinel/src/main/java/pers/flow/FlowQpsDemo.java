@@ -15,7 +15,7 @@ public class FlowQpsDemo {
     private static String resource = "doTest";
     
     public static void main(String[] args) throws InterruptedException {
-        
+    
         initFlowQpsRule();
         
         while (true) {
