@@ -3,19 +3,19 @@
          xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
     <parent>
-        <artifactId>flow-control</artifactId>
+        <artifactId>sentinel</artifactId>
         <groupId>com.learn</groupId>
         <version>0.0.1-SNAPSHOT</version>
     </parent>
     <modelVersion>4.0.0</modelVersion>
 
-    <artifactId>sentinel</artifactId>
+    <artifactId>dubbo-sentinel</artifactId>
     <packaging>pom</packaging>
     <modules>
-        <module>origin-sentinel</module>
-        <module>springaop-sentinel</module>
-        <module>dubbo-sentinel</module>
+        <module>dubbo-sentinel-api</module>
+        <module>dubbo-sentinel-provider</module>
+        <module>dubbo-sentinel-consumer</module>
+        <module>dubbo-sentinel-token-server</module>
     </modules>
-
 
 </project>
