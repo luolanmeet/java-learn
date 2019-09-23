@@ -3,15 +3,17 @@
 项目名|内容
 ---|---
 ⛱ [my-wheel]       | 轮子
-🍔[dubbo]        | dubbo
+🗄 [configuration-center] | 配置中心
+🍔 [dubbo]        | dubbo
+🌫 [flow-control]   | 流量控制 
 🍈 [guava]          | guava
 📰 [http]          | http
 📜 [json]           | json
 ✉️ [mail]           | 邮件相关框架
 📬 [mq]             | 消息队列
 🍋 [nosql]          | 非关系型数据库、缓存数据库
-📊  [office]         | office相关框架
-🎎  [orm]            | orm框架
+📊 [office]         | office相关框架
+🎎 [orm]            | orm框架
 📝 [pdf]            | pdf
 💁🏻‍♂️ [proxy]         | 动态代理框架
 🍳 [search-engines] | 搜索引擎
@@ -37,3 +39,5 @@
 [websocket]: https://github.com/luolanmeet/java-learn/tree/master/websocket
 [xml]: https://github.com/luolanmeet/java-learn/tree/master/xml
 [zookeeper]: https://github.com/luolanmeet/java-learn/tree/master/zookeeper
+[configuration-center]: https://github.com/luolanmeet/java-learn/tree/master/configuration-center
+[flow-control]: https://github.com/luolanmeet/java-learn/tree/master/flow-control
