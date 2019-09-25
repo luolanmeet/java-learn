@@ -50,19 +50,16 @@ public abstract class AbstractProcess extends Thread implements IProcess {
     @Override
     public void run() {
     
-        try {
-            
-            while (!isFinish) {
-
+        while (!isFinish) {
+            try {
                 // 不用take是因为take会一直阻塞，导致无法关闭线程
                 String request = requests.poll(TAKE_REQUEST_WAIT_TIME, TimeUnit.MILLISECONDS);
                 if (request != null) {
                     this.doProcess(request);
                 }
+            } catch (InterruptedException e) {
+                e.printStackTrace();
             }
-            
-        } catch (InterruptedException e) {
-            e.printStackTrace();
         }
     }
     
