@@ -28,5 +28,7 @@
         <module>zk-config-center</module>
         <module>my-spring</module>
         <module>my-spring-boot-start</module>
+        <module>my-zk-config-center-springboot-start</module>
+        <module>my-zk-config-center-springboot-start-test</module>
     </modules>
 </project>
