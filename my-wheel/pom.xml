@@ -30,5 +30,6 @@
         <module>my-spring-boot-start</module>
         <module>my-zk-config-center-springboot-start</module>
         <module>my-zk-config-center-springboot-start-test</module>
+        <module>my-juc</module>
     </modules>
 </project>
