@@ -31,5 +31,6 @@
         <module>my-zk-config-center-springboot-start</module>
         <module>my-zk-config-center-springboot-start-test</module>
         <module>my-juc</module>
+        <module>my-util</module>
     </modules>
 </project>
