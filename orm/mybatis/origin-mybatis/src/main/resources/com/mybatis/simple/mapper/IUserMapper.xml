@@ -4,15 +4,27 @@
 <mapper namespace="com.mybatis.simple.mapper.IUserMapper">
     
     <resultMap type="com.mybatis.simple.bean.User" id="resultMap">
-        <id     property="userId" column="user_id" />
-        <result property="name"   column="name" />
-    </resultMap>    
+        <id     property="userId"  column="user_id" />
+        <result property="name"    column="name" />
+        <result property="address" column="address" typeHandler="com.mybatis.simple.type.MyStringTypeHandler" />
+    </resultMap>
     
     <sql id="columns">
         user_id
       , name
+      , address
     </sql>
-        
+
+    <insert id="save" useGeneratedKeys="true" keyProperty="userId">
+        INSERT INTO t_user (
+            name
+          , address
+        ) VALUES (
+            #{name}
+          , #{address, typeHandler=com.mybatis.simple.type.MyStringTypeHandler}
+        )
+    </insert>
+
     <select id="findById" resultMap="resultMap">
         SELECT <include refid="columns" />
         FROM 

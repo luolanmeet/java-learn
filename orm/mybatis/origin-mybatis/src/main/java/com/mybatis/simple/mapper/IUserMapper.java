@@ -6,6 +6,8 @@ import com.mybatis.simple.bean.User;
 
 public interface IUserMapper {
 
+    void save(User user);
+    
     User findById(Integer userId);
     
     User findByIdAndName(

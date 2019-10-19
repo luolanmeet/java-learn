@@ -1,14 +1,26 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <!DOCTYPE configuration PUBLIC "-//mybatis.org//DTD Config 3.0//EN" "http://mybatis.org/dtd/mybatis-3-config.dtd">
 <configuration>
+	
+	<settings>
+		<setting name="useGeneratedKeys" value="false" />
+	</settings>
+
+	<!-- 这里配置的话是全局的，会覆盖已经存在的处理
+	<typeHandlers>
+		<package name="com.mybatis.simple.type"/>  自动发现功能
+		<typeHandler handler="com.mybatis.simple.type.MyStringTypeHandler"/> 还有jdbcType javaType可以配置
+	</typeHandlers>
+	-->
+
 	<environments default="development">
 		<environment id="development">
 			<transactionManager type="JDBC" />
 			<dataSource type="POOLED">
 				<property name="driver" value="com.mysql.jdbc.Driver" />
-				<property name="url" value="jdbc:mysql:///db_mybatis" />
-				<property name="username" value="root" />
-				<property name="password" value="121213" />
+				<property name="url" value="jdbc:mysql:///db_mybatis?useSSL=false" />
+				<property name="username" value="admin" />
+				<property name="password" value="1234567" />
 			</dataSource>
 		</environment>
 	</environments>
