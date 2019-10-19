@@ -54,7 +54,7 @@ public class MyArrayBlockingQueue<E> {
         // 并发场景下可能对象的属性会发生变化，因此先存起来？
         final ReentrantLock lock = this.lock;
         
-        lock.lockInterruptibly();
+        lock.lockInterruptibly(); // 被中断时直接抛出中断异常
         try {
             while (count == items.length) {
                 notFull.await();
@@ -69,7 +69,7 @@ public class MyArrayBlockingQueue<E> {
         
         final ReentrantLock lock = this.lock;
         
-        lock.lockInterruptibly();
+        lock.lock();
         try {
             if (count == items.length) {
                 return false;
