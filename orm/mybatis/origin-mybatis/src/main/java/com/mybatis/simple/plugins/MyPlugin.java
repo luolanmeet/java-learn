@@ -2,6 +2,7 @@ package com.mybatis.simple.plugins;
 
 import org.apache.ibatis.executor.Executor;
 import org.apache.ibatis.mapping.MappedStatement;
+import org.apache.ibatis.plugin.*;
 
 import java.util.Properties;
 
