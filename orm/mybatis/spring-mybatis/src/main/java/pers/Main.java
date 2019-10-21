@@ -1,10 +1,8 @@
 package pers;
 
-import org.mybatis.spring.annotation.MapperScan;
 import org.springframework.context.support.ClassPathXmlApplicationContext;
 import pers.mapper.IUserMapper;
 
-@MapperScan("pers.mapper")
 public class Main {
     
     public static void main(String[] args) {
