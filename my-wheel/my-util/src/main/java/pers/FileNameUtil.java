@@ -1,7 +1,9 @@
 package pers;
 
+import java.io.BufferedWriter;
 import java.io.File;
 import java.io.FileWriter;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -19,35 +21,33 @@ public class FileNameUtil {
         String path = args[0]; // 文件路径
         String bashPath = args[1]; // 拼接的字符串
         String savePath = args[2]; // 获取的结果保存的路径
-        
-        List<String> fileNames = new ArrayList<>();
-        getFileName(fileNames, path, bashPath);
 
         File f = new File(savePath + "/fileName.txt");
         f.createNewFile();
         
-        try (FileWriter writer = new FileWriter(f);) {
-            for (String fileName : fileNames) {
-                writer.write(fileName);
-                writer.write("\r\n");
-            }
+        try (FileWriter writer = new FileWriter(f);
+             BufferedWriter bw = new BufferedWriter(writer)) {
+            getFileName(bw, path, bashPath);
         }
         
         System.out.println("finish. use time : " + (System.currentTimeMillis() - start) + "ms");
     }
     
-    private static void getFileName(List<String> fileNames, String currentPath, String basePath) {
+    private static void getFileName(BufferedWriter bw,
+                                    String currentPath,
+                                    String basePath) throws IOException {
     
         File file = new File(currentPath);
         
         if (!file.isDirectory()) {
-            fileNames.add(basePath + SEG + file.getName());
+            bw.write(basePath + SEG + file.getName());
+            bw.write("\r\n");
             return ;
         }
     
         String tmp = basePath + SEG + file.getName();
         for (String childFileName : file.list()) {
-            getFileName(fileNames, currentPath + SEG + childFileName, tmp);
+            getFileName(bw, currentPath + SEG + childFileName, tmp);
         }
     }
     
