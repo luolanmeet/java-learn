@@ -9,6 +9,7 @@ import pers.service.ProgrammerB;
 
 @ComponentScan("pers")
 @EnableAspectJAutoProxy
+//@EnableAspectJAutoProxy(proxyTargetClass = true) 不一样的配置环境或框架版本下，可能需要设置proxyTargetClass属性
 public class Main {
     
     public static void main(String[] args) {
