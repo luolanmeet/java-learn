@@ -22,7 +22,7 @@ public class FileNameUtilTwo {
         long start = System.currentTimeMillis();
         String path = args[0]; // 文件路径
         String bashPath = args[1]; // 拼接的字符串
-        String savePath = args[2]; // 获取的结果保存的路径
+        String savePath = System.getProperty("user.dir"); // 获取的结果保存的路径
         
         File f = new File(savePath + "/fileName.txt");
         f.createNewFile();
@@ -50,7 +50,7 @@ public class FileNameUtilTwo {
         File file = new File(currentPath);
         
         if (!file.isDirectory()) {
-            bw.write(basePath + SEG + file.getName());
+            bw.write(basePath + SEG + file.getName() + " " + file.length());
             bw.write("\r\n");
             return ;
         }
