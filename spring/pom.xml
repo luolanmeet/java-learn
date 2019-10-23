@@ -25,5 +25,6 @@
 		<module>spring-aop</module>
         <module>spring-boot</module>
         <module>spring-cloud</module>
-	</modules>
+        <module>spring-ioc</module>
+    </modules>
 </project>
