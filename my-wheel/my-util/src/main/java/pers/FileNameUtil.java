@@ -25,8 +25,7 @@ public class FileNameUtil {
         File f = new File(savePath + "/fileName.txt");
         f.createNewFile();
         
-        try (FileWriter writer = new FileWriter(f);
-             BufferedWriter bw = new BufferedWriter(writer)) {
+        try (BufferedWriter bw = new BufferedWriter(new FileWriter(f))) {
             getFileName(bw, path, bashPath);
         }
         

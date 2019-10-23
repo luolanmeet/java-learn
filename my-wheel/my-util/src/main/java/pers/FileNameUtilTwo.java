@@ -28,8 +28,7 @@ public class FileNameUtilTwo {
         f.createNewFile();
         
         // FileWriter&BufferedWriter是线程安全的
-        try (FileWriter writer = new FileWriter(f);
-             BufferedWriter bw = new BufferedWriter(writer)) {
+        try (BufferedWriter bw = new BufferedWriter(new FileWriter(f))) {
             
             getFileName(bw, path, bashPath);
             
