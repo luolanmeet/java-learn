@@ -5,6 +5,9 @@ import org.springframework.beans.factory.FactoryBean;
 
 /**
  * FactoryBean接口：可以返回bean的实例的工厂bean
+ * BeanFactory接口：IoC容器的顶级接口，是IoC容器的最基础实现，也是访问Spring容器的根接口，负责对bean的创建，访问等工作。
+ *
+ * 两者没什么特别关系
  *
  * BeanFactory接口中有一个字符常量String FACTORY_BEAN_PREFIX = "&";
  * 当我们去获取FactoryBean类型的bean时，如果beanName不加&则获取到对应bean的实例（getObject()）

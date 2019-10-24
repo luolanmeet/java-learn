@@ -50,20 +50,20 @@ public class Student implements BeanNameAware, BeanFactoryAware, ApplicationCont
     
     @Override
     public void afterPropertiesSet() throws Exception {
-        System.out.println("student bean InitializingBean#afterPropertiesSet");
+        System.out.println("InitializingBean#afterPropertiesSet");
     }
     
     public void initMethod() {
-        System.out.println("student bean initMethod");
+        System.out.println("initMethod");
     }
     
     @Override
     public void destroy() throws Exception {
-        System.out.println("student bean DisposableBean#destroy");
+        System.out.println("DisposableBean#destroy");
     }
     
     public void destroyMethod() {
-        System.out.println("student bean destroyMethod");
+        System.out.println("destroyMethod");
     }
     
 }

@@ -7,6 +7,8 @@
     <bean id="user" class="pers.bean.UserFactoryBean" p:userInfo="24,cck" />
     <!-- BeanPostProcesso -->
     <bean id="myBeanPostProcessor" class="pers.processor.MyBeanPostProcessor" />
+    <!-- BeanFactoryPostProcessor -->
+    <bean id="myBeanFactoryPostProcessor" class="pers.processor.MyBeanFactoryPostProcessor" />
 
     <bean id="studentBean" class="pers.bean.Student" init-method="initMethod" destroy-method="destroyMethod">
         <property name="age" value="24" />

@@ -16,9 +16,12 @@ public class Application {
     }
     
     private static void testBeanLifeCycle(ClassPathXmlApplicationContext applicationContext) {
-    
-        // 创建Bean之后
-        //     BeanNameAware#setBeanName
+
+        // 创建Bean实例之前
+        // BeanFactoryPostProcessor#postProcessBeanFactory
+
+        // 创建Bean实例之后
+        // -> BeanNameAware#setBeanName
         // -> BeanFactoryAware#setBeanFactory
         // -> ApplicationContextAware#setApplicationContext
         
