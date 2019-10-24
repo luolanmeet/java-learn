@@ -1,6 +1,7 @@
 package pers;
 
 import org.springframework.context.support.ClassPathXmlApplicationContext;
+import pers.bean.Student;
 import pers.bean.User;
 
 public class Application {
@@ -8,7 +9,34 @@ public class Application {
     public static void main(String[] args) {
     
         ClassPathXmlApplicationContext applicationContext = new ClassPathXmlApplicationContext("spring.xml");
-        testFactoryBean(applicationContext);
+        
+        testBeanLifeCycle(applicationContext);
+        
+//        testFactoryBean(applicationContext);
+    }
+    
+    private static void testBeanLifeCycle(ClassPathXmlApplicationContext applicationContext) {
+    
+        // 创建Bean之后
+        //     BeanNameAware#setBeanName
+        // -> BeanFactoryAware#setBeanFactory
+        // -> ApplicationContextAware#setApplicationContext
+        
+        // -> BeanPostProcessor#postProcessBeforeInitialization
+        // -> InitializingBean#afterPropertiesSet
+        // -> initMethod
+        // -> BeanPostProcessor#postProcessAfterInitialization
+        
+        // 容器关闭
+        // -> DisposableBean#destroy
+        // -> destroyMethod
+        
+        Student s1 = applicationContext.getBean(Student.class);
+        Student s2 = applicationContext.getBean(Student.class);
+        System.out.println(s2);
+        System.out.println(s1 == s2);
+        
+        applicationContext.close();
     }
     
     private static void testFactoryBean(ClassPathXmlApplicationContext applicationContext) {

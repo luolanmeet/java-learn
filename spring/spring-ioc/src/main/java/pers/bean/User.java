@@ -1,13 +1,10 @@
 package pers.bean;
 
-import lombok.*;
+import lombok.Builder;
+import lombok.Data;
 
-@Getter
-@Setter
+@Data
 @Builder
-@ToString
-@NoArgsConstructor
-@AllArgsConstructor
 public class User {
     
     private int age;
