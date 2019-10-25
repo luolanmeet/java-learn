@@ -26,6 +26,7 @@ public class HandlerDispatcherServlet implements InitializingBean, ApplicationCo
     
     public void afterPropertiesSet() {
         
+        // 获取所有的beanName
         String[] beanNames = this.context.getBeanNamesForType(Object.class);
 
         for (String beanName : beanNames) {
@@ -34,21 +35,27 @@ public class HandlerDispatcherServlet implements InitializingBean, ApplicationCo
                 continue;
             }
             
+            // 通过beanName获取Bean类型
             Class<?> beanType = this.context.getType(beanName);
             
             if (beanType != null) {
-                
+    
+                // 看是否带有CmdMapping注解
                 CmdMapping annotation = AnnotatedElementUtils.findMergedAnnotation(
                         beanType, CmdMapping.class);
                 
                 if(annotation != null) {
+                    // 获取bena，在handlers中注册
                     handlers.put(annotation.value(), (ICmdHandler) context.getBean(beanType));
                 }
             }
         }
         
     }
-
+    
+    /**
+     * 拿到Spring 上下文对象
+     */
     public void setApplicationContext(ApplicationContext applicationContext)
             throws BeansException {
         
