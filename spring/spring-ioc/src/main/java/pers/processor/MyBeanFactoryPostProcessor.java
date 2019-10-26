@@ -9,7 +9,7 @@ import org.springframework.beans.factory.config.ConfigurableListableBeanFactory;
 /**
  * 	Bean实例化完成之前调用，可以修改Bean的定义信息
  * 	启动之后只会执行一次
- * 	实现 Ordered 接口的化，多个BeanFactoryPostProcessor按顺序执行，值越小越先执行
+ * 	实现 Ordered 接口的话，多个BeanFactoryPostProcessor按顺序执行，值越小越先执行
  */
 public class MyBeanFactoryPostProcessor implements BeanFactoryPostProcessor {
 
