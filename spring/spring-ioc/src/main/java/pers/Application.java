@@ -4,6 +4,8 @@ import org.springframework.context.support.ClassPathXmlApplicationContext;
 import pers.bean.ITeacher;
 import pers.bean.Student;
 import pers.bean.User;
+import pers.bean.lookup.Reader;
+import pers.bean.replaced.Water;
 
 public class Application {
     
@@ -11,7 +13,11 @@ public class Application {
     
         ClassPathXmlApplicationContext applicationContext = new ClassPathXmlApplicationContext("spring.xml");
         
-        testBeanLifeCycle(applicationContext);
+//        testBeanLifeCycle(applicationContext);
+
+        testReplacedMethod(applicationContext);
+
+//        testLookUpMethod(applicationContext);
         
 //        testFactoryBean(applicationContext);
     }
@@ -46,6 +52,19 @@ public class Application {
         teacher.teach();
     
         applicationContext.close();
+    }
+    
+    private static void testReplacedMethod(ClassPathXmlApplicationContext applicationContext) {
+    
+        Water water = applicationContext.getBean(Water.class);
+        water.helloWorld();
+    }
+    
+    private static void testLookUpMethod(ClassPathXmlApplicationContext applicationContext) {
+        Reader reader = applicationContext.getBean(Reader.class);
+        System.out.println(reader == applicationContext.getBean(Reader.class));
+        System.out.println(reader.getBook());
+        System.out.println(reader.getBook() == reader.getBook());
     }
     
     private static void testFactoryBean(ClassPathXmlApplicationContext applicationContext) {

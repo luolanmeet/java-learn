@@ -17,4 +17,16 @@
         <property name="name" value="cck" />
     </bean>
 
+    <!-- lookup-method -->
+    <bean id="reader" class="pers.bean.lookup.Reader">
+        <lookup-method name="getBook" bean="book" />
+    </bean>
+    <bean id="book" class="pers.bean.lookup.Book" scope="prototype" p:name="荒原狼" />
+
+    <!-- replaced-method -->
+    <bean id="wine" class="pers.bean.replaced.Wine" />
+    <bean id="water" class="pers.bean.replaced.Water">
+        <replaced-method name="helloWorld" replacer="wine" />
+    </bean>
+
 </beans>
