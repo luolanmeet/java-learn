@@ -3,8 +3,6 @@
        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:p="http://www.springframework.org/schema/p"
        xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd">
 
-    <!-- FactoryBean -->
-    <bean id="user" class="pers.bean.UserFactoryBean" p:userInfo="24,cck" />
     <!-- BeanPostProcesso -->
     <bean id="myBeanPostProcessor" class="pers.processor.MyBeanPostProcessor" />
     <!-- BeanFactoryPostProcessor -->
@@ -15,6 +13,19 @@
     <bean id="studentBean" class="pers.bean.Student" init-method="initMethod" destroy-method="destroyMethod">
         <property name="age" value="24" />
         <property name="name" value="cck" />
+    </bean>
+
+    <!-- FactoryBean -->
+    <bean id="user" class="pers.bean.UserFactoryBean" p:userInfo="24,cck" />
+
+    <!-- static factory -->
+    <bean id="foodOne" class="pers.bean.FoodStaticFactory" factory-method="getFood">
+        <constructor-arg index="0" value="麻薯" />
+    </bean>
+    <!-- instance factory -->
+    <bean id="foodFactory" class="pers.bean.FoodFactory" />
+    <bean id="foodTwo" factory-bean="foodFactory" factory-method="getFood" scope="prototype">
+        <constructor-arg index="0" value="甜甜圈" />
     </bean>
 
     <!-- lookup-method -->

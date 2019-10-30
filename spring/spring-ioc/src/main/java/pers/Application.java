@@ -1,6 +1,7 @@
 package pers;
 
 import org.springframework.context.support.ClassPathXmlApplicationContext;
+import pers.bean.Food;
 import pers.bean.ITeacher;
 import pers.bean.Student;
 import pers.bean.User;
@@ -15,11 +16,13 @@ public class Application {
         
 //        testBeanLifeCycle(applicationContext);
 
-        testReplacedMethod(applicationContext);
+//        testReplacedMethod(applicationContext);
 
 //        testLookUpMethod(applicationContext);
         
 //        testFactoryBean(applicationContext);
+        
+        testFactory(applicationContext);
     }
     
     private static void testBeanLifeCycle(ClassPathXmlApplicationContext applicationContext) {
@@ -81,6 +84,16 @@ public class Application {
         // 加 & 拿到的是UserFactoryBean本身的实例
         Object userFactoryBean = applicationContext.getBean("&user");
         System.out.println(userFactoryBean);
+    }
+    
+    private static void testFactory(ClassPathXmlApplicationContext applicationContext) {
+    
+        Food foodOne = applicationContext.getBean("foodOne", Food.class);
+        Food foodTwo = applicationContext.getBean("foodTwo", Food.class);
+        System.out.println(foodOne);
+        System.out.println(foodOne == applicationContext.getBean("foodOne", Food.class));
+        System.out.println(foodTwo);
+        System.out.println(foodTwo == applicationContext.getBean("foodTwo", Food.class));
     }
     
 }
