@@ -14,7 +14,7 @@ public class Application {
     
         ClassPathXmlApplicationContext applicationContext = new ClassPathXmlApplicationContext("spring.xml");
         
-//        testBeanLifeCycle(applicationContext);
+        testBeanLifeCycle(applicationContext);
 
 //        testReplacedMethod(applicationContext);
 
@@ -22,7 +22,7 @@ public class Application {
         
 //        testFactoryBean(applicationContext);
         
-        testFactory(applicationContext);
+//        testFactory(applicationContext);
     }
     
     private static void testBeanLifeCycle(ClassPathXmlApplicationContext applicationContext) {
@@ -32,11 +32,13 @@ public class Application {
         // -> BeanDefinitionRegistryPostProcessor#postProcessBeanFactory
         // -> BeanFactoryPostProcessor#postProcessBeanFactory
 
-        // 创建Bean实例之后
+        // 创建Bean实例之后 见 org.springframework.beans.factory.support.AbstractAutowireCapableBeanFactory.invokeAwareMethods
         // -> BeanNameAware#setBeanName
+        // -> BeanClassLoaderAware#setBeanClassLoader
         // -> BeanFactoryAware#setBeanFactory
         // -> ApplicationContextAware#setApplicationContext
         
+        // 见 org.springframework.beans.factory.support.AbstractAutowireCapableBeanFactory.initializeBean
         // -> BeanPostProcessor#postProcessBeforeInitialization
         // -> InitializingBean#afterPropertiesSet
         // -> initMethod

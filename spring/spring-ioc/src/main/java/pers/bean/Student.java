@@ -8,8 +8,8 @@ import org.springframework.context.ApplicationContext;
 import org.springframework.context.ApplicationContextAware;
 
 @Data
-@ToString(exclude = {"beanFactory", "applicationContext"})
-public class Student implements BeanNameAware, BeanFactoryAware, ApplicationContextAware, InitializingBean, DisposableBean {
+@ToString(exclude = {"beanFactory", "classLoader", "applicationContext"})
+public class Student implements BeanNameAware, BeanClassLoaderAware, BeanFactoryAware, ApplicationContextAware, InitializingBean, DisposableBean {
 
     private Integer age;
     
@@ -18,6 +18,8 @@ public class Student implements BeanNameAware, BeanFactoryAware, ApplicationCont
     private String beanName;
     
     private BeanFactory beanFactory;
+    
+    private ClassLoader classLoader;
     
     private ApplicationContext applicationContext;
     
@@ -28,6 +30,15 @@ public class Student implements BeanNameAware, BeanFactoryAware, ApplicationCont
     public void setBeanName(String name) {
         System.out.println("BeanNameAware#setBeanName");
         beanName = name;
+    }
+    
+    /**
+     * 可以获取bean的ClassLoader
+     */
+    @Override
+    public void setBeanClassLoader(ClassLoader classLoader) {
+        System.out.println("BeanClassLoaderAware#setBeanClassLoader");
+        this.classLoader = classLoader;
     }
     
     /**
