@@ -1,11 +1,11 @@
-package pers.demo;
+package pers.demo.three;
 
 import org.springframework.context.annotation.AnnotationConfigApplicationContext;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.EnableAspectJAutoProxy;
 
-import pers.demo.service.ProgrammerA;
-import pers.demo.service.ProgrammerB;
+import pers.demo.three.service.ProgrammerA;
+import pers.demo.three.service.ProgrammerB;
 
 @ComponentScan("pers.demo")
 @EnableAspectJAutoProxy

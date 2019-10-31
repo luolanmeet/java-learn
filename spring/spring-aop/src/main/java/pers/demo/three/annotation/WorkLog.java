@@ -1,4 +1,4 @@
-package pers.demo.annotation;
+package pers.demo.three.annotation;
 
 import java.lang.annotation.Documented;
 import java.lang.annotation.ElementType;

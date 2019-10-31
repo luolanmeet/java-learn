@@ -1,4 +1,4 @@
-package pers;
+package pers.demo.one;
 
 public class Cat {
 

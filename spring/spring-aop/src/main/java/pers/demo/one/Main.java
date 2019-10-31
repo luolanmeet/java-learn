@@ -1,11 +1,11 @@
-package pers;
+package pers.demo.one;
 
 import org.springframework.aop.framework.ProxyFactory;
-import pers.advice.MyAfterReturningAdvice;
-import pers.advice.MyMethodBeforeAdvice;
-import pers.advice.MyMethodInterceptor;
-import pers.advice.MyThrowsAdvice;
-import pers.advisor.MyStaticMethodMatcherPointcutAdvisor;
+import pers.demo.one.advice.MyAfterReturningAdvice;
+import pers.demo.one.advice.MyMethodBeforeAdvice;
+import pers.demo.one.advice.MyMethodInterceptor;
+import pers.demo.one.advice.MyThrowsAdvice;
+import pers.demo.one.advisor.MyStaticMethodMatcherPointcutAdvisor;
 
 public class Main {
     

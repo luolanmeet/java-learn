@@ -1,8 +1,8 @@
-package pers.demo.service;
+package pers.demo.three.service;
 
 import org.springframework.stereotype.Service;
 
-import pers.demo.annotation.WorkLog;
+import pers.demo.three.annotation.WorkLog;
 
 @WorkLog
 @Service

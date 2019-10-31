@@ -1,4 +1,4 @@
-package pers.demo.aop;
+package pers.demo.three.aop;
 
 import java.util.Arrays;
 
@@ -13,7 +13,7 @@ import org.springframework.stereotype.Component;
 @Component
 public class LogAspect {
     
-    @Pointcut("@target(pers.demo.annotation.WorkLog)")
+    @Pointcut("@target(pers.demo.three.annotation.WorkLog)")
     public void log() {}
     
     final String BEFORE_TEMPLATE 

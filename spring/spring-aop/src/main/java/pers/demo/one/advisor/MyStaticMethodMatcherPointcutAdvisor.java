@@ -1,4 +1,4 @@
-package pers.advisor;
+package pers.demo.one.advisor;
 
 import org.springframework.aop.ClassFilter;
 import org.springframework.aop.support.StaticMethodMatcherPointcutAdvisor;
