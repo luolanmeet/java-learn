@@ -22,5 +22,6 @@
 
 	<modules>
 		<module>sharding-jdbc</module>
-	</modules>
+        <module>mycat</module>
+    </modules>
 </project>
