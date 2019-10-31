@@ -6,10 +6,16 @@ import org.springframework.beans.BeansException;
 import org.springframework.beans.factory.*;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.ApplicationContextAware;
+import org.springframework.context.ApplicationEventPublisher;
+import org.springframework.context.ApplicationEventPublisherAware;
 
 @Data
-@ToString(exclude = {"beanFactory", "classLoader", "applicationContext"})
-public class Student implements BeanNameAware, BeanClassLoaderAware, BeanFactoryAware, ApplicationContextAware, InitializingBean, DisposableBean {
+@ToString(exclude = {"beanFactory", "classLoader", "applicationContext", "applicationEventPublisher"})
+public class Student implements
+        BeanNameAware, BeanClassLoaderAware,
+        BeanFactoryAware, ApplicationContextAware,
+        ApplicationEventPublisherAware,
+        InitializingBean, DisposableBean {
 
     private Integer age;
     
@@ -22,6 +28,8 @@ public class Student implements BeanNameAware, BeanClassLoaderAware, BeanFactory
     private ClassLoader classLoader;
     
     private ApplicationContext applicationContext;
+    
+    private ApplicationEventPublisher applicationEventPublisher;
     
     /**
      * 可以获取bean在BeanFactory中的名子
@@ -48,6 +56,14 @@ public class Student implements BeanNameAware, BeanClassLoaderAware, BeanFactory
     public void setBeanFactory(BeanFactory beanFactory) throws BeansException {
         System.out.println("BeanFactoryAware#setBeanFactory");
         this.beanFactory = beanFactory;
+    }
+    
+    /**
+     * 可以拿到用于事件发布的对象
+     */
+    @Override
+    public void setApplicationEventPublisher(ApplicationEventPublisher applicationEventPublisher) {
+        System.out.println("ApplicationEventPublisherAware#setApplicationEventPublisher");
     }
     
     /**

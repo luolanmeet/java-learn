@@ -36,6 +36,7 @@ public class Application {
         // -> BeanNameAware#setBeanName
         // -> BeanClassLoaderAware#setBeanClassLoader
         // -> BeanFactoryAware#setBeanFactory
+        // -> ApplicationEventPublisherAware#setApplicationEventPublisher
         // -> ApplicationContextAware#setApplicationContext
         
         // 见 org.springframework.beans.factory.support.AbstractAutowireCapableBeanFactory.initializeBean
