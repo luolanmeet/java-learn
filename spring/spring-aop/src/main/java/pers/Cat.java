@@ -11,4 +11,8 @@ public class Cat {
         System.out.println("喵喵喵");
     }
     
+    public void sayHello() {
+        System.out.println("hello 喵喵喵");
+    }
+    
 }
