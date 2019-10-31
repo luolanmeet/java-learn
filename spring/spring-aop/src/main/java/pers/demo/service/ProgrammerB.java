@@ -1,12 +1,9 @@
-package pers.service;
+package pers.demo.service;
 
 import org.springframework.stereotype.Service;
 
-import pers.annotation.WorkLog;
-
-@WorkLog
 @Service
-public class ProgrammerA {
+public class ProgrammerB {
     
     public String writeCode(String language) {
         return "user programing language:" + language;

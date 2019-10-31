@@ -1,30 +1,30 @@
 package pers;
 
-import org.springframework.context.annotation.AnnotationConfigApplicationContext;
-import org.springframework.context.annotation.ComponentScan;
-import org.springframework.context.annotation.EnableAspectJAutoProxy;
+import org.springframework.aop.framework.ProxyFactory;
+import pers.advice.MyAfterReturningAdvice;
+import pers.advice.MyMethodBeforeAdvice;
+import pers.advice.MyMethodInterceptor;
+import pers.advice.MyThrowsAdvice;
 
-import pers.service.ProgrammerA;
-import pers.service.ProgrammerB;
-
-@ComponentScan("pers")
-@EnableAspectJAutoProxy
-//@EnableAspectJAutoProxy(proxyTargetClass = true) 不一样的配置环境或框架版本下，可能需要设置proxyTargetClass属性
 public class Main {
     
     public static void main(String[] args) {
-        
-        AnnotationConfigApplicationContext context = new AnnotationConfigApplicationContext(Main.class);
-        ProgrammerA pa = context.getBean(ProgrammerA.class);
-        ProgrammerB pb = context.getBean(ProgrammerB.class);
-        
-        pa.writeCode("Java");
-        pa.learn();
-        
-        pb.writeCode("Go");
-        pb.learn();
-        
-        context.close();
-    }
     
+        Cat cat = new Cat();
+    
+        // 创建ProxyFactory并设置代理目标和增强
+        ProxyFactory proxyFactory = new ProxyFactory();
+        proxyFactory.setTarget(cat);
+        // 环绕增强的执行顺序和add的顺序有关，越先add越先执行
+        proxyFactory.addAdvice(new MyMethodInterceptor());
+        proxyFactory.addAdvice(new MyMethodBeforeAdvice());
+        proxyFactory.addAdvice(new MyAfterReturningAdvice());
+        proxyFactory.addAdvice(new MyThrowsAdvice());
+        
+        // 生产代理实例
+        Cat newCat = (Cat) proxyFactory.getProxy();
+        
+        newCat.sayHi();
+    }
+
 }
