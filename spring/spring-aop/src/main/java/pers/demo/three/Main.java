@@ -9,7 +9,8 @@ import pers.demo.three.service.ProgrammerB;
 
 @ComponentScan("pers.demo")
 @EnableAspectJAutoProxy
-//@EnableAspectJAutoProxy(proxyTargetClass = true) 不一样的配置环境或框架版本下，可能需要设置proxyTargetClass属性
+// 不一样的配置环境或框架版本下，可能需要设置proxyTargetClass属性，强制开启CGLIB动态代理
+// @EnableAspectJAutoProxy(proxyTargetClass = true)
 public class Main {
     
     public static void main(String[] args) {

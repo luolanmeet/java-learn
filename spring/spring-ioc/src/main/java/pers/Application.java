@@ -27,23 +27,26 @@ public class Application {
     
     private static void testBeanLifeCycle(ClassPathXmlApplicationContext applicationContext) {
 
-        // 创建Bean实例之前
         //    BeanDefinitionRegistryPostProcessor#postProcessBeanDefinitionRegistry
         // -> BeanDefinitionRegistryPostProcessor#postProcessBeanFactory
         // -> BeanFactoryPostProcessor#postProcessBeanFactory
 
-        // 创建Bean实例之后 见 org.springframework.beans.factory.support.AbstractAutowireCapableBeanFactory.invokeAwareMethods
-        // -> BeanNameAware#setBeanName
+        // Bean实例化前后
+        // -> InstantiationAwareBeanPostProcessor#postProcessBeforeInstantiation
+        // -> InstantiationAwareBeanPostProcessor#postProcessAfterInstantiation
+        
+        // Bean初始化 见 org.springframework.beans.factory.support.AbstractAutowireCapableBeanFactory.invokeAwareMethods
+        // -> BeanNameAware#setBeanName Aware注入需要的对象
         // -> BeanClassLoaderAware#setBeanClassLoader
         // -> BeanFactoryAware#setBeanFactory
         // -> ApplicationEventPublisherAware#setApplicationEventPublisher
         // -> ApplicationContextAware#setApplicationContext
         
         // 见 org.springframework.beans.factory.support.AbstractAutowireCapableBeanFactory.initializeBean
-        // -> BeanPostProcessor#postProcessBeforeInitialization
+        // -> BeanPostProcessor#postProcessBeforeInitialization 初始化完成之前
         // -> InitializingBean#afterPropertiesSet
         // -> initMethod
-        // -> BeanPostProcessor#postProcessAfterInitialization
+        // -> BeanPostProcessor#postProcessAfterInitialization  初始化完成之后
         
         // 容器关闭
         // -> DisposableBean#destroy
