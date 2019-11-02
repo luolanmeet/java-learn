@@ -10,5 +10,6 @@
 	<packaging>pom</packaging>
 	<modules>
 		<module>sharding-jdbc-spring</module>
-	</modules>
+        <module>origin-sharding-jdbc</module>
+    </modules>
 </project>
