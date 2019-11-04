@@ -9,7 +9,7 @@
 	<artifactId>spring-aop</artifactId>
 
 	<properties>
-		<spring-version>4.3.11.RELEASE</spring-version>
+		<spring-version>5.1.6.RELEASE</spring-version>
 	</properties>
 
 	<dependencies>
@@ -30,6 +30,25 @@
 			<artifactId>spring-aspects</artifactId>
 			<version>${spring-version}</version>
 		</dependency>
+
+		<dependency>
+			<groupId>org.springframework</groupId>
+			<artifactId>spring-jdbc</artifactId>
+			<version>${spring-version}</version>
+		</dependency>
+
+		<dependency>
+			<groupId>commons-dbcp</groupId>
+			<artifactId>commons-dbcp</artifactId>
+			<version>1.4</version>
+		</dependency>
+
+		<dependency>
+			<groupId>mysql</groupId>
+			<artifactId>mysql-connector-java</artifactId>
+			<version>5.1.45</version>
+		</dependency>
+
 	</dependencies>
 
 </project>

@@ -8,7 +8,8 @@ public class Main {
         
         // 在这篇文章看的 https://www.jianshu.com/p/ebaefa1b0764
         
-        ClassPathXmlApplicationContext applicationContext = new ClassPathXmlApplicationContext("springDemoTwo.xml");
+        ClassPathXmlApplicationContext applicationContext
+                = new ClassPathXmlApplicationContext("springDemoTwo.xml");
         
         Cat cat = applicationContext.getBean(Cat.class);
         
