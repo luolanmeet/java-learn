@@ -47,8 +47,7 @@ public class WebSocketServer {
         System.out.println("Web socket server started at port " + PORT);
         ch.closeFuture().sync();
     }
-    
-    
+
     public static void main(String[] args) throws InterruptedException {
         new WebSocketServer().run();
     }

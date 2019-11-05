@@ -22,6 +22,6 @@
 
 	<modules>
 		<module>origin-websocket</module>
-		<module>netty</module>
+		<module>netty-websocket</module>
 	</modules>
 </project>
