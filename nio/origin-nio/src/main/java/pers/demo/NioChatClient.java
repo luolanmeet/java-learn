@@ -33,6 +33,10 @@ public class NioChatClient {
     }
 
     public void session() {
+        
+        System.out.println("客户端已启动");
+        
+        // channel是全双工的，因此可以同时读写
         // 从服务器读数据
         new ChatReader().start();
         // 向服务器写数据
@@ -51,9 +55,9 @@ public class NioChatClient {
                     Set<SelectionKey> keys = selector.selectedKeys();
                     Iterator<SelectionKey> iterator = keys.iterator();
                     while (iterator.hasNext()) {
-                        SelectionKey selectionKey = iterator.next();
+                        SelectionKey key = iterator.next();
                         iterator.remove();
-                        process(selectionKey);
+                        process(key);
                     }
                 }
             } catch (Exception e) {
@@ -61,19 +65,19 @@ public class NioChatClient {
             }
         }
 
-        private void process(SelectionKey selectionKey) throws IOException {
+        private void process(SelectionKey key) throws IOException {
 
-            if (selectionKey.isReadable()) {
+            if (key.isReadable()) {
 
-                SocketChannel sc = (SocketChannel) selectionKey.channel();
+                SocketChannel sc = (SocketChannel) key.channel();
                 ByteBuffer buffer = ByteBuffer.allocate(1024);
-                StringBuffer strBuff = new StringBuffer();
+                StringBuffer content = new StringBuffer();
                 while (sc.read(buffer) > 0) {
                     buffer.flip();
-                    strBuff.append(charset.decode(buffer));
+                    content.append(charset.decode(buffer));
                 }
-                System.out.println(strBuff.toString());
-                selectionKey.interestOps(SelectionKey.OP_READ);
+                System.out.println(content.toString());
+                key.interestOps(SelectionKey.OP_READ);
             }
         }
     }
@@ -83,7 +87,7 @@ public class NioChatClient {
         @Override
         public void run() {
             try {
-                // 从键盘读取数据输入到服务器
+                // 从键盘读取数据输入，然后发送到服务器
                 Scanner scanner = new Scanner(System.in);
                 while (scanner.hasNextLine()) {
                     String line = scanner.nextLine();
