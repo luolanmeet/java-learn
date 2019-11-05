@@ -6,7 +6,7 @@
 		<artifactId>websocket</artifactId>
 		<version>0.0.1-SNAPSHOT</version>
 	</parent>
-	<artifactId>netty</artifactId>
+	<artifactId>netty-websocket</artifactId>
 	<packaging>war</packaging>
 
 	<dependencies>
