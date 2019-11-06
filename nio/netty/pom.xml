@@ -12,6 +12,7 @@
     <packaging>pom</packaging>
     <modules>
         <module>servlet-container</module>
+        <module>rpc</module>
     </modules>
 
 
