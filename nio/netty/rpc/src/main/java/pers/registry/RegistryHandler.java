@@ -51,6 +51,12 @@ public class RegistryHandler extends ChannelInboundHandlerAdapter {
     }
 
     @Override
+    public void channelActive(ChannelHandlerContext ctx) throws Exception {
+        super.channelActive(ctx);
+        System.out.println("registry active");
+    }
+
+    @Override
     public void channelRead(ChannelHandlerContext ctx, Object msg) throws Exception {
 
         InvokerProtocol request = (InvokerProtocol) msg;
@@ -63,7 +69,6 @@ public class RegistryHandler extends ChannelInboundHandlerAdapter {
 
         ctx.write(result);
         ctx.flush();
-        ctx.close();
     }
 
 }

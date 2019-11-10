@@ -98,7 +98,7 @@ public class RpcProxy {
                 ChannelFuture future = bootstrap.connect("localhost", 8080).sync();
                 future.channel().writeAndFlush(msg).sync();
 
-                // 在这里阻塞，直到返回结果
+                // 在这里阻塞，直到连接关闭
                 future.channel().closeFuture().sync();
 
             } catch (Exception e) {
