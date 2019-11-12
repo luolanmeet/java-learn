@@ -1,0 +1,16 @@
+syntax = "proto3";
+
+package pers.protobuf;
+option java_outer_classname = "MsgProto";
+
+message Msg {
+
+    int32 type = 1;
+
+    string userName = 2;
+
+    string msg = 3;
+
+}
+
+// protoc.exe -I=D:\dev\eclipse\learn\nio\netty\netty-protobuf\src\main\resources\proto --java_out=D:\dev\eclipse\learn\nio\netty\netty-protobuf\src\main\java\pers\protobuf D:\dev\eclipse\learn\nio\netty\netty-protobuf\src\main\resources\proto\*.proto

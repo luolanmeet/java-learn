@@ -1,0 +1,14 @@
+syntax = "proto3";
+
+package pers.protobuf;
+option java_outer_classname = "LoginRespProto";
+
+message LoginResp {
+
+    int32 type = 1;
+
+    int32 resultCode = 2;
+
+}
+
+// protoc.exe -I=D:\dev\eclipse\learn\nio\netty\netty-protobuf\src\main\resources\proto --java_out=D:\dev\eclipse\learn\nio\netty\netty-protobuf\src\main\java\pers\protobuf D:\dev\eclipse\learn\nio\netty\netty-protobuf\src\main\resources\proto\*.proto
