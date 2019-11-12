@@ -22,5 +22,6 @@
 	
 	<modules>
 		<module>mongodb</module>
-	</modules>
+        <module>redis</module>
+    </modules>
 </project>
