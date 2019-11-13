@@ -25,21 +25,21 @@
 		if (err) {
 			throw err;
 		}
-		LoginReq = root.lookupType("com.iplus.protobuf.LoginReq");
+		LoginReq = root.lookupType("pers.protobuf.LoginReq");
 	});
 
 	protobuf.load("proto/LoginResp.proto", function(err, root) {
 		if (err) {
 			throw err;
 		}
-		LoginResp = root.lookupType("com.iplus.protobuf.LoginResp");
+		LoginResp = root.lookupType("pers.protobuf.LoginResp");
 	});
 
 	protobuf.load("proto/Msg.proto", function(err, root) {
 		if (err) {
 			throw err;
 		}
-		Msg = root.lookupType("com.iplus.protobuf.Msg");
+		Msg = root.lookupType("pers.protobuf.Msg");
 	});
 
 	$login.on('click', function(e) {
@@ -95,7 +95,6 @@
 
 		ws.onopen = function(evt) {
 			isConnected = true;
-
 			send_login_req();
 		};
 
@@ -105,6 +104,7 @@
 		};
 
 		ws.onmessage = function(evt) {
+
 			var payload = evt.data;
 			var hasError = LoginResp.verify(payload);
 			if (hasError) {
@@ -119,7 +119,6 @@
 			 * 			  -->
 			 * 			  fileld_number = 1, wire_type = 0
 			 * 			  1 << 3 | 0  ==> 8
-			 *
 			 */
 
 			if (s[0] != 0x08) {

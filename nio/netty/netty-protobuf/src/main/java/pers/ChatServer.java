@@ -5,7 +5,14 @@ import io.netty.channel.ChannelFuture;
 import io.netty.channel.ChannelOption;
 import io.netty.channel.nio.NioEventLoopGroup;
 import io.netty.channel.socket.nio.NioServerSocketChannel;
+import pers.handler.ChatHandler;
+import pers.handler.ChatWebSocketServerHandler;
+import pers.handler.IHandler;
+import pers.handler.LoginHandler;
 import pers.util.ChatChannelInitializer;
+
+import java.util.ArrayList;
+import java.util.List;
 
 public class ChatServer {
 
@@ -15,12 +22,14 @@ public class ChatServer {
 
         NioEventLoopGroup bossGroup = new NioEventLoopGroup(1);
         NioEventLoopGroup workerGroup = new NioEventLoopGroup();
-
+    
+        ChatWebSocketServerHandler handler = initHandler();
+        
         try {
             ServerBootstrap wsBootstrap = new ServerBootstrap();
             wsBootstrap.group(bossGroup, workerGroup)
                     .channel(NioServerSocketChannel.class)
-                    .childHandler(new ChatChannelInitializer())
+                    .childHandler(new ChatChannelInitializer(handler))
                     .option(ChannelOption.SO_BACKLOG, 128)
                     .childOption(ChannelOption.SO_KEEPALIVE, true);
 
@@ -34,7 +43,17 @@ public class ChatServer {
             bossGroup.shutdownGracefully();
         }
     }
-
+    
+    private ChatWebSocketServerHandler initHandler() {
+    
+        ChatWebSocketServerHandler handler = new ChatWebSocketServerHandler();
+    
+        handler.getHandlers().add(new LoginHandler());
+        handler.getHandlers().add(new ChatHandler());
+        
+        return handler;
+    }
+    
     public static void main(String[] args) throws InterruptedException {
         new ChatServer().run();
     }

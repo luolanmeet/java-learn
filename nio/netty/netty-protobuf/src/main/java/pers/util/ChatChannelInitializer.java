@@ -22,17 +22,23 @@ import pers.handler.ChatWebSocketServerHandler;
 import java.util.List;
 
 public class ChatChannelInitializer extends ChannelInitializer<SocketChannel> {
-
+    
+    private ChatWebSocketServerHandler handler;
+    
+    public ChatChannelInitializer(ChatWebSocketServerHandler handler) {
+        this.handler = handler;
+    }
+    
     @Override
     protected void initChannel(SocketChannel ch) throws Exception {
+        
         ch.pipeline().addLast(
                 new HttpServerCodec(),
                 new HttpObjectAggregator(64 * 1024),
                 new WebSocketServerCompressionHandler(),
                 new WebSocketServerProtocolHandler("/chat", null, true),
                 new ProtobufVarint32FrameDecoder(),
-                new MessageToMessageDecoder<WebSocketFrame>() {
-
+                new MessageToMessageDecoder<WebSocketFrame>() {  // 解码 WebSocketFrame --> BinaryWebSocketFrame
                     @Override
                     protected void decode(ChannelHandlerContext ctx, WebSocketFrame msg,
                             List<Object> out) throws Exception {
@@ -42,11 +48,9 @@ public class ChatChannelInitializer extends ChannelInitializer<SocketChannel> {
                             buf.retain();
                         }
                     }
-
                 },
                 new CustomProtobufDecoder(),
-                new MessageToMessageEncoder<MessageLiteOrBuilder>() {
-
+                new MessageToMessageEncoder<MessageLiteOrBuilder>() { // 编码 MessageLiteOrBuilder --> BinaryWebSocketFrame
                     @Override
                     protected void encode(ChannelHandlerContext ctx, MessageLiteOrBuilder msg,
                             List<Object> out) throws Exception {
@@ -55,16 +59,16 @@ public class ChatChannelInitializer extends ChannelInitializer<SocketChannel> {
                             out.add(new BinaryWebSocketFrame(bf));
                             return;
                         }
+                        // 这个是允许业务代码中直接把Protobuf的Builder对象返回
                         if (msg instanceof MessageLite.Builder) {
                             ByteBuf bf = Unpooled.wrappedBuffer(
                                     ((MessageLite.Builder) msg).build().toByteArray());
                             out.add(new BinaryWebSocketFrame(bf));
                         }
                     }
-
                 },
                 new ProtobufVarint32LengthFieldPrepender(),
-                new ChatWebSocketServerHandler());  // 这个应该是单例
+                handler);
     }
 
 }
