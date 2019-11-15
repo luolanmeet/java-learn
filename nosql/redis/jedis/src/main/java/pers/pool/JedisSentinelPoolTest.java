@@ -6,6 +6,10 @@ import redis.clients.jedis.JedisSentinelPool;
 import java.util.HashSet;
 import java.util.Set;
 
+/**
+ * 使用了Redis哨兵时的使用
+ * 主从 读写分离
+ */
 public class JedisSentinelPoolTest {
     
     public static void main(String[] args) {

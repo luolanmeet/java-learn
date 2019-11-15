@@ -9,6 +9,10 @@ import java.util.Arrays;
 import java.util.List;
 import java.util.ResourceBundle;
 
+/**
+ * 客户端的实现的数据分片，Jedis提供实现
+ * 使用了一致性哈希，利用红黑树实现
+ */
 public class ShardedJedisPoolTest {
     
     static final ResourceBundle REDIS_PROPERTIES = ResourceBundle.getBundle("redis");

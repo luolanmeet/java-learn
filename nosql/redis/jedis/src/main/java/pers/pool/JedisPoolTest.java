@@ -7,7 +7,7 @@ import redis.clients.jedis.JedisPoolConfig;
 import java.util.ResourceBundle;
 
 /**
- * Jedis池化
+ * Jedis连接池，解决Jedis实例线程不安全问题
  */
 public class JedisPoolTest {
     
