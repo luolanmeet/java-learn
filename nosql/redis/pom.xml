@@ -15,6 +15,7 @@
     <modules>
         <module>jedis</module>
         <module>springboot-redis</module>
+        <module>lettuce</module>
     </modules>
 
 </project>
