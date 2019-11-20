@@ -44,11 +44,13 @@ public class Application {
         
         // 见 org.springframework.beans.factory.support.AbstractAutowireCapableBeanFactory.initializeBean
         // -> BeanPostProcessor#postProcessBeforeInitialization 初始化完成之前
+        // -> @PostConstruct#method
         // -> InitializingBean#afterPropertiesSet
         // -> initMethod
         // -> BeanPostProcessor#postProcessAfterInitialization  初始化完成之后
         
         // 容器关闭
+        // -> @PreDestroy#method
         // -> DisposableBean#destroy
         // -> destroyMethod
         

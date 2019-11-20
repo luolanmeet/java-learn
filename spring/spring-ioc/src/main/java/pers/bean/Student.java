@@ -9,6 +9,9 @@ import org.springframework.context.ApplicationContextAware;
 import org.springframework.context.ApplicationEventPublisher;
 import org.springframework.context.ApplicationEventPublisherAware;
 
+import javax.annotation.PostConstruct;
+import javax.annotation.PreDestroy;
+
 @Data
 @ToString(exclude = {"beanFactory", "classLoader", "applicationContext", "applicationEventPublisher"})
 public class Student implements
@@ -75,6 +78,11 @@ public class Student implements
         this.applicationContext = applicationContext;
     }
     
+    @PostConstruct
+    public void postConstruct() {
+        System.out.println("@PostConstruct#method");
+    }
+    
     @Override
     public void afterPropertiesSet() throws Exception {
         System.out.println("InitializingBean#afterPropertiesSet");
@@ -82,6 +90,11 @@ public class Student implements
     
     public void initMethod() {
         System.out.println("initMethod");
+    }
+    
+    @PreDestroy
+    public void preDestroy() {
+        System.out.println("@PreDestroy#method");
     }
     
     @Override
