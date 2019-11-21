@@ -9,6 +9,7 @@
     <version>0.0.1-SNAPSHOT</version>
     <modules>
         <module>asyn-responsibility-chain</module>
+        <module>level-data-builder</module>
     </modules>
     <packaging>pom</packaging>
 
