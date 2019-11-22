@@ -8,7 +8,6 @@ import com.alibaba.csp.sentinel.slots.block.flow.FlowRule;
 import com.alibaba.csp.sentinel.slots.block.flow.FlowRuleManager;
 
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
 
 public class FlowQpsDemo {
@@ -16,22 +15,7 @@ public class FlowQpsDemo {
     private static String resource = "doTest";
     
     public static void main(String[] args) throws InterruptedException {
-    
-        HashMap<Integer, Object> hashMap = new HashMap<>();
         
-        hashMap.put(1, null);
-        hashMap.put(2, 2);
-    
-        hashMap.computeIfAbsent(2, key -> 22);
-        System.out.println(hashMap.computeIfAbsent(3, key -> 33));
-        System.out.println(hashMap.computeIfAbsent(3, key -> 44));
-        
-        System.out.println(hashMap);
-    
-        
-        if (1 == 1) {
-            return ;
-        }
         initFlowQpsRule();
         
         while (true) {
