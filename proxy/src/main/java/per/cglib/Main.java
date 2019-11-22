@@ -13,6 +13,8 @@ public class Main {
         RealSubject sr = (RealSubject) enhancer.create();
 
         sr.sayHello("cck");
+        System.out.println();
+        sr.sayHi("ck");
     }
 
 }
