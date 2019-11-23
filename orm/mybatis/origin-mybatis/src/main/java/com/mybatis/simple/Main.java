@@ -32,13 +32,13 @@ public class Main {
         
 //        User user = userMapper.findById(1);
         User user = userMapper.findByIdAndName(1, "cck");
-        
+
         System.out.println(user);
 
         user.setName("cck");
         user.setAddress("中国");
         userMapper.save(user);
-    
+
         session.commit();
         session.close();
     }

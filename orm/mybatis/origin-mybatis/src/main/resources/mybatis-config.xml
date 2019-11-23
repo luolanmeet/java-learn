@@ -6,19 +6,22 @@
 		<setting name="useGeneratedKeys" value="false" />
 	</settings>
 
-	<plugins>
-		<plugin interceptor="com.mybatis.simple.plugins.MyPlugin">
-			<property name="propertyOne" value="1" />
-			<property name="propertyTwo" value="2" />
-		</plugin>
-	</plugins>
-
 	<!-- 这里配置的话是全局的，会覆盖已经存在的处理
 	<typeHandlers>
 		<package name="com.mybatis.simple.type"/>  自动发现功能
 		<typeHandler handler="com.mybatis.simple.type.MyStringTypeHandler"/> 还有jdbcType javaType可以配置
 	</typeHandlers>
 	-->
+
+	<objectFactory type="com.mybatis.simple.objectfactory.MyObjectFactory">
+	</objectFactory>
+
+	<plugins>
+		<plugin interceptor="com.mybatis.simple.plugins.MyPlugin">
+			<property name="propertyOne" value="1" />
+			<property name="propertyTwo" value="2" />
+		</plugin>
+	</plugins>
 
 	<environments default="development">
 		<environment id="development">
