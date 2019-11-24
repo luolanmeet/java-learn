@@ -4,6 +4,8 @@ import org.apache.ibatis.annotations.Param;
 
 import com.mybatis.simple.bean.User;
 
+import java.util.List;
+
 public interface IUserMapper {
 
     void save(User user);
@@ -13,5 +15,7 @@ public interface IUserMapper {
     User findByIdAndName(
             Integer userId, 
             @Param("name") String name);
+
+    List<User> findByName(@Param("name") String name);
     
 }

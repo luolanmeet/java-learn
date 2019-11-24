@@ -42,5 +42,13 @@
                 AND
             name = #{name}     
     </select>
-    
+
+    <select id="findByName" resultMap="resultMap">
+        SELECT <include refid="columns" />
+        FROM
+            t_user
+        WHERE
+            name LIKE CONCAT("%", #{name}, "%")
+    </select>
+
 </mapper>
