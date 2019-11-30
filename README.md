@@ -5,24 +5,24 @@
 ⛱ [my-wheel]       | 轮子
 🌿 [spring]         | spring系列
 🍋 [nosql]          | 非关系型数据库
-📬 [mq]             | 消息中间件
-🍔 [rpc]            | roc 框架 dubbo
-🎎 [orm]            | orm 框架
+📬 [mq]             | 消息中间件客户端
+🍔 [rpc]            | rpc框架 dubbo
+🎎 [orm]            | orm框架
 📦 [sub-database-and-sub-table]     | 分库分表
 🗄 [configuration-center] | 配置中心
 👨🏼‍✈️ [zookeeper]     | zookeeper
 🌫 [flow-control]   | 流量控制
-⚡ [nio] | 原生nio及相关nio框架 
+⚡ [nio] | nio相关
 🍳 [search-engines] | 搜索引擎
-💁🏻‍♂️ [proxy]     | 动态代理框架
+💁🏻‍♂️ [proxy]     | 代理框架
 🍈 [guava]          | guava
-🌈 [websocket]      | websockt 
-✉️ [mail]        | 邮件相关框架
-📰 [http]           | http 框架
-📊 [office]         | office 处理
-📝 [pdf]            | pdf 处理
-📃 [xml]            | xml 处理
-📜 [json]           | json 处理
+📰 [http]           | http
+🌈 [websocket]      | websocket 
+✉️ [mail]        | 邮件相关
+📊 [office]         | office处理
+📝 [pdf]            | pdf处理
+📃 [xml]            | xml处理
+📜 [json]           | json处理
 
 [rpc]: https://github.com/luolanmeet/java-learn/tree/master/dubbo
 [guava]: https://github.com/luolanmeet/java-learn/tree/master/guava
