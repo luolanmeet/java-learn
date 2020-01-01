@@ -1,11 +1,11 @@
 package pers.gc;
 
 /**
- * 测试GC标记阶段 --> 可达性分析算法中GC ROOTS的遍历
+ * 测试GC标记阶段 --> 可达性分析算法中GC ROOT的遍历
  * -Xmx400M -Xms400M -Xmn200M -XX:+UseParNewGC -XX:+UseConcMarkSweepGC -XX:CMSInitiatingOccupancyFraction=75 -XX:+UseCMSInitiatingOccupancyOnly -XX:+PrintGCDetails
  * 堆总大小400M 初始大小400M 新生代大小200M 新生代使用ParNewGC 老年代使用CMSGC 内存达到75%是触发CMSGC 只使用指定的阀值（75）不自动调整 打印GC信息
  */
-public class TestGC {
+public class TestGCRoot {
 
     private static final int _1MB = 1024 * 1024;
     private static final int LENGTH = 4000000;
