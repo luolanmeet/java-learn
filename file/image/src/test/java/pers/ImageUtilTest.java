@@ -34,6 +34,11 @@ public class ImageUtilTest {
         Assert.assertFalse(ImageUtil.isSupportImg("空洞骑士.mp4"));
     }
 
+    /**
+     * 获取/test/resource下的文件
+     * @param fileName
+     * @return
+     */
     public static File getFile(String fileName) {
         String path = System.getProperty("user.dir") + "/src/test/java/resources/" + fileName;
         return new File(path);

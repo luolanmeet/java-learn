@@ -17,8 +17,7 @@ public class FileUtil {
      * @return
      */
     public static String getFileNewPath(File file, String newName) {
-        String filePath = getFilePath(file);
-        return filePath + newName;
+        return file.getParent() + File.separator + newName;
     }
 
     /**
@@ -36,24 +35,6 @@ public class FileUtil {
         }
 
         return Optional.of(strs[strs.length - 1]);
-    }
-
-    /**
-     * 获取文件的路径
-     * @param file
-     * @return
-     */
-    public static String getFilePath(File file) {
-
-        if (file == null) {
-            LOGGER.info("file object is null");
-            return null;
-        }
-
-        String path = file.getPath();
-        String name = file.getName();
-
-        return path.substring(0, path.length() - name.length());
     }
 
 }
