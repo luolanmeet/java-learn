@@ -1,5 +1,6 @@
 package pers;
 
+import com.github.junrar.Junrar;
 import org.apache.commons.compress.archivers.zip.ZipArchiveEntry;
 import org.apache.commons.compress.archivers.zip.ZipArchiveInputStream;
 import org.apache.commons.compress.utils.IOUtils;
@@ -32,22 +33,52 @@ public class FileCompress {
             return ;
         }
 
-        unzip(compressFile, compressFile.getParent());
+        String fileName = compressFile.getName().toLowerCase();
+        if (fileName.endsWith(".zip")) {
+            unzip(compressFile, compressFile.getParent());
+        } else if (fileName.endsWith(".rar")) {
+            unrar(compressFile, compressFile.getParent());
+        }
     }
 
-    private static void unzip(File compressFile, String savePath) {
+    /**
+     * 解压rar文件
+     * @param compressFile
+     * @param savePath
+     * @return
+     */
+    private static boolean unrar(File compressFile, String savePath) {
+
+        try {
+            Junrar.extract(compressFile, new File(savePath));
+        } catch (Exception e) {
+            LOGGER.info("unrar file[{}] fail. error msg [{}]", e);
+            return false;
+        }
+
+        return true;
+    }
+
+    /**
+     * 解压zip文件
+     * @param compressFile
+     * @param savePath
+     */
+    private static boolean unzip(File compressFile, String savePath) {
 
         try (ZipArchiveInputStream zipArchiveInputStream = new ZipArchiveInputStream(new FileInputStream(compressFile),"gbk")) {
             ZipArchiveEntry entry = null;
             while ((entry = zipArchiveInputStream.getNextZipEntry()) != null) {
-                System.out.println(entry.getName());
                 try (OutputStream os = new BufferedOutputStream(new FileOutputStream(new File(savePath, entry.getName())))) {
                     IOUtils.copy(zipArchiveInputStream, os);
                 }
             }
         } catch (IOException e) {
-            e.printStackTrace();
+            LOGGER.info("unzip file[{}] fail. error msg [{}]", e);
+            return false;
         }
+
+        return true;
     }
 
 }

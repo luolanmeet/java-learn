@@ -13,6 +13,7 @@ public class FileCompressTest {
     @Test
     public void decompress() {
         FileCompress.decompress(getFile("海贼王.zip"));
+        FileCompress.decompress(getFile("猫.rar"));
     }
 
     /**

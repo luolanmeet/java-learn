@@ -12,7 +12,15 @@
     <artifactId>file-handle</artifactId>
 
     <dependencies>
-        <!-- 文件压缩相关 -->
+
+        <!-- rar文件压缩相关 -->
+        <dependency>
+            <groupId>com.github.junrar</groupId>
+            <artifactId>junrar</artifactId>
+            <version>4.0.0</version>
+        </dependency>
+
+        <!-- zip文件压缩相关 -->
         <dependency>
             <groupId>org.apache.commons</groupId>
             <artifactId>commons-compress</artifactId>
