@@ -9,20 +9,38 @@
     </parent>
     <modelVersion>4.0.0</modelVersion>
 
-    <artifactId>spring-cloud-openfeign-provider</artifactId>
+    <artifactId>spring-cloud-openfeign-provider2</artifactId>
 
     <dependencies>
 
         <dependency>
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-web</artifactId>
-            <version>2.0.0.RELEASE</version>
+            <version>2.1.0.RELEASE</version>
         </dependency>
 
         <dependency>
             <groupId>com.learn</groupId>
             <artifactId>spring-cloud-openfeign-interface</artifactId>
             <version>0.0.1-SNAPSHOT</version>
+            <exclusions>
+                <exclusion>
+                    <groupId>org.springframework.cloud</groupId>
+                    <artifactId>spring-cloud-starter-openfeign</artifactId>
+                </exclusion>
+            </exclusions>
+        </dependency>
+
+        <dependency>
+            <groupId>com.learn</groupId>
+            <artifactId>spring-cloud-openfeign-interface2</artifactId>
+            <version>0.0.1-SNAPSHOT</version>
+            <!--<exclusions>-->
+                <!--<exclusion>-->
+                    <!--<groupId>org.springframework.cloud</groupId>-->
+                    <!--<artifactId>spring-cloud-starter-openfeign</artifactId>-->
+                <!--</exclusion>-->
+            <!--</exclusions>-->
         </dependency>
 
     </dependencies>

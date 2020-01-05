@@ -13,6 +13,8 @@
         <module>spring-cloud-openfeign-interface</module>
         <module>spring-cloud-openfeign-provider</module>
         <module>spring-cloud-openfeign-consumer</module>
+        <module>spring-cloud-openfeign-provider2</module>
+        <module>spring-cloud-openfeign-interface2</module>
     </modules>
     <artifactId>spring-cloud-openfeign</artifactId>
 
