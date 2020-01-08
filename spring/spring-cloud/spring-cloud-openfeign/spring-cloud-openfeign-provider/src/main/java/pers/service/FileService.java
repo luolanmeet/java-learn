@@ -11,7 +11,7 @@ import java.io.IOException;
 public class FileService implements IFileService {
 
     @Override
-    public String uploadFile(MultipartFile file) {
+    public String uploadFile1a(MultipartFile file) {
 
         if (file == null) {
             System.out.println("\r\n uploadFile. file is null \r\n");
@@ -23,7 +23,7 @@ public class FileService implements IFileService {
     }
 
     @Override
-    public String uploadFile2(MultipartFile file) {
+    public String uploadFile1b(MultipartFile file) {
 
         if (file == null) {
             System.out.println("\r\n uploadFile2. file is null \r\n");
@@ -40,7 +40,7 @@ public class FileService implements IFileService {
     }
 
     @Override
-    public String uploadFile3(MultipartFile file, Integer userId) {
+    public String uploadFile2(MultipartFile file, Integer userId) {
 
         if (file == null) {
             System.out.println("\r\n uploadFile2. file is null, userId is + "+ userId + " \r\n");

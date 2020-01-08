@@ -6,9 +6,6 @@ import org.springframework.web.multipart.MultipartFile;
 import pers.IFileService;
 import pers.IOrderFileService;
 
-import java.io.File;
-import java.io.IOException;
-
 @RestController
 public class OrderFileService implements IOrderFileService {
 
@@ -16,26 +13,26 @@ public class OrderFileService implements IOrderFileService {
     private IFileService fileService;
 
     @Override
-    public String uploadFile(MultipartFile file) {
+    public String uploadFile1(MultipartFile file) {
 
         if (file == null) {
             System.out.println("\r\n uploadFile. file is null \r\n");
             return "false";
         }
 
-        // 调用接口，传递MultipartFile需要特殊处理
+        // 调用接口，传递MultipartFile需要使用@RequestParam
         // 这样是会失败的
-        String resOne = fileService.uploadFile(file);
+        String resOne = fileService.uploadFile1a(file);
         System.out.println(resOne);
         // 这样才可以
-        String resTwo = fileService.uploadFile2(file);
+        String resTwo = fileService.uploadFile1b(file);
         System.out.println(resTwo);
 
         return "result one:" + resOne + " result two:" + resTwo;
     }
 
     @Override
-    public String uploadFile(MultipartFile file, Integer userId) {
+    public String uploadFile2(MultipartFile file, Integer userId) {
 
         if (file == null) {
             System.out.println("\r\n uploadFile2. file is null, userId is + "+ userId + " \r\n");
@@ -43,7 +40,24 @@ public class OrderFileService implements IOrderFileService {
         }
 
         System.out.println("\r\n uploadFile. got file. " + file.getOriginalFilename() + " userId " + userId + "\r\n");
-        return fileService.uploadFile3(file, userId);
+        return fileService.uploadFile2(file, userId);
+    }
+
+    @Override
+    public String uploadFile3(MultipartFile[] files, Integer userId) {
+
+        if (files == null) {
+            System.out.println("\r\n uploadFile. file is null, userId is + "+ userId + " \r\n");
+            return "false";
+        }
+
+        for (MultipartFile file : files) {
+            System.out.println(file.getOriginalFilename());
+        }
+
+//        fileService.uploadFile3(files, userId);
+
+        return "success";
     }
 
 }

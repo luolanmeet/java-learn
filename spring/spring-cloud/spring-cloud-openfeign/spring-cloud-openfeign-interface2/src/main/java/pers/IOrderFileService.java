@@ -6,10 +6,13 @@ import org.springframework.web.multipart.MultipartFile;
 
 public interface IOrderFileService {
 
-    @PostMapping("uploadFile")
-    String uploadFile(@RequestParam("file") MultipartFile file);
+    @PostMapping("uploadFile1")
+    String uploadFile1(@RequestParam("file") MultipartFile file);
 
     @PostMapping("uploadFile2")
-    String uploadFile(@RequestParam("file") MultipartFile file, @RequestParam(name="userId", required = false) Integer userId);
+    String uploadFile2(@RequestParam("file") MultipartFile file, @RequestParam(name="userId", required = false) Integer userId);
+
+    @PostMapping("uploadFile3")
+    String uploadFile3(@RequestParam("files") MultipartFile[] files, @RequestParam(name="userId", required = false) Integer userId);
 
 }
