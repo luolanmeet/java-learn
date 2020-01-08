@@ -55,7 +55,7 @@ public class OrderFileService implements IOrderFileService {
             System.out.println(file.getOriginalFilename());
         }
 
-//        fileService.uploadFile3(files, userId);
+        fileService.uploadFile3(files, userId);
 
         return "success";
     }

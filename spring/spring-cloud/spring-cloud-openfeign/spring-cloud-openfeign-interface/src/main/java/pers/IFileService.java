@@ -6,12 +6,13 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RequestPart;
 import org.springframework.web.multipart.MultipartFile;
+import pers.config.MultipartSupportConfig;
 
 /**
  *
  * @author cck
  */
-@FeignClient(name = "hello-service")
+@FeignClient(name = "hello-service", configuration = MultipartSupportConfig.class)
 public interface IFileService {
 
     /**
@@ -38,5 +39,8 @@ public interface IFileService {
      */
     @PostMapping(value = "uploadFile2", consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
     String uploadFile2(@RequestPart("file") MultipartFile file, @RequestParam(name="userId", required = false) Integer userId);
+
+    @PostMapping(value = "uploadFile3", consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
+    String uploadFile3(@RequestPart("files") MultipartFile[] files, @RequestParam(name="userId", required = false) Integer userId);
 
 }

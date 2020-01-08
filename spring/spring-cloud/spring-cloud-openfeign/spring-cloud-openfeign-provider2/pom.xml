@@ -20,27 +20,22 @@
         </dependency>
 
         <dependency>
+            <groupId>org.springframework.cloud</groupId>
+            <artifactId>spring-cloud-starter-netflix-eureka-client</artifactId>
+            <version>2.1.0.RELEASE</version>
+        </dependency>
+
+        <!-- 没有模拟版本冲突的情况 -->
+        <dependency>
             <groupId>com.learn</groupId>
             <artifactId>spring-cloud-openfeign-interface</artifactId>
             <version>0.0.1-SNAPSHOT</version>
-            <exclusions>
-                <exclusion>
-                    <groupId>org.springframework.cloud</groupId>
-                    <artifactId>spring-cloud-starter-openfeign</artifactId>
-                </exclusion>
-            </exclusions>
         </dependency>
 
         <dependency>
             <groupId>com.learn</groupId>
             <artifactId>spring-cloud-openfeign-interface2</artifactId>
             <version>0.0.1-SNAPSHOT</version>
-            <!--<exclusions>-->
-                <!--<exclusion>-->
-                    <!--<groupId>org.springframework.cloud</groupId>-->
-                    <!--<artifactId>spring-cloud-starter-openfeign</artifactId>-->
-                <!--</exclusion>-->
-            <!--</exclusions>-->
         </dependency>
 
     </dependencies>

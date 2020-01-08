@@ -56,4 +56,28 @@ public class FileService implements IFileService {
         return "success";
     }
 
+    @Override
+    public String uploadFile3(MultipartFile[] files, Integer userId) {
+
+        if (files == null) {
+            System.out.println("\r\n uploadFile2. file is null, userId is + "+ userId + " \r\n");
+            return "false";
+        }
+
+        System.out.println(files.length);
+
+        try {
+            System.out.println("userId : " + userId);
+            int i = 0;
+            for (MultipartFile file : files) {
+                file.transferTo(new File("D:\\" +  i++ + file.getOriginalFilename()));
+            }
+        } catch (IOException e) {
+            e.printStackTrace();
+            return "false";
+        }
+
+        return "success";
+    }
+
 }
