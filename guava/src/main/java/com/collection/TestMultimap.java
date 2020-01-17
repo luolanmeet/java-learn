@@ -1,4 +1,4 @@
-package com.collection.map;
+package com.collection;
 
 import com.google.common.collect.ArrayListMultimap;
 import com.google.common.collect.Multimap;
