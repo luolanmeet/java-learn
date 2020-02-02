@@ -3,21 +3,21 @@
          xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
     <parent>
-        <artifactId>nosql</artifactId>
+        <artifactId>redis</artifactId>
         <groupId>com.learn</groupId>
         <version>0.0.1-SNAPSHOT</version>
     </parent>
     <modelVersion>4.0.0</modelVersion>
 
-    <groupId>com.learn</groupId>
-    <artifactId>redis</artifactId>
-    <packaging>pom</packaging>
-    <modules>
-        <module>jedis</module>
-        <module>springboot-redis</module>
-        <module>lettuce</module>
-        <module>redisson</module>
-        <module>springboot-redisson</module>
-    </modules>
+    <artifactId>springboot-redisson</artifactId>
+
+    <dependencies>
+        <dependency>
+            <groupId>org.redisson</groupId>
+            <artifactId>redisson-spring-boot-starter</artifactId>
+            <version>3.12.0</version>
+        </dependency>
+    </dependencies>
+
 
 </project>
