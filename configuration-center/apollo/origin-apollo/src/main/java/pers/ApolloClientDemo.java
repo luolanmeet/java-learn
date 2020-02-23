@@ -7,6 +7,8 @@ import com.ctrip.framework.apollo.core.ConfigConsts;
 import com.ctrip.framework.apollo.model.ConfigChange;
 import com.ctrip.framework.apollo.model.ConfigChangeEvent;
 
+import java.util.concurrent.TimeUnit;
+
 /**
  * apollo客户端demo
  * 启动的参数配上
@@ -28,7 +30,7 @@ public class ApolloClientDemo {
         addListener(config);
 
         while (true) {
-            Thread.sleep(4000);
+            TimeUnit.SECONDS.sleep(4);
             System.out.println(getConfig(config, KEY));
         }
 
