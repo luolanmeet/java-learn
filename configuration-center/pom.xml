@@ -9,6 +9,7 @@
     <version>0.0.1-SNAPSHOT</version>
     <modules>
         <module>nacos</module>
+        <module>apollo</module>
     </modules>
     <packaging>pom</packaging>
 
