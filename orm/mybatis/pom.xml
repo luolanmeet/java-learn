@@ -11,5 +11,6 @@
   	<module>origin-mybatis</module>
       <module>spring-mybatis</module>
     <module>springboot-mybatis</module>
+      <module>tk-mybatis</module>
   </modules>
 </project>
