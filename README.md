@@ -24,6 +24,13 @@
 📃 [xml]            | xml处理
 📜 [json]           | json处理
 
+## 导入项目
+> 此仓库中包含多个maven项目，每个项目均为独立的项目。<br/>
+> 可按照以下步骤导入到IDEA中。选择时注意选择`pom`文件。
+
+![步骤1](img/step1.png)
+![步骤1](img/step2.png)
+
 [rpc]: https://github.com/luolanmeet/java-learn/tree/master/dubbo
 [guava]: https://github.com/luolanmeet/java-learn/tree/master/guava
 [http]: https://github.com/luolanmeet/java-learn/tree/master/http
