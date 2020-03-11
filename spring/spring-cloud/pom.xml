@@ -18,6 +18,7 @@
         <module>spring-cloud-hystrix-dashborad</module>
         <module>spring-cloud-feign</module>
         <module>spring-cloud-openfeign</module>
+        <module>spring-cloud-gateway</module>
     </modules>
 
 </project>
