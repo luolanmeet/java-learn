@@ -8,9 +8,10 @@
   <artifactId>mybatis</artifactId>
   <packaging>pom</packaging>
   <modules>
-  	<module>origin-mybatis</module>
+  	  <module>origin-mybatis</module>
       <module>spring-mybatis</module>
-    <module>springboot-mybatis</module>
+      <module>springboot-mybatis</module>
       <module>tk-mybatis</module>
+      <module>mybatis-master-slave</module>
   </modules>
 </project>
