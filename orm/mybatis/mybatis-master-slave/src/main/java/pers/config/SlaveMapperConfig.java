@@ -8,20 +8,41 @@ import org.springframework.beans.factory.config.RuntimeBeanReference;
 import org.springframework.beans.factory.support.BeanDefinitionRegistry;
 import org.springframework.beans.factory.support.BeanDefinitionRegistryPostProcessor;
 import org.springframework.beans.factory.support.GenericBeanDefinition;
+import org.springframework.core.io.ClassPathResource;
+import org.springframework.core.io.DefaultResourceLoader;
+import org.springframework.core.io.Resource;
 import org.springframework.stereotype.Component;
 import pers.util.ClassScanUtil;
 
+import java.io.IOException;
 import java.util.Map;
+import java.util.Properties;
 
 @Component
 public class SlaveMapperConfig implements BeanDefinitionRegistryPostProcessor {
 
+    private final static String CONFIG_NAME = "master-slave.properties";
+
     @Override
     public void postProcessBeanDefinitionRegistry(BeanDefinitionRegistry registry) throws BeansException {
 
+        Properties properties = new Properties();
+
+        ClassPathResource cpr = new ClassPathResource(CONFIG_NAME);
+        try {
+            properties.load(cpr.getInputStream());
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
+        if (properties.keySet().isEmpty()) {
+            System.out.println("no exist master-slave config");
+            return ;
+        }
+
         // 拿到一个包路径，以及该包路径下的Mapper要使用的sqlSessionFactoryTemplate
-        String backagePath = "pers.mapper";
-        String sqlSessionTemplate = "slaveSqlSessionTemplate";
+        String backagePath = (String) properties.get("backagePath");
+        String sqlSessionTemplate = (String) properties.get("sqlSessionTemplate");
 
         // 获取这些BeanDefinition,复制一份，并且设置新的sqlSessionFactoryTemplate
         Map<String, String> beanNameMap = ClassScanUtil.scan(backagePath);
