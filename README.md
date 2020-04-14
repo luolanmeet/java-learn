@@ -3,6 +3,7 @@
 项目名|内容
 ---|---
 ⛱ [my-wheel]       | 轮子
+💡 [pattern]        | 设计模式
 🌿 [spring]         | spring系列
 🍋 [nosql]          | 非关系型数据库
 📬 [mq]             | 消息中间件客户端
@@ -52,3 +53,4 @@
 [nio]: https://github.com/luolanmeet/java-learn/tree/master/nio
 [json]: https://github.com/luolanmeet/java-learn/tree/master/json
 [xml]: https://github.com/luolanmeet/java-learn/tree/master/xml
+[pattern]: https://github.com/luolanmeet/java-learn/tree/master/pattern
