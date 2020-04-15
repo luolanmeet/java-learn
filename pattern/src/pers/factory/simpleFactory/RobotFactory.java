@@ -10,7 +10,12 @@ import pers.factory.simpleFactory.robot.SweepingRobot;
  */
 public class RobotFactory {
 
-    public IRobot buildRobot(int type) {
+    /**
+     * 根据type去创建
+     * @param type
+     * @return
+     */
+    public IRobot buildRobotByType(int type) {
 
         switch (type) {
             case RobotType.SWEEP:
@@ -18,9 +23,19 @@ public class RobotFactory {
 
             case RobotType.DETECTION:
                 return new DetectionRobot();
+
+            default:
+                throw new RuntimeException("no support type:" + type);
         }
 
-        return null;
+    }
+
+    public IRobot buildRobotByClass(Class<? extends IRobot> clazz) {
+        try {
+            return clazz.newInstance();
+        } catch (Exception e) {
+            throw new RuntimeException(e);
+        }
     }
 
 }

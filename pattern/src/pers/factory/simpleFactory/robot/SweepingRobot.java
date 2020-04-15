@@ -1,7 +1,5 @@
 package pers.factory.simpleFactory.robot;
 
-import pers.factory.simpleFactory.robot.IRobot;
-
 /**
  * 扫地机器人
  */
