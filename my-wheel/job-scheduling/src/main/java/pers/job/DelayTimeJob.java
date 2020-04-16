@@ -57,7 +57,7 @@ public class DelayTimeJob implements Runnable, Delayed {
         }
         
         // 重新入队
-        time += delayTime;
+        time = System.currentTimeMillis() + delayTime;
         jobs.offer(this);
         return ;
     }
