@@ -4,7 +4,7 @@ package pers.singleton;
  * 内部类单例
  * 外部类加载时并不会立即加载内部类，内部类不加载，则不会触发单例的初始化
  * 优点：延迟加载，不使用则不用空间；没加锁，不影响性能
- * 缺点：没法动态给单例传参数
+ * 缺点：没法动态给单例传参数，多一个类文件 InnerClassSigleton$Holder.class
  */
 public class InnerClassSigleton {
 
@@ -16,7 +16,7 @@ public class InnerClassSigleton {
     }
 
     private Object readResolve(){
-        // 防止序列化破坏单例
+        // 防止序列化破坏单例，ObjectInputStream的readObject()最后会调到这个方法
         // 但序列化还是会创建新对象
         return Holder.instance;
     }
