@@ -32,5 +32,6 @@
         <module>my-zk-config-center-springboot-start-test</module>
         <module>my-juc</module>
         <module>my-util</module>
+        <module>job-scheduling-circle-queue</module>
     </modules>
 </project>
