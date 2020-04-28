@@ -1,24 +1,20 @@
 package pers.job;
 
-import com.sun.xml.internal.bind.v2.runtime.output.StAXExStreamWriterOutput;
-
-import java.text.DateFormat;
-import java.text.SimpleDateFormat;
-import java.util.*;
+import java.util.Set;
+import java.util.Timer;
+import java.util.TimerTask;
 import java.util.concurrent.CopyOnWriteArraySet;
 import java.util.concurrent.Executor;
 import java.util.concurrent.Executors;
-import java.util.concurrent.TimeUnit;
 
 /**
- * 六一信息科技
  *
- * @author chenken
+ * @author cck
  * @date 2020/4/27 20:07
  */
 public class JobActuator extends TimerTask {
 
-    private int index = 0;
+    private int index = -1;
     private Executor executor;
     private final Set<Job>[] circleQueue;
 
@@ -37,7 +33,7 @@ public class JobActuator extends TimerTask {
 
         // 计算时间应该在哪个slot
         long second = delay / 1000;
-        second += index - 1;
+        second += index;
         job.setCycleNum(second / 3600L);
         circleQueue[(int) (second % 3600)].add(job);
     }
@@ -45,7 +41,7 @@ public class JobActuator extends TimerTask {
     @Override
     public void run() {
 
-        Set<Job> jobHashSet = circleQueue[index++];
+        Set<Job> jobHashSet = circleQueue[++index];
         index %= circleQueue.length;
 
         // set是线程不安全的
@@ -59,30 +55,6 @@ public class JobActuator extends TimerTask {
             jobHashSet.remove(job);
             executor.execute(job);
         });
-
-    }
-
-    public static void main(String[] args) throws InterruptedException {
-
-        JobActuator jobActuator = new JobActuator();
-
-        SimpleDateFormat format = new SimpleDateFormat("HH:mm:ss");
-
-        for (int i = 0; i < 100; i += 4) {
-
-            Job job = new Job() {
-                @Override
-                public void run() {
-                    SimpleDateFormat format = new SimpleDateFormat("HH:mm:ss");
-                    System.out.println(format.format(new Date()));
-                }
-            };
-
-            // 中途加入的任务，延迟应该从当前时间算起
-            TimeUnit.SECONDS.sleep(5);
-            System.out.println("add job " + format.format(new Date()));
-            jobActuator.addJob(job,4000);
-        }
 
     }
 

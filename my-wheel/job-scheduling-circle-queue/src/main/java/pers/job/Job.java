@@ -3,9 +3,8 @@ package pers.job;
 import lombok.Setter;
 
 /**
- * 六一信息科技
  *
- * @author chenken
+ * @author cck
  * @date 2020/4/27 20:02
  */
 public abstract class Job implements Runnable {
