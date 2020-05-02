@@ -44,11 +44,11 @@ synchronized (this) {
 
 #### 注册订阅者的过程
 
-* 找出订阅者所有的添加了Subscribe注解的方法，封装为一个`Multimap`
+* 找出订阅者所有的添加了`Subscribe`注解的方法，封装为一个`Multimap`
 
   * 判断方法是不是只有一个参数，不是则报错
 
-* 将上边获取到的`Map`添加到已经subscribers的`Map`中。
+* 将上边获取到的`Map`添加到已经`subscribers`的`Map`中。
 
   ```
   Subscriber重写了hashCode和equal方法，同一个对象注册两次也只有一次的效果。
@@ -62,4 +62,4 @@ synchronized (this) {
 
   事件会入队，然后按照顺序一次处理。
 
-* 最后都是会调到`Subscriber#dispatchEvent`
+* 最后都是会到`Subscriber#dispatchEvent`

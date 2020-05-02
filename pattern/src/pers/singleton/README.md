@@ -6,7 +6,8 @@
 3. 注意反射破坏单例（重写构造方法，在构造方法中判断实例是否创建）
 4. 注意序列化破坏单例（重写readResolve方法，返回实例）
 
-| 例子                                    |
-| --------------------------------------- |
-| `spring`的`AbstractBeanFactory#getBean` |
+| 例子                                                         |
+| ------------------------------------------------------------ |
+| `spring`的`AbstractBeanFactory#getBean`                      |
+| `guava`的`MoreExecutors中`创建`DirectExecutor`使用的就是枚举式的单例 |
 
