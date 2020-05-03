@@ -9,8 +9,8 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 public class CustomEvent {
 
-    private EventType eventType;
+    protected EventType eventType;
 
-    private Object data;
+    protected Object data;
 
 }
