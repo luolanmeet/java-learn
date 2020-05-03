@@ -1,4 +1,4 @@
-package pers.className;
+package pers.clazz.name;
 
 import java.lang.reflect.Proxy;
 

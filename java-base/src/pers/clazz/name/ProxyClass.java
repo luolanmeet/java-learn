@@ -1,4 +1,4 @@
-package pers.className;
+package pers.clazz.name;
 
 import java.lang.reflect.InvocationHandler;
 import java.lang.reflect.Method;
