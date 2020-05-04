@@ -1,4 +1,4 @@
-package pers.jmm;
+package pers.jmm.outOfOrder;
 
 /**
  * 验证cpu乱序执行
@@ -13,9 +13,9 @@ package pers.jmm;
  *      join规则
  *      锁规则
  */
-public class OutOfOrderExecution {
+public class DemoOne {
 
-    private int a = 0, b = 0, c = 0;
+    private int a = 0, b = 0, c = 2;
 
     private void method() throws InterruptedException {
 
@@ -29,8 +29,8 @@ public class OutOfOrderExecution {
             });
 
             // 如果没有发生指令重排，
-            // 那么 b=1 的时候， a一定是等于1的，对应c应该被赋值为1.
-            // 如果 c=0，则证明出现指令重排。
+            // 那么 b的值为1时， a一定也被赋值为1，对应c应该被赋值为1.
+            // 如果出现 c=0，则证明出现指令重排。
             Thread t2 = new Thread(() -> {
                 if (b == 1) {
                     c = a;
@@ -40,18 +40,20 @@ public class OutOfOrderExecution {
             t1.start();t2.start();
             t1.join();t2.join();
 
+            System.out.println(a + " " + b + " " + c);
+
             time++;
             if (c == 0) {
                 System.out.println("第" + time + "次出现 a=" + a + " b=" + b + " c=" + c);
                 break;
             }
-            a = 0; b = 0; c = 0;
+            a = 0; b = 0; c = 2;
         }
 
     }
 
     public static void main(String[] args) throws InterruptedException {
-        new OutOfOrderExecution().method();
+        new DemoOne().method();
     }
 
 }
