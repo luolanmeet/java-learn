@@ -17,5 +17,6 @@
 
 #### 简单工厂的例子
 
-*  `Calendar.getInstance();`
-*  `LoggerFactory.getLogger("cck");`
+* `Calendar.getInstance();`
+* `LoggerFactory.getLogger("cck");`
+* `spring`的`aop`工厂`DfaultAopProxyFactory` 
