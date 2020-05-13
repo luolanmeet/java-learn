@@ -5,6 +5,7 @@ package pers.jmm.outOfOrder;
  *
  * as-if-serial只适用于单线程，因此在多线程可以验证cpu乱序执行，也就是指令重排。
  * http://www.cs.umd.edu/users/pugh/java/memoryModel/jsr-133-faq.html
+ * https://docs.oracle.com/javase/specs/jls/se8/html/jls-17.html#jls-17.4.5
  */
 public class DemoTwo {
 

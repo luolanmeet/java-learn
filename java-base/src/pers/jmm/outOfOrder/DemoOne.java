@@ -4,7 +4,8 @@ package pers.jmm.outOfOrder;
  * 验证cpu乱序执行
  *
  * as-if-serial只适用于单线程，因此在多线程可以验证cpu乱序执行，也就是指令重排。
- *
+ * 禁止 JIT
+ * -XX:CompileCommand=exclude,pers.jmm.outOfOrder.DemoOne::method
  * happen-before原则
  *      程序的顺序规则（一个线程内）
  *      volatile规则
