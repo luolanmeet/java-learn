@@ -1,4 +1,4 @@
-package com;
+package com.string;
 
 import java.util.List;
 import java.util.Map;

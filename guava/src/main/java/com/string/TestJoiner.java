@@ -1,4 +1,4 @@
-package com;
+package com.string;
 
 import java.util.ArrayList;
 import java.util.Arrays;

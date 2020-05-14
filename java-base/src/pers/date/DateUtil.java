@@ -4,6 +4,7 @@ import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.ParsePosition;
 import java.text.SimpleDateFormat;
+import java.util.Calendar;
 import java.util.Date;
 import java.util.Optional;
 
@@ -59,6 +60,21 @@ public class DateUtil {
         return Optional.of(dateFormat.parse(dateStr, new ParsePosition(index)));
     }
 
+    /**
+     * 获取 10分钟整的日期
+     * @return
+     */
+    public static Date getTenMinData() {
+
+        // 每10分钟执行一次，获取 10 的整数倍分钟的时间
+        Calendar ca = Calendar.getInstance();
+        int minute = ca.get(Calendar.MINUTE);
+        ca.set(Calendar.MINUTE, minute / 10 * 10);
+        ca.set(Calendar.SECOND, 0);
+        ca.set(Calendar.MILLISECOND, 0);
+        return ca.getTime();
+    }
+
     public static void main(String[] args) {
 
         System.out.println(DateUtil.formatDate(new Date()));
@@ -68,6 +84,8 @@ public class DateUtil {
 
         dateOp = DateUtil.dateStr2Date("1234 2020年03月13日 21:37:51", 4);
         dateOp.ifPresent(System.out::println);
+
+        System.out.println(getTenMinData());
     }
 
 }
