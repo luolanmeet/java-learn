@@ -26,5 +26,6 @@
         <module>spring-boot</module>
         <module>spring-cloud</module>
         <module>spring-ioc</module>
+        <module>spring-statemachine</module>
     </modules>
 </project>
