@@ -11,6 +11,7 @@
     <modules>
         <module>origin-http</module>
         <module>okhttp</module>
+        <module>resttemplate</module>
     </modules>
 
     <build>
