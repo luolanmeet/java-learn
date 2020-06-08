@@ -6,6 +6,7 @@ import org.springframework.http.*;
 import org.springframework.web.client.RestTemplate;
 
 import java.nio.charset.StandardCharsets;
+import java.util.Collections;
 
 @ComponentScan("pers")
 public class Application {
@@ -15,21 +16,21 @@ public class Application {
         AnnotationConfigApplicationContext context = new AnnotationConfigApplicationContext(Application.class);
         RestTemplate restTemplate = context.getBean(RestTemplate.class);
 
-//        getForEntity(restTemplate);
-//        postForEntity(restTemplate);
+        getForEntity(restTemplate);
+        postForEntity(restTemplate);
         exchange(restTemplate);
     }
 
     private static void exchange(RestTemplate restTemplate) {
-        String url = "https://fanyi.baidu.com/sug";
-        HttpEntity requestEntity = getHttpEntity();
+        String url = "https://www.baidu.com";
+        HttpEntity requestEntity = getHttpEntity("");
         ResponseEntity<String> responseEntity = restTemplate.exchange(url, HttpMethod.POST, requestEntity, String.class);
         print(responseEntity);
     }
 
     private static void postForEntity(RestTemplate restTemplate) {
         String url = "https://fanyi.baidu.com/sug";
-        HttpEntity requestEntity = getHttpEntity();
+        HttpEntity requestEntity = getHttpEntity("");
         ResponseEntity<String> responseEntity = restTemplate.postForEntity(url, requestEntity, String.class);
         print(responseEntity);
     }
@@ -40,11 +41,14 @@ public class Application {
         print(responseEntity);
     }
 
-    private static HttpEntity getHttpEntity() {
+    private static HttpEntity<String> getHttpEntity(String param) {
+
         HttpHeaders headers = new HttpHeaders();
-        headers.set(HttpHeaders.CONTENT_TYPE, MediaType.APPLICATION_FORM_URLENCODED_VALUE);
-        headers.set(HttpHeaders.ACCEPT_CHARSET, StandardCharsets.UTF_8.name());
-        return new HttpEntity("kw:人生", headers);
+        headers.setContentType(MediaType.APPLICATION_JSON);
+        headers.setAccept(Collections.singletonList(MediaType.APPLICATION_JSON));
+        headers.setAcceptCharset(Collections.singletonList(StandardCharsets.UTF_8));
+
+        return new HttpEntity<>(param, headers);
     }
 
     private static void print(ResponseEntity<String> responseEntity) {
