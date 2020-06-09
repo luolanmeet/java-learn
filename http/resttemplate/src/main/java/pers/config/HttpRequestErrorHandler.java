@@ -1,14 +1,16 @@
 package pers.config;
 
 import org.springframework.http.client.ClientHttpResponse;
-import org.springframework.web.client.ResponseErrorHandler;
+import org.springframework.web.client.DefaultResponseErrorHandler;
 
 import java.io.IOException;
 
 /**
- * 也可继承  DefaultResponseErrorHandler
+ * 也可实现 ResponseErrorHandler 接口
+ * ResponseErrorHandler 只能才处理请求之后，响应不是成功的场景
+ * 像程序出现异常是不会进入这里的流程的
  */
-public class ErrorHandlerOne implements ResponseErrorHandler {
+public class HttpRequestErrorHandler extends DefaultResponseErrorHandler {
 
     /**
      * 判断是否是错误的响应
@@ -19,7 +21,7 @@ public class ErrorHandlerOne implements ResponseErrorHandler {
     @Override
     public boolean hasError(ClientHttpResponse response) throws IOException {
         System.out.println("method : hasError");
-        return false;
+        return super.hasError(response);
     }
 
     /**

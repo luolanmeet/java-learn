@@ -1,6 +1,5 @@
 package pers.config;
 
-import com.alibaba.fastjson.support.spring.FastJsonHttpMessageConverter;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.http.client.SimpleClientHttpRequestFactory;
@@ -31,7 +30,7 @@ public class RestTemplateConfig {
         setEncode(restTemplate);
 
         // 设置错误处理
-        restTemplate.setErrorHandler(new ErrorHandlerOne());
+        restTemplate.setErrorHandler(new HttpRequestErrorHandler());
 
         return restTemplate;
     }
