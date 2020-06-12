@@ -27,10 +27,12 @@ public class Application {
     
     private static void testBeanLifeCycle(ClassPathXmlApplicationContext applicationContext) {
 
+        /*------------BeanFactoryPostProcessor,在BeanDefinition创建好后进行一些增强-------------*/
         //    BeanDefinitionRegistryPostProcessor#postProcessBeanDefinitionRegistry
         // -> BeanDefinitionRegistryPostProcessor#postProcessBeanFactory
         // -> BeanFactoryPostProcessor#postProcessBeanFactory
 
+        /*------------Bean的声明周期实际上去看BeanFactory类的注释就有了-------------*/
         // Bean实例化前后
         // -> InstantiationAwareBeanPostProcessor#postProcessBeforeInstantiation
         // -> InstantiationAwareBeanPostProcessor#postProcessAfterInstantiation
@@ -79,7 +81,9 @@ public class Application {
     }
     
     private static void testFactoryBean(ClassPathXmlApplicationContext applicationContext) {
-    
+
+        /*---------------FactoryBean是用来创建一些复杂的Bean的，Spring Cloud 的 Feign就是了-------------------*/
+
         // 拿到的是UserFactoryBean产生的User实例
         User user1 = (User) applicationContext.getBean("user");
         System.out.println(user1);
