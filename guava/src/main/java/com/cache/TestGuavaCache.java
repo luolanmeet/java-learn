@@ -15,10 +15,33 @@ public class TestGuavaCache {
     static Integer userId = 1;
     static User user = User.builder().id(userId).name("cck").build();
 
-    public static void main(String[] args) {
+    public static void main(String[] args) throws InterruptedException {
 
-        testBase();
+        // 如果作为全局缓存，应该要考虑到数据可能会被修改，相同的如ehcache
 
+        Cache<Integer, User> cache = CacheBuilder.newBuilder().build();
+        cache.put(userId, user);
+
+        Thread t1 = new Thread(() -> {
+            User tmpUser = cache.getIfPresent(userId);
+            tmpUser.setName(tmpUser.getName() + 1);
+            System.out.println(tmpUser);
+        });
+        Thread t2 = new Thread(() -> {
+            User tmpUser = cache.getIfPresent(userId);
+            tmpUser.setName(tmpUser.getName() + 2);
+            System.out.println(tmpUser);
+        });
+
+        t1.start();t2.start();
+        t1.join();t2.join();
+        System.out.println(cache.getIfPresent(userId));
+
+//        testBase();
+//        testTTL();
+    }
+
+    private static void testTTL() {
         // 设置大小
         Cache<Integer, User> cache = CacheBuilder.newBuilder()
                 .expireAfterWrite(3, TimeUnit.SECONDS)  // 添加后3秒过期
