@@ -11,5 +11,6 @@
   <modules>
   	<module>origin-rabbitmq</module>
   	<module>springboot-rabbitmq</module>
+    <module>springboot-rabbitmq-multiple-data-source</module>
   </modules>
 </project>
