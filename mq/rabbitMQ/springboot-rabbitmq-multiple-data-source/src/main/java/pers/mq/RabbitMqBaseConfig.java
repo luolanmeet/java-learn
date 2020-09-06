@@ -2,6 +2,8 @@ package pers.mq;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.amqp.core.AcknowledgeMode;
+import org.springframework.amqp.rabbit.config.SimpleRabbitListenerContainerFactory;
 import org.springframework.amqp.rabbit.connection.CachingConnectionFactory;
 import org.springframework.amqp.rabbit.connection.ConnectionFactory;
 import org.springframework.amqp.rabbit.core.RabbitTemplate;
@@ -12,9 +14,9 @@ import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Primary;
 
 @Configuration
-public class MqConfig {
+public class RabbitMqBaseConfig {
 
-    private Logger LOGGER = LoggerFactory.getLogger(MqConfig.class);
+    private Logger LOGGER = LoggerFactory.getLogger(RabbitMqBaseConfig.class);
 
     @Primary
     @Bean(name = "rabbitMqConnectionFactoryOne")
@@ -26,14 +28,25 @@ public class MqConfig {
             @Value("${spring.rabbitmq.one.publisher-confirms}") Boolean publisherConfirms,
             @Value("${spring.rabbitmq.one.publisher-returns}") Boolean publisherReturns){
 
-        CachingConnectionFactory connectionFactory = buildCachingConnectionFactory(
+        return buildCachingConnectionFactory(
                 host, port, username, password, publisherConfirms, publisherReturns);
+    }
 
-        return connectionFactory;
+    @Bean(name = "rabbitMqConnectionFactoryTwo")
+    public CachingConnectionFactory rabbitMqConnectionFactoryTwo(
+            @Value("${spring.rabbitmq.two.host}") String host,
+            @Value("${spring.rabbitmq.two.port}") Integer port,
+            @Value("${spring.rabbitmq.two.username}") String username,
+            @Value("${spring.rabbitmq.two.password}") String password,
+            @Value("${spring.rabbitmq.two.publisher-confirms}") Boolean publisherConfirms,
+            @Value("${spring.rabbitmq.two.publisher-returns}") Boolean publisherReturns){
+
+        return buildCachingConnectionFactory(
+                host, port, username, password, publisherConfirms, publisherReturns);
     }
 
     @Primary
-    @Bean
+    @Bean(name = "rabbitTemplateOne")
     public RabbitTemplate rabbitTemplateOne(
             @Qualifier("rabbitMqConnectionFactoryOne") ConnectionFactory connectionFactory){
         RabbitTemplate rabbitTemplate = new RabbitTemplate();
@@ -51,21 +64,6 @@ public class MqConfig {
         return rabbitTemplate;
     }
 
-    @Bean(name = "rabbitMqConnectionFactoryTwo")
-    public CachingConnectionFactory rabbitMqConnectionFactoryTwo(
-            @Value("${spring.rabbitmq.two.host}") String host,
-            @Value("${spring.rabbitmq.two.port}") Integer port,
-            @Value("${spring.rabbitmq.two.username}") String username,
-            @Value("${spring.rabbitmq.two.password}") String password,
-            @Value("${spring.rabbitmq.two.publisher-confirms}") Boolean publisherConfirms,
-            @Value("${spring.rabbitmq.two.publisher-returns}") Boolean publisherReturns){
-
-        CachingConnectionFactory connectionFactory = buildCachingConnectionFactory(
-                host, port, username, password, publisherConfirms, publisherReturns);
-
-        return connectionFactory;
-    }
-
     @Bean
     public RabbitTemplate rabbitTemplateTwo(
             @Qualifier("rabbitMqConnectionFactoryTwo") ConnectionFactory connectionFactory){
@@ -74,9 +72,35 @@ public class MqConfig {
         return rabbitTemplate;
     }
 
+    @Bean(name = "containerFactoryOne")
+    public SimpleRabbitListenerContainerFactory containerFactoryOne(
+            @Qualifier("rabbitMqConnectionFactoryOne") ConnectionFactory connectionFactory){
+        return buildContainerFactory(connectionFactory);
+    }
+
+    @Bean(name = "containerFactoryTwo")
+    public SimpleRabbitListenerContainerFactory containerFactoryTwo(
+            @Qualifier("rabbitMqConnectionFactoryTwo") ConnectionFactory connectionFactory){
+        return buildContainerFactory(connectionFactory);
+    }
+
+    private SimpleRabbitListenerContainerFactory buildContainerFactory(
+            ConnectionFactory connectionFactory) {
+
+        SimpleRabbitListenerContainerFactory factory = new SimpleRabbitListenerContainerFactory();
+        factory.setConnectionFactory(connectionFactory);
+        factory.setAcknowledgeMode(AcknowledgeMode.AUTO);
+        factory.setConcurrentConsumers(5);
+        factory.setMaxConcurrentConsumers(5);
+        factory.setPrefetchCount(2);
+        factory.setDefaultRequeueRejected(true);
+        return factory;
+    }
+
     private CachingConnectionFactory buildCachingConnectionFactory(
             String host, Integer port,String username,
-            String password,Boolean publisherConfirms, Boolean publisherReturns) {
+            String password,Boolean publisherConfirms,
+            Boolean publisherReturns) {
 
         CachingConnectionFactory connectionFactory = new CachingConnectionFactory();
         connectionFactory.setHost(host);

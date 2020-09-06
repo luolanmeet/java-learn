@@ -10,6 +10,10 @@ import java.util.Map;
 @Configuration
 public class RabbitMqConfig {
 
+    /**
+     * TODO 这里为默认的MQ服务创建交换器，多数据源时，如何指定MQ服务？
+     * @return
+     */
     @Bean
     public CustomExchange delayExchange() {
         Map<String, Object> args = new HashMap<>();
