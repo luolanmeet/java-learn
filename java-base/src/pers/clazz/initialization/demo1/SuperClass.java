@@ -6,6 +6,6 @@ public class SuperClass {
         System.out.println("SuperClass init!");
     }
 
-    public static int value = 123;
+    static int value = 123;
 
 }
