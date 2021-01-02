@@ -13,12 +13,22 @@
 		<dependency>
 			<groupId>org.apache.poi</groupId>
 			<artifactId>poi</artifactId>
-			<version>3.17</version>
+			<version>4.1.2</version>
+		</dependency>
+		<dependency>
+			<groupId>org.apache.poi</groupId>
+			<artifactId>poi-ooxml</artifactId>
+			<version>4.1.2</version>
+		</dependency>
+		<dependency>
+			<groupId>org.apache.poi</groupId>
+			<artifactId>poi-ooxml-schemas</artifactId>
+			<version>4.1.2</version>
 		</dependency>
 		<dependency>
 			<groupId>poi</groupId>
 			<artifactId>poi-scratchpad</artifactId>
-			<version>3.1-FINAL</version>
+			<version>4.1.2</version>
 		</dependency>
 
 		<dependency>
