@@ -4,6 +4,7 @@ import java.time.*;
 import java.time.temporal.ChronoUnit;
 import java.time.temporal.TemporalAdjusters;
 import java.util.Date;
+import java.util.function.Function;
 
 /**
  * LocalDate LocalDateTime Java8中提供的很好用的日期工具
@@ -251,6 +252,55 @@ public class LocalDateUtil {
         return ld2ms(ms2ld(ms), true);
     }
 
+    public static void beforeAfterApi() {
+
+        /**
+         *
+         *   time  -------10:00-------11:00--------->
+         *                left        right
+         *     isAfter【之后】 和 isBefore【之前】，是相对调用方法的对象而言的。
+         *     left.isBefore(right) -> true1   10点在11点之前，是对的
+         *     left.isAfter(right) -> false    10点在11点之后，是错的
+         *
+         *     和自己比较是会返回false
+         *          left.isAfter(left) -> false
+         *          left.isBefore(left) -> false
+         *     要判断 (left, right) 应该是
+         *          left.isBefore(ldt) && right.isAfter(ldt) 或 ldt.isAfter(left) && ldt.isBefore(right)
+         *     要判断 [left, right) 应该是
+         *          !left.isAfter(ldt) && right.isAfter(ldt) 或 !ldt.isBefore(left) && ldt.isBefore(right)
+         *     要判断 (left, right] 应该是
+         *          left.isBefore(ldt) && !right.isBefore(ldt) 或 ldt.isAfter(left) && !ldt.isAfter(right)
+         *     要判断 [left, right] 应该是
+         *          !left.isAfter(ldt) && !right.isBefore(ldt) 或 !ldt.isBefore(left) && !ldt.isAfter(right)
+         */
+        LocalDate now = LocalDate.now();
+        LocalDateTime left = now.atTime(10, 0, 0);
+        LocalDateTime right = now.atTime(11, 0, 0);
+
+        Function<LocalDateTime, Boolean> function = ldt -> !ldt.isBefore(left) && !ldt.isAfter(right);
+
+        // 左边
+        LocalDateTime ldt = now.atTime(9, 0, 0);
+        if (function.apply(ldt)) System.out.println("左边");
+
+        // 左边界
+        ldt = now.atTime(10, 0, 0);
+        if (function.apply(ldt)) System.out.println("左边界");
+
+        // 中间
+        ldt = now.atTime(10, 0, 1);
+        if (function.apply(ldt)) System.out.println("中间");
+
+        // 右边界
+        ldt = now.atTime(11, 0, 0);
+        if (function.apply(ldt)) System.out.println("右边界");
+
+        // 右边
+        ldt = now.atTime(11, 0, 1);
+        if (function.apply(ldt)) System.out.println("右边");
+    }
+
     public static void main(String[] args) {
 
         System.out.println(isSaturday(1546642800000L)); // 2019-01-05 07:00:00
@@ -305,6 +355,9 @@ public class LocalDateUtil {
 
         System.out.println(ms2ld(System.currentTimeMillis()));
         System.out.println(ms2ld(System.currentTimeMillis() - ChronoUnit.DAYS.getDuration().toMillis()));
+        System.out.println();
+
+        beforeAfterApi();
         System.out.println();
     }
 

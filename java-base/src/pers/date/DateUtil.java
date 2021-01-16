@@ -75,6 +75,26 @@ public class DateUtil {
         return ca.getTime();
     }
 
+    /**
+     * Date 转 Calendar
+     * @param date
+     * @return
+     */
+    public static Calendar date2Cal(Date date) {
+        Calendar cal = Calendar.getInstance();
+        cal.setTime(date);
+        return cal;
+    }
+
+    /**
+     * Calendar 转 Date
+     * @param cal
+     * @return
+     */
+    public static Date cal2Date(Calendar cal) {
+        return cal.getTime();
+    }
+
     public static void main(String[] args) {
 
         System.out.println(DateUtil.formatDate(new Date()));
