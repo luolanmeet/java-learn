@@ -1,6 +1,7 @@
 package pers.date;
 
 import java.time.*;
+import java.time.format.DateTimeFormatter;
 import java.time.temporal.ChronoUnit;
 import java.time.temporal.TemporalAdjusters;
 import java.util.Date;
@@ -252,6 +253,27 @@ public class LocalDateUtil {
         return ld2ms(ms2ld(ms), true);
     }
 
+    /**
+     * LocalDateTime 转 时间字符串
+     * @param ldt
+     * @return
+     */
+    public static String getDTStr(LocalDateTime ldt) {
+        DateTimeFormatter dtFormat = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
+        return ldt.format(dtFormat);
+    }
+
+    /**
+     * 时间字符串 转 LocalDateTime
+     * @param pattern
+     * @param ldtStr
+     * @return
+     */
+    public static LocalDateTime getLdt(String ldtStr, String pattern) {
+        DateTimeFormatter dtFormat = DateTimeFormatter.ofPattern(pattern);
+        return LocalDateTime.parse(ldtStr, dtFormat);
+    }
+
     public static void beforeAfterApi() {
 
         /**
@@ -355,6 +377,12 @@ public class LocalDateUtil {
 
         System.out.println(ms2ld(System.currentTimeMillis()));
         System.out.println(ms2ld(System.currentTimeMillis() - ChronoUnit.DAYS.getDuration().toMillis()));
+        System.out.println();
+
+        System.out.println(getDTStr(LocalDateTime.now()));
+        System.out.println();
+
+        System.out.println(getLdt("2020-12-30 12:30:00", "yyyy-MM-dd HH:mm:ss"));
         System.out.println();
 
         beforeAfterApi();
