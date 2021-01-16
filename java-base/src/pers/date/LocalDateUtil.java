@@ -280,13 +280,13 @@ public class LocalDateUtil {
          *
          *   time  -------10:00-------11:00--------->
          *                left        right
-         *     isAfter【之后】 和 isBefore【之前】，是相对调用方法的对象而言的。
-         *     left.isBefore(right) -> true1   10点在11点之前，是对的
+         *     isBefore【之前】 和 isAfter【之后】，是相对调用方法的对象而言的。
+         *     left.isBefore(right) -> true    10点在11点之前，是对的
          *     left.isAfter(right) -> false    10点在11点之后，是错的
-         *
          *     和自己比较是会返回false
          *          left.isAfter(left) -> false
          *          left.isBefore(left) -> false
+         *
          *     要判断 (left, right) 应该是
          *          left.isBefore(ldt) && right.isAfter(ldt) 或 ldt.isAfter(left) && ldt.isBefore(right)
          *     要判断 [left, right) 应该是
