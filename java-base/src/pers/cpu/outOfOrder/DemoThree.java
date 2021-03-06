@@ -1,4 +1,4 @@
-package pers.jmm.outOfOrder;
+package pers.cpu.outOfOrder;
 
 /**
  * 验证指令重排，类的创建过程（DCL单例需要添加volatile的原因）

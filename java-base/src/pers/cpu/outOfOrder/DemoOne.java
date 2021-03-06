@@ -1,4 +1,4 @@
-package pers.jmm.outOfOrder;
+package pers.cpu.outOfOrder;
 
 /**
  * 验证cpu乱序执行

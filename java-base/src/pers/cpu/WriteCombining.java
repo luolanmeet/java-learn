@@ -1,4 +1,4 @@
-package pers.jmm;
+package pers.cpu;
 
 import static java.lang.System.out;
 

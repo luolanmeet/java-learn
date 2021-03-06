@@ -1,14 +1,19 @@
-package pers.jmm.falseSharing;
+package pers.cpu.falseSharing;
+
+import sun.misc.Contended;
 
 /**
  * 验证缓存行，伪共享
+ * 使用 @Contended 避免
+ * 需要设置 -XX:-RestrictContended
+ *
+ * Java9就不允许使用这个注释了
  */
-public class DemoTwo {
+public class DemoThree {
 
     public static class T {
-        long p1, p2, p3, p4, p5, p6;
+        @Contended
         volatile long x;
-        long p7, p8, p9, p10, p11, p12;
     }
 
     T[] ts = new T[2];
@@ -35,7 +40,7 @@ public class DemoTwo {
     }
 
     public static void main(String[] args) throws InterruptedException {
-        new DemoTwo().method();
+        new DemoThree().method();
     }
 
 }

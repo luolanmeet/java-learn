@@ -1,12 +1,14 @@
-package pers.jmm.falseSharing;
+package pers.cpu.falseSharing;
 
 /**
  * 验证缓存行，伪共享
  */
-public class DemoOne {
+public class DemoTwo {
 
     public static class T {
+        long p1, p2, p3, p4, p5, p6;
         volatile long x;
+        long p7, p8, p9, p10, p11, p12;
     }
 
     T[] ts = new T[2];
@@ -33,7 +35,7 @@ public class DemoOne {
     }
 
     public static void main(String[] args) throws InterruptedException {
-        new DemoOne().method();
+        new DemoTwo().method();
     }
 
 }
