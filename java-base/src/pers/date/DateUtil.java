@@ -6,6 +6,7 @@ import java.text.ParsePosition;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
+import java.util.LinkedHashMap;
 import java.util.Optional;
 
 public class DateUtil {
@@ -95,7 +96,57 @@ public class DateUtil {
         return cal.getTime();
     }
 
-    public static void main(String[] args) {
+    private static final long ONE_DAY_MILLI = 24 * 60 * 60 * 1000L;
+
+    /**
+     * 分割日期，将时间范围分割为 以天为单位的时间范围
+     * @param leftDayStr yyyy-MM-dd HH:mm:ss
+     * @param rightDayStr yyyy-MM-dd HH:mm:ss
+     * @return
+     */
+    public static LinkedHashMap<String, String> spiltDate(String leftDayStr, String rightDayStr) throws ParseException {
+
+        SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+
+        Date leftDate = dateFormat.parse(leftDayStr);
+        Calendar leftCal = Calendar.getInstance();
+        leftCal.setTime(leftDate);
+
+        Date rightDate = dateFormat.parse(rightDayStr);
+        Calendar rightCal = Calendar.getInstance();
+        rightCal.setTime(rightDate);
+
+        LinkedHashMap<String, String> result = new LinkedHashMap<>();
+        if (rightCal.getTime().getTime() - leftCal.getTime().getTime() < ONE_DAY_MILLI) {
+            result.put(dateFormat.format(leftCal.getTime()), dateFormat.format(rightCal.getTime()));
+            return result;
+        }
+
+        String key = dateFormat.format(leftCal.getTime());
+        leftCal.add(Calendar.DATE, 1); // 加1天
+        leftCal.set(Calendar.HOUR_OF_DAY, 0);
+        leftCal.set(Calendar.MINUTE, 0);
+        leftCal.set(Calendar.SECOND, 0);
+        leftCal.set(Calendar.MILLISECOND, 0);
+        leftCal.add(Calendar.SECOND, -1); // 减1秒，变成昨天
+        String value = dateFormat.format(leftCal.getTime());
+        result.put(key, value);
+        leftCal.add(Calendar.SECOND, 1); // 加1秒，变成明天
+
+        while (rightCal.getTime().getTime() - leftCal.getTime().getTime() >= ONE_DAY_MILLI) {
+            key = dateFormat.format(leftCal.getTime());
+            leftCal.add(Calendar.DATE, 1);
+            leftCal.add(Calendar.SECOND, -1);
+            value = dateFormat.format(leftCal.getTime());
+            result.put(key, value);
+            leftCal.add(Calendar.SECOND, 1);
+        }
+
+        result.put(dateFormat.format(leftCal.getTime()), dateFormat.format(rightCal.getTime()));
+        return result;
+    }
+
+    public static void main(String[] args) throws ParseException {
 
         System.out.println(DateUtil.formatDate(new Date()));
 
@@ -106,6 +157,9 @@ public class DateUtil {
         dateOp.ifPresent(System.out::println);
 
         System.out.println(getTenMinData());
+
+        spiltDate("2021-03-30 21:37:51", "2021-04-04 00:00:00")
+                .forEach((k, v) ->  System.out.println(k + " 至 " + v));
     }
 
 }
