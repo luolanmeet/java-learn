@@ -10,3 +10,8 @@
 * 空间局部性
 > 当前指令和邻近的几条指令，当前访问的数据和邻近的几个数据
 都集中在一个较小区域内。
+
+
+https://lwn.net/Articles/255364/
+
+https://mechanical-sympathy.blogspot.com/2012/08/memory-access-patterns-are-important.html
