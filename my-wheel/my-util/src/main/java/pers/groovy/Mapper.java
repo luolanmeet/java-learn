@@ -51,6 +51,7 @@ public class Mapper {
         MapperDetail mapperDetail = MapperDetail.getSimpleMapperDetail(mapperStr);
         String parent = mapperDetail.getParent();
 
+        // 注册需要声明的变量
         variablesManager.registerVariablesType(mapperDetail.getTargetVal(), mapperDetail.getTargetFieldType());
 
         // 有父节点，表示未到最小解析字段
@@ -101,8 +102,12 @@ public class Mapper {
             buildMapperScript(builder, originParentPath, targetParentField, FieldType.OBJECT, level, mapperDetail);
         }
 
+        builder.appendEnter();
+
         // 拼接对象
         for (Map.Entry<String, Mapper> mapperEntry : childMapper.entrySet()) {
+
+            builder.appendEnter();
 
             Mapper mapper = mapperEntry.getValue();
             if (!GroovyUtil.isArray(mapper.type)) {
@@ -112,20 +117,27 @@ public class Mapper {
 
             // 基础类型数组
             if (GroovyUtil.isBaseTypeArray(mapper.type)) {
+
+                // 先创建变量
+                buildVariables(builder, targetParentField, level, mapper.baseArrayMapperDetails);
+
+                int originArrayVariablesNo = variablesManager.getOriginArrayVariablesNo();
+                String itemVariables = "item" + originArrayVariablesNo;
+
                 // 数组
-                builder.appendWithSpaceEnter("for (def item : " + originParentPath + "?." + mapper.getField() + ") {", level);
-                buildMapperScript(builder, "item", targetParentField, FieldType.OBJECT_ARRAY, level + 1, mapper.baseArrayMapperDetails);
+                builder.appendWithSpaceEnter("for (def "+ itemVariables + " : " + originParentPath + "?." + mapper.getField() + ") {", level);
+                buildMapperScript(builder, itemVariables, targetParentField, FieldType.OBJECT_ARRAY, level + 1, mapper.baseArrayMapperDetails);
                 builder.appendWithSpaceEnter("}", level);
                 continue;
             }
 
-            // TODO
-            // 数组
+            // 对象数组
             builder.appendWithSpaceEnter("for (def item : " + originParentPath + "?." + mapper.getField() + ") {", level);
             mapper.buildScript(builder, "item", targetParentField, level + 1);
             builder.appendWithSpaceEnter("}", level);
         }
 
+        builder.appendEnter();
     }
 
     private void buildMapperScript(
@@ -133,6 +145,11 @@ public class Mapper {
             String targetParentField, String targetParentFieldType,
             int level, MapperDetail mapperDetail) {
 
+        targetParentField = buildVariables(builder, targetParentField, level, mapperDetail);
+        mapperDetail.buildScript(builder, originParentPath, targetParentField, targetParentFieldType, level);
+    }
+
+    private String buildVariables(GroovyBuilder builder, String targetParentField, int level, MapperDetail mapperDetail) {
         String targetVal = mapperDetail.getTargetVal();
         String[] fields = targetVal.split(GroovyConstant.POINT_SPLIT);
 
@@ -143,8 +160,7 @@ public class Mapper {
             targetParentField = variablesManager.registerVariables(
                     builder, tmpFieldPath.toString(), targetParentField, field, level);
         }
-
-        mapperDetail.buildScript(builder, originParentPath, targetParentField, targetParentFieldType, level);
+        return targetParentField;
     }
 
     public String getField() {

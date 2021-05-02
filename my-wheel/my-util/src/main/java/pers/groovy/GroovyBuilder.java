@@ -9,6 +9,11 @@ import static pers.groovy.GroovyConstant.SPACE4;
  */
 public class GroovyBuilder {
 
+    /**
+     * 控制填充回车
+     */
+    boolean hasEnter = false;
+
     private final StringBuilder groovy = new StringBuilder();
 
     public static GroovyBuilder builder() {
@@ -27,16 +32,27 @@ public class GroovyBuilder {
         return this;
     }
 
+    public GroovyBuilder appendEnter() {
+        if (!hasEnter) {
+            groovy.append(ENTER);
+        }
+        hasEnter = true;
+        return this;
+    }
+
     public GroovyBuilder appendWithEnter(String str) {
+        hasEnter = false;
         groovy.append(str).append(ENTER);
         return this;
     }
 
     public GroovyBuilder appendWithSpaceEnter(String str) {
+        hasEnter = false;
         return this.append(SPACE4).append(str).append(ENTER);
     }
 
     public GroovyBuilder appendWithSpaceEnter(String str, int level) {
+        hasEnter = false;
         while (level-- > 0) {
             this.append(SPACE4);
         }

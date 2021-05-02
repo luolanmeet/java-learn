@@ -16,7 +16,9 @@ public class Test {
         List<String> mapperStrs = new ArrayList<>();
 
         mapperStrs.add("id:int:baseinfo.id1:int;");
-//        mapperStrs.add("name:string:baseinfo.name1:string;");
+        mapperStrs.add("name:string:baseinfo.name1:string;");
+        mapperStrs.add("friend.id:int:friend1.id:int;");
+        mapperStrs.add("friend.name:string:friend1.name:string;");
         mapperStrs.add("hobby:stringArray:baseinfo.hobby1:stringArray;");
 
         VariablesManager variablesManager = new VariablesManager();
@@ -26,7 +28,7 @@ public class Test {
             mapper.addChild(mapperStr);
         }
 
-        builder.appendWithSpaceEnter("");
+        builder.appendWithSpaceEnter("", 0);
         mapper.buildScript(builder, "jsonObject", "target", 1);
         System.out.println(builder.build());
     }
