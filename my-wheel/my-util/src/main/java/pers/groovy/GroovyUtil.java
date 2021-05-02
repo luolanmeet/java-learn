@@ -14,6 +14,11 @@ public class GroovyUtil {
      * @return
      */
     public static boolean isArray(String fieldType) {
+
+        if (fieldType == null || fieldType.isEmpty()) {
+            return false;
+        }
+
         return fieldType.endsWith(ARRAY);
     }
 
@@ -21,6 +26,11 @@ public class GroovyUtil {
      * 是否为基本数据类
      */
     public static boolean isBaseTypeArray(String fieldType) {
+
+        if (fieldType == null || fieldType.isEmpty()) {
+            return false;
+        }
+
         return !fieldType.equals(FieldType.OBJECT_ARRAY);
     }
 

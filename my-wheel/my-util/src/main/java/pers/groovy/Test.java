@@ -15,11 +15,21 @@ public class Test {
         GroovyBuilder builder = GroovyBuilder.builder();
         List<String> mapperStrs = new ArrayList<>();
 
+        // 基本属性转对象
         mapperStrs.add("id:int:baseinfo.id1:int;");
         mapperStrs.add("name:string:baseinfo.name1:string;");
-        mapperStrs.add("friend.id:int:friend1.id:int;");
-        mapperStrs.add("friend.name:string:friend1.name:string;");
+        // 基本类型数组转基本类型数组
         mapperStrs.add("hobby:stringArray:baseinfo.hobby1:stringArray;");
+
+        // 对象转对象
+        mapperStrs.add("bestFriend.id:int:bestFriend1.id:int;");
+        mapperStrs.add("bestFriend.name:string:bestFriend1.name:string;");
+
+
+        // 对象数组转对象数组
+        mapperStrs.add("friends:objectArray:friends1:objectArray;");
+        mapperStrs.add("friends.id:int:friends1.id:int;");
+        mapperStrs.add("friends.name:string:friends1.name:string;");
 
         VariablesManager variablesManager = new VariablesManager();
         Mapper mapper = new Mapper("jsonObject", FieldType.OBJECT, variablesManager);

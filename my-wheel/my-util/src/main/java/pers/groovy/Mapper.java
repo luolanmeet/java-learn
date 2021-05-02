@@ -87,12 +87,9 @@ public class Mapper {
             mapper.setType(mapperDetail.getOriginFieldType());
         }
 
-        // 如果是基本数据类型的数组，则也设置映射关系
-        if (GroovyUtil.isBaseTypeArray(mapperDetail.getOriginFieldType())) {
-            mapperDetail.setOriginVal("");
-            mapper.baseArrayMapperDetails = mapperDetail;
-        }
-
+        // 如果是类型的数组，则也设置映射关系
+        mapperDetail.setOriginVal("");
+        mapper.baseArrayMapperDetails = mapperDetail;
     }
 
     public void buildScript(GroovyBuilder builder, String originParentPath, String targetParentField, int level) {
@@ -102,12 +99,10 @@ public class Mapper {
             buildMapperScript(builder, originParentPath, targetParentField, FieldType.OBJECT, level, mapperDetail);
         }
 
-        builder.appendEnter();
-
         // 拼接对象
         for (Map.Entry<String, Mapper> mapperEntry : childMapper.entrySet()) {
 
-            builder.appendEnter();
+            builder.appendWithEnter("");
 
             Mapper mapper = mapperEntry.getValue();
             if (!GroovyUtil.isArray(mapper.type)) {
@@ -115,15 +110,15 @@ public class Mapper {
                 continue;
             }
 
+            // 遍历数组类型时的变量名
+            int originArrayVariablesNo = variablesManager.getOriginArrayVariablesNo();
+            String itemVariables = "item" + originArrayVariablesNo;
+
+            // 先创建变量
+            buildVariables(builder, targetParentField, level, mapper.baseArrayMapperDetails);
+
             // 基础类型数组
             if (GroovyUtil.isBaseTypeArray(mapper.type)) {
-
-                // 先创建变量
-                buildVariables(builder, targetParentField, level, mapper.baseArrayMapperDetails);
-
-                int originArrayVariablesNo = variablesManager.getOriginArrayVariablesNo();
-                String itemVariables = "item" + originArrayVariablesNo;
-
                 // 数组
                 builder.appendWithSpaceEnter("for (def "+ itemVariables + " : " + originParentPath + "?." + mapper.getField() + ") {", level);
                 buildMapperScript(builder, itemVariables, targetParentField, FieldType.OBJECT_ARRAY, level + 1, mapper.baseArrayMapperDetails);
@@ -132,12 +127,10 @@ public class Mapper {
             }
 
             // 对象数组
-            builder.appendWithSpaceEnter("for (def item : " + originParentPath + "?." + mapper.getField() + ") {", level);
-            mapper.buildScript(builder, "item", targetParentField, level + 1);
+            builder.appendWithSpaceEnter("for (def " + itemVariables + ": " + originParentPath + "?." + mapper.getField() + ") {", level);
+            mapper.buildScript(builder, itemVariables, targetParentField, level + 1);
             builder.appendWithSpaceEnter("}", level);
         }
-
-        builder.appendEnter();
     }
 
     private void buildMapperScript(
@@ -154,11 +147,14 @@ public class Mapper {
         String[] fields = targetVal.split(GroovyConstant.POINT_SPLIT);
 
         StringJoiner tmpFieldPath = new StringJoiner(".");
+        StringJoiner tmpParentFieldPath = new StringJoiner(".");
+
         // 创建目标变量
         for (String field : fields) {
             tmpFieldPath.add(field);
             targetParentField = variablesManager.registerVariables(
-                    builder, tmpFieldPath.toString(), targetParentField, field, level);
+                    builder, tmpFieldPath.toString(), targetParentField, tmpParentFieldPath.toString(), field, level);
+            tmpParentFieldPath.add(field);
         }
         return targetParentField;
     }

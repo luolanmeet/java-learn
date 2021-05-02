@@ -69,12 +69,40 @@ public class VariablesManager {
      * @param builder
      * @param variablesPath
      * @param parentField
+     * @param parentFieldPath
      * @param variablesName
      * @param level
      * @return
      */
     public String registerVariables(GroovyBuilder builder, String variablesPath,
-                                    String parentField, String variablesName, Integer level) {
+                                    String parentField, String parentFieldPath, String variablesName, Integer level) {
+
+        // 如果父类型是对象类型数组
+        String parentFieldType = variablesTypeMap.get(parentFieldPath);
+        if (GroovyUtil.isArray(parentFieldType) && !GroovyUtil.isBaseTypeArray(parentFieldType)) {
+
+            // 避免循环遍历数组时，多次构建同一个目标对象
+            String arrayVariablesName = parentFieldPath + "_";
+
+            if (variablesNameMap.containsKey(arrayVariablesName)) {
+                return variablesNameMap.get(arrayVariablesName);
+            }
+
+            String fieldName = parentField + "_" + variablesName + "_" + getTargetArrayVariablesNo();
+            String fieldType = variablesTypeMap.get(variablesPath);
+
+            if (GroovyUtil.isArray(fieldType)) {
+                builder.appendWithSpaceEnter("def " + fieldName + " = []", level);
+            } else {
+                builder.appendWithSpaceEnter("def " + fieldName + " = [:]", level);
+            }
+
+            builder.appendWithSpaceEnter(parentField + ".add(" + fieldName + ")", level);
+            variablesNameMap.put(arrayVariablesName, fieldName);
+            return fieldName;
+        }
+
+        /* 非对象数组类型 */
 
         if (variablesNameMap.containsKey(variablesPath)) {
             return variablesNameMap.get(variablesPath);
