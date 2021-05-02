@@ -16,7 +16,7 @@ public class Test {
         List<String> mapperStrs = new ArrayList<>();
 
         mapperStrs.add("id:int:baseinfo.id1:int;");
-        mapperStrs.add("name:string:baseinfo.name1:string;");
+//        mapperStrs.add("name:string:baseinfo.name1:string;");
         mapperStrs.add("hobby:stringArray:baseinfo.hobby1:stringArray;");
 
         VariablesManager variablesManager = new VariablesManager();

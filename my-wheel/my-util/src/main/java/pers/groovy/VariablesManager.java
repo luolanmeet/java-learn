@@ -20,11 +20,11 @@ public class VariablesManager {
         Set<String> sets = variables.computeIfAbsent(level, k -> new HashSet<>());
         String fieldName = parentField + "_" + variablesName;
 
-        if (sets.contains(variablesName)) {
+        if (sets.contains(fieldName)) {
             return fieldName;
         }
 
-        sets.add(variablesName);
+        sets.add(fieldName);
 
         if (fieldType.equals(FieldType.OBJECT)) {
             builder.appendWithSpaceEnter("def " + fieldName + " = [:]", groovyLevel);

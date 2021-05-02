@@ -89,7 +89,8 @@ public class Mapper {
 
         // 如果是基本数据类型的数组，则也设置映射关系
         if (GroovyUtil.isBaseTypeArray(mapperDetail.getOriginFieldType())) {
-            mapperDetail.parseOperate();
+//            mapperDetail.parseOperate();
+            mapperDetail.setOriginVal("");
             mapper.baseArrayMapperDetails = mapperDetail;
         }
 
@@ -99,7 +100,6 @@ public class Mapper {
 
         // 拼接普通类型数据
         for (MapperDetail mapperDetail : mapperDetails) {
-            // 构造目标 变量
             buildMapperScript(builder, parentPath, parentField, level, mapperDetail);
         }
 
@@ -115,7 +115,7 @@ public class Mapper {
             // 基础类型数据
             if (GroovyUtil.isBaseTypeArray(mapper.type)) {
                 // 数组
-                builder.appendWithSpaceEnter("for (def item : " + parentPath + "?." + field + ") {", level);
+                builder.appendWithSpaceEnter("for (def item : " + parentPath + "?." + mapper.getField() + ") {", level);
                 buildMapperScript(builder, "item", parentField, level + 1, mapper.baseArrayMapperDetails);
                 builder.appendWithSpaceEnter("}", level);
                 continue;
@@ -123,7 +123,7 @@ public class Mapper {
 
             // TODO
             // 数组
-            builder.appendWithSpaceEnter("for (def item : " + parentPath + "?." + field + ") {", level);
+            builder.appendWithSpaceEnter("for (def item : " + parentPath + "?." + mapper.getField() + ") {", level);
             mapper.buildScript(builder, "item", parentField, level + 1);
             builder.appendWithSpaceEnter("}", level);
         }
@@ -139,13 +139,10 @@ public class Mapper {
                 tmpParentField = variablesManager.registerVariables(
                         builder, fields[i], i, tmpParentField, FieldType.OBJECT, level);
             }
-            builder.appendWithSpaceEnter("");
             mapperDetail.buildScript(builder, parentPath, tmpParentField, level);
         } else {
             mapperDetail.buildScript(builder, parentPath, parentField, level);
         }
-
-        builder.appendWithSpaceEnter("");
     }
 
     public String getField() {
