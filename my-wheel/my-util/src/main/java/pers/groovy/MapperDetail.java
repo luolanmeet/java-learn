@@ -87,7 +87,7 @@ public class MapperDetail {
         for (int i = 1; i < sentences.length; i++) {
             // TODO 校验操作
             String[] split = sentences[i].split(GroovyConstant.SENTENCE_INNER_SPLIT);
-            if (GroovyConstant.NOT_NULL.equals(split[0])) {
+            if (OperateType.NOT_NULL.equals(split[0])) {
                 this.isNotNull = true;
                 continue;
             }
@@ -96,7 +96,7 @@ public class MapperDetail {
     }
 
     public void buildScript(
-            com.cainiao.cnap.base.util.builder.GroovyBuilder groovyBuilder,
+            GroovyBuilder groovyBuilder,
             String parentPath, String parentField, int level) {
 
         // TODO 区分类型

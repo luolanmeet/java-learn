@@ -26,7 +26,7 @@ public class VariablesManager {
 
         sets.add(variablesName);
 
-        if (fieldType.equals(GroovyConstant.OBJECT)) {
+        if (fieldType.equals(FieldType.OBJECT)) {
             builder.appendWithSpaceEnter("def " + fieldName + " = [:]", groovyLevel);
         } else {
             builder.appendWithSpaceEnter("def " + fieldName + " = []", groovyLevel);
