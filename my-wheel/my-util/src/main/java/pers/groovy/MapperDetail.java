@@ -97,7 +97,7 @@ public class MapperDetail {
 
     public void buildScript(
             GroovyBuilder groovyBuilder,
-            String originParentPath, String targetParentField, int level) {
+            String originParentPath, String targetParentField, String targetParentFieldType, int level) {
 
         // TODO 区分类型
         // TODO 补充操作
@@ -111,8 +111,13 @@ public class MapperDetail {
             groovyBuilder.appendWithSpaceEnter("}", level);
         }
 
-        groovyBuilder.appendWithSpaceEnter(
-                targetParentField + ".put(\"" + targetField + "\", " + originField + ")", level);
+        if (FieldType.OBJECT.equals(targetParentFieldType)) {
+            groovyBuilder.appendWithSpaceEnter(
+                    targetParentField + ".put(\"" + targetField + "\", " + originField + ")", level);
+        } else {
+            groovyBuilder.appendWithSpaceEnter(
+                    targetParentField + ".add(" + originField + ")", level);
+        }
     }
 
     public String getOriginFieldType() {

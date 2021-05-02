@@ -1,9 +1,6 @@
 package pers.groovy;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 /**
  * 原字段路径:字段类型:目标字段路径:字段类型;操作符:[操作值];操作符:[操作值];操作符:[操作值];
@@ -54,6 +51,8 @@ public class Mapper {
         MapperDetail mapperDetail = MapperDetail.getSimpleMapperDetail(mapperStr);
         String parent = mapperDetail.getParent();
 
+        variablesManager.registerVariablesType(mapperDetail.getTargetVal(), mapperDetail.getTargetFieldType());
+
         // 有父节点，表示未到最小解析字段
         if (parent != null) {
 
@@ -89,7 +88,6 @@ public class Mapper {
 
         // 如果是基本数据类型的数组，则也设置映射关系
         if (GroovyUtil.isBaseTypeArray(mapperDetail.getOriginFieldType())) {
-//            mapperDetail.parseOperate();
             mapperDetail.setOriginVal("");
             mapper.baseArrayMapperDetails = mapperDetail;
         }
@@ -100,7 +98,7 @@ public class Mapper {
 
         // 拼接普通类型数据
         for (MapperDetail mapperDetail : mapperDetails) {
-            buildMapperScript(builder, originParentPath, targetParentField, level, mapperDetail);
+            buildMapperScript(builder, originParentPath, targetParentField, FieldType.OBJECT, level, mapperDetail);
         }
 
         // 拼接对象
@@ -112,11 +110,11 @@ public class Mapper {
                 continue;
             }
 
-            // 基础类型数据
+            // 基础类型数组
             if (GroovyUtil.isBaseTypeArray(mapper.type)) {
                 // 数组
                 builder.appendWithSpaceEnter("for (def item : " + originParentPath + "?." + mapper.getField() + ") {", level);
-                buildMapperScript(builder, "item", targetParentField, level + 1, mapper.baseArrayMapperDetails);
+                buildMapperScript(builder, "item", targetParentField, FieldType.OBJECT_ARRAY, level + 1, mapper.baseArrayMapperDetails);
                 builder.appendWithSpaceEnter("}", level);
                 continue;
             }
@@ -130,19 +128,23 @@ public class Mapper {
 
     }
 
-    private void buildMapperScript(GroovyBuilder builder, String originParentPath, String targetParentField, int level, MapperDetail mapperDetail) {
+    private void buildMapperScript(
+            GroovyBuilder builder, String originParentPath,
+            String targetParentField, String targetParentFieldType,
+            int level, MapperDetail mapperDetail) {
+
         String targetVal = mapperDetail.getTargetVal();
         String[] fields = targetVal.split(GroovyConstant.POINT_SPLIT);
-        if (fields.length > 1) {
-            String tmpTargetParentField = targetParentField;
-            for (int i = 0; i < fields.length - 1; i++) {
-                tmpTargetParentField = variablesManager.registerVariables(
-                        builder, fields[i], i, tmpTargetParentField, FieldType.OBJECT, level);
-            }
-            mapperDetail.buildScript(builder, originParentPath, tmpTargetParentField, level);
-        } else {
-            mapperDetail.buildScript(builder, originParentPath, targetParentField, level);
+
+        StringJoiner tmpFieldPath = new StringJoiner(".");
+        // 创建目标变量
+        for (String field : fields) {
+            tmpFieldPath.add(field);
+            targetParentField = variablesManager.registerVariables(
+                    builder, tmpFieldPath.toString(), targetParentField, field, level);
         }
+
+        mapperDetail.buildScript(builder, originParentPath, targetParentField, targetParentFieldType, level);
     }
 
     public String getField() {
