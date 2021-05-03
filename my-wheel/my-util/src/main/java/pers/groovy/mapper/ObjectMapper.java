@@ -33,7 +33,7 @@ public class ObjectMapper {
     /**
      * 用于辅助要解析的基础类型数组对象
      */
-    private FieldMapper baseArrayFieldMapperDetails;
+    private FieldMapper baseArrayFieldMapper;
 
     /**
      * 要解析的对象的对象/数组字段映射
@@ -54,9 +54,9 @@ public class ObjectMapper {
         this.fieldMappers = new ArrayList<>();
     }
 
-    public void addChild(String mapperStr) {
+    public void addMapper(String mapperStr) {
 
-        FieldMapper fieldMapper = FieldMapper.getSimpleMapperDetail(mapperStr);
+        FieldMapper fieldMapper = FieldMapper.getSimpleMapper(mapperStr);
         String originFieldParentName = fieldMapper.getOriginFieldParentName();
 
         // 注册需要声明的变量
@@ -76,7 +76,7 @@ public class ObjectMapper {
                 objectMapper = new ObjectMapper(originFieldParentName, FieldType.OBJECT, variablesManager);
                 childMapper.put(originFieldParentName, objectMapper);
             }
-            objectMapper.addChild(mapperStr.split(GroovyConstant.POINT_SPLIT, 2)[1]);
+            objectMapper.addMapper(mapperStr.split(GroovyConstant.POINT_SPLIT, 2)[1]);
             return ;
         }
 
@@ -101,7 +101,8 @@ public class ObjectMapper {
         }
 
         fieldMapper.setOriginFieldPath("");
-        objectMapper.baseArrayFieldMapperDetails = fieldMapper;
+        objectMapper.baseArrayFieldMapper = fieldMapper;
+
     }
 
     public void buildScript(GroovyBuilder builder, String originParentPath, String targetParentField, int level) {
@@ -127,13 +128,13 @@ public class ObjectMapper {
             String itemVariables = "item" + originArrayVariablesNo;
 
             // 先创建变量
-            buildVariables(builder, targetParentField, level, objectMapper.baseArrayFieldMapperDetails);
+            buildVariables(builder, targetParentField, level, objectMapper.baseArrayFieldMapper);
 
             // 基础类型数组
             if (GroovyUtil.isBaseTypeArray(objectMapper.fieldType)) {
                 // 数组
                 builder.appendWithSpaceEnter("for (def "+ itemVariables + " : " + originParentPath + "?." + objectMapper.getFieldName() + ") {", level);
-                buildMapperScript(builder, itemVariables, targetParentField, FieldType.OBJECT_ARRAY, level + 1, objectMapper.baseArrayFieldMapperDetails);
+                buildMapperScript(builder, itemVariables, targetParentField, FieldType.OBJECT_ARRAY, level + 1, objectMapper.baseArrayFieldMapper);
                 builder.appendWithSpaceEnter("}", level);
                 continue;
             }

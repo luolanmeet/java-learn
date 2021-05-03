@@ -68,7 +68,7 @@ public class FieldMapper {
      */
     private boolean isNotNull;
 
-    public static FieldMapper getSimpleMapperDetail(String mapperStr) {
+    public static FieldMapper getSimpleMapper(String mapperStr) {
 
         FieldMapper mapperDetail = new FieldMapper();
         mapperDetail.setMapperStr(mapperStr);

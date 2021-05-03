@@ -1,5 +1,6 @@
 package pers.groovy.util;
 
+import com.sun.javadoc.FieldDoc;
 import pers.groovy.constant.FieldType;
 
 /**
@@ -48,33 +49,39 @@ public class GroovyUtil {
             return originField;
         }
 
-        if (FieldType.STRING.equals(originFieldType)) {
+        if (FieldType.STRING.equals(originFieldType) || FieldType.STRING_ARRAY.equals(originFieldType)) {
             switch (targetFieldType) {
                 case FieldType.INT:
+                case FieldType.INT_ARRAY:
                     return originField + "?.toInteger()";
                 case FieldType.FLOAT:
+                case FieldType.FLOAT_ARRAY:
                     return originField + "?.toFloat()";
                 default:
                     return originField;
             }
         }
 
-        if (FieldType.INT.equals(originFieldType)) {
+        if (FieldType.INT.equals(originFieldType) || FieldType.INT_ARRAY.equals(originFieldType)) {
             switch (targetFieldType) {
                 case FieldType.STRING:
+                case FieldType.STRING_ARRAY:
                     return originField + "?.toString()";
                 case FieldType.FLOAT:
+                case FieldType.FLOAT_ARRAY:
                     return originField + "?.toFloat()";
                 default:
                     return originField;
             }
         }
 
-        if (FieldType.FLOAT.equals(originFieldType)) {
+        if (FieldType.FLOAT.equals(originFieldType) || FieldType.FLOAT_ARRAY.equals(originFieldType)) {
             switch (targetFieldType) {
                 case FieldType.INT:
+                case FieldType.INT_ARRAY:
                     return originField + "?.toInteger()";
                 case FieldType.STRING:
+                case FieldType.STRING_ARRAY:
                     return originField + "?.toString()";
                 default:
                     return originField;

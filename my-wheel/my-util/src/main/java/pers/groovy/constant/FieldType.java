@@ -38,6 +38,16 @@ public class FieldType {
     public static final String OBJECT = "object";
 
     /**
+     * 浮点型数组
+     */
+    public static final String FLOAT_ARRAY = "floatArray";
+
+    /**
+     * 整形数组
+     */
+    public static final String INT_ARRAY = "intArray";
+
+    /**
      * 字符串数组
      */
     public static final String STRING_ARRAY = "stringArray";
