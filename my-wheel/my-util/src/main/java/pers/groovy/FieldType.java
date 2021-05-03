@@ -22,6 +22,11 @@ public class FieldType {
      */
     static final String INT = "int";
 
+    /**
+     * 浮点型
+     */
+    static final String FLOAT = "float";
+
     /*
      *************************
      *     对象及数组          *

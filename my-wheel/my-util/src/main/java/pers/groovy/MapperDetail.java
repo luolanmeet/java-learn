@@ -85,7 +85,7 @@ public class MapperDetail {
     public void parseOperate() {
         String[] sentences = mapperStr.split(GroovyConstant.SENTENCE_SPLIT);
         for (int i = 1; i < sentences.length; i++) {
-            // TODO 校验操作
+            // TODO 校验操作 入参是否正确
             String[] split = sentences[i].split(GroovyConstant.SENTENCE_INNER_SPLIT);
             if (OperateType.NOT_NULL.equals(split[0])) {
                 this.isNotNull = true;
@@ -110,6 +110,9 @@ public class MapperDetail {
             groovyBuilder.appendWithSpaceEnter("return map", level + 1);
             groovyBuilder.appendWithSpaceEnter("}", level);
         }
+
+        // 类型转换 操作补充
+        originField = GroovyUtil.caseType(originFieldType, targetFieldType, originField);
 
         if (FieldType.OBJECT.equals(targetParentFieldType)) {
             groovyBuilder.appendWithSpaceEnter(

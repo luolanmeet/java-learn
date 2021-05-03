@@ -26,7 +26,7 @@ public class Test {
 //        mapperStrs.add("bestFriend.name:string:bestFriend1.name:string;");
         // 对象中存在 对象数组
 //        mapperStrs.add("bestFriend.childs:objectArray:bestFriend1.childs1:objectArray;");
-//        mapperStrs.add("bestFriend.childs.age:int:bestFriend1.childs1.age:int;");
+//        mapperStrs.add("bestFriend.childs.age:int:bestFriend1.childs1.age:float;");
 //        mapperStrs.add("bestFriend.childs.name:string:bestFriend1.childs1.name:string;");
 
         // 数组转对象
@@ -39,9 +39,9 @@ public class Test {
 //        mapperStrs.add("friends.id:int:friends1.id:int;");
 //        mapperStrs.add("friends.name:string:friends1.name:string;");
 
-        mapperStrs.add("::baseinfos:objectArray;");
-        mapperStrs.add("id:int:baseinfos.id1:int;");
-        mapperStrs.add("name:string:baseinfos.name1:string;");
+//        mapperStrs.add("::baseinfos:objectArray;");
+//        mapperStrs.add("id:int:baseinfos.id1:string;");
+//        mapperStrs.add("name:string:baseinfos.name1:string;");
 
         VariablesManager variablesManager = new VariablesManager();
         Mapper mapper = new Mapper("jsonObject", FieldType.OBJECT, variablesManager);
