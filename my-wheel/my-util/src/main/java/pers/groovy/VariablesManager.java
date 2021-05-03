@@ -88,7 +88,7 @@ public class VariablesManager {
                 return variablesNameMap.get(arrayVariablesName);
             }
 
-            String fieldName = parentField + "_" + variablesName + "_" + getTargetArrayVariablesNo();
+            String fieldName = parentField + "_" + getTargetArrayVariablesNo();
             String fieldType = variablesTypeMap.get(variablesPath);
 
             if (GroovyUtil.isArray(fieldType)) {

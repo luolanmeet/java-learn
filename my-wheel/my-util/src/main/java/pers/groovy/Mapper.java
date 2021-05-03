@@ -54,6 +54,11 @@ public class Mapper {
         // 注册需要声明的变量
         variablesManager.registerVariablesType(mapperDetail.getTargetVal(), mapperDetail.getTargetFieldType());
 
+        // 只是做了变量声明
+        if (mapperDetail.getOriginVal() == null || mapperDetail.getOriginVal().isEmpty()) {
+            return ;
+        }
+
         // 有父节点，表示未到最小解析字段
         if (parent != null) {
 
@@ -87,7 +92,7 @@ public class Mapper {
             mapper.setType(mapperDetail.getOriginFieldType());
         }
 
-        // 如果是类型的数组，则也设置映射关系
+        // 如果是类型的数组，则设置数组映射关系
         mapperDetail.setOriginVal("");
         mapper.baseArrayMapperDetails = mapperDetail;
     }
