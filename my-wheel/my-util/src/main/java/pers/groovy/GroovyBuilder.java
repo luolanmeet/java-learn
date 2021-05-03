@@ -16,6 +16,8 @@ public class GroovyBuilder {
 
     private final StringBuilder groovy = new StringBuilder();
 
+    private GroovyBuilder() {}
+
     public static GroovyBuilder builder() {
         GroovyBuilder groovyBuilder = new GroovyBuilder();
         groovyBuilder.appendWithEnter("import com.fasterxml.jackson.databind.ObjectMapper");
@@ -33,7 +35,17 @@ public class GroovyBuilder {
     }
 
     public GroovyBuilder appendWithEnter(String str) {
+
+        if (str == null || str.isEmpty()) {
+            if (!hasEnter) {
+                groovy.append(ENTER);
+                hasEnter = true;
+            }
+            return this;
+        }
+
         groovy.append(str).append(ENTER);
+        hasEnter = false;
         return this;
     }
 
@@ -42,9 +54,19 @@ public class GroovyBuilder {
     }
 
     public GroovyBuilder appendWithSpaceEnter(String str, int level) {
+
+        if (str == null || str.isEmpty()) {
+            if (!hasEnter) {
+                groovy.append(ENTER);
+                hasEnter = true;
+            }
+            return this;
+        }
+
         while (level-- > 0) {
             this.append(SPACE4);
         }
+        hasEnter = false;
         return this.append(str).append(ENTER);
     }
 

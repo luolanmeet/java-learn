@@ -136,6 +136,7 @@ public class Mapper {
             mapper.buildScript(builder, itemVariables, targetParentField, level + 1);
             builder.appendWithSpaceEnter("}", level);
         }
+
     }
 
     private void buildMapperScript(

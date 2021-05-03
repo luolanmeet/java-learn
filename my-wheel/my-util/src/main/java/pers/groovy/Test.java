@@ -30,14 +30,14 @@ public class Test {
 //        mapperStrs.add("bestFriend.childs.name:string:bestFriend1.childs1.name:string;");
 
         // 数组转对象
-//        mapperStrs.add("bestFriend.childs:objectArray:bestFriend1.childs:object;");
-//        mapperStrs.add("bestFriend.childs.age:int:bestFriend1.childs.age:int;");
-//        mapperStrs.add("bestFriend.childs.name:string:bestFriend1.childs.name:string;");
+        mapperStrs.add("bestFriend.childs:objectArray:bestFriend1.childs:object;");
+        mapperStrs.add("bestFriend.childs.age:int:bestFriend1.childs.age:int;");
+        mapperStrs.add("bestFriend.childs.name:string:bestFriend1.childs.name:string;");
 //
 //        // 对象数组转对象数组
-//        mapperStrs.add("friends:objectArray:friends1:objectArray;");
-//        mapperStrs.add("friends.id:int:friends1.id:int;");
-//        mapperStrs.add("friends.name:string:friends1.name:string;");
+        mapperStrs.add("friends:objectArray:friends1:objectArray;");
+        mapperStrs.add("friends.id:int:friends1.id:int;");
+        mapperStrs.add("friends.name:string:friends1.name:string;");
 
 //        mapperStrs.add("::baseinfos:objectArray;");
 //        mapperStrs.add("id:int:baseinfos.id1:string;");
