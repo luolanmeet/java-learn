@@ -1,4 +1,4 @@
-package pers.groovy;
+package pers.groovy.constant;
 
 /**
  * 操作类型
@@ -16,14 +16,14 @@ public class OperateType {
     /**
      * 非空判断
      */
-    static final String NOT_NULL = "notNull";
+    public static final String NOT_NULL = "notNull";
     /**
      * 日期格式转换
      */
-    static final String DATA_FORMAT = "dataFormat";
+    public static final String DATA_FORMAT = "dataFormat";
     /**
      * 填充默认值
      */
-    static final String DEFAULT_VAL = "defaultVal";
+    public static final String DEFAULT_VAL = "defaultVal";
 
 }

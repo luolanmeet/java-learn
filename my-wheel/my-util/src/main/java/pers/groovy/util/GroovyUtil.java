@@ -1,6 +1,9 @@
-package pers.groovy;
+package pers.groovy.util;
+
+import pers.groovy.constant.FieldType;
 
 /**
+ * 工具类
  * @auther ken.ck
  * @date 2021/5/2 15:11
  */

@@ -1,62 +1,76 @@
-package pers.groovy;
+package pers.groovy.mapper;
+
+import pers.groovy.constant.FieldType;
+import pers.groovy.constant.GroovyConstant;
+import pers.groovy.constant.OperateType;
+import pers.groovy.util.GroovyBuilder;
+import pers.groovy.util.GroovyUtil;
 
 import java.util.List;
 
 /**
- * 映射详情
+ * 基本类型 字段映射类
  * @auther ken.ck
  * @date 2021/4/29 22:00
  */
-public class MapperDetail {
+public class FieldMapper {
 
+    /**
+     * 原始声明字符串
+     * user.info.name:string:baseInfo.name:string;notNull;
+     */
     private String mapperStr;
 
     /**
-     * 源数据类型
+     * 源数据字段路径
+     * user.info.name
+     */
+    private String originFieldPath;
+
+    /**
+     * 源数据字段上级字段名
+     * user
+     */
+    private String originFieldParentName;
+
+    /**
+     * 源数据字段类型
+     * string
      */
     private String originFieldType;
 
     /**
-     * 源数据值
+     * 目标数据字段路径
+     * baseInfo.name
      */
-    private String originVal;
+    private String targetFieldPath;
+
+    /**
+     * 目标数据字段名
+     * name
+     */
+    private String targetFieldName;
 
     /**
      * 目标数据类型
+     * string
      */
     private String targetFieldType;
 
     /**
-     * 目标数据值
-     */
-    private String targetVal;
-
-    /**
-     * 目标数据字段
-     */
-    private String targetField;
-
-    /**
      * 操作
+     * notNull、changeType
      */
     private List<Operate> operates;
 
     /**
-     * 是否非空
+     * 是否做非空校验
      */
     private boolean isNotNull;
 
-    /**
-     * 上级节点
-     */
-    private String parent;
+    public static FieldMapper getSimpleMapperDetail(String mapperStr) {
 
-    public MapperDetail() {
-    }
-
-    public static MapperDetail getSimpleMapperDetail(String mapperStr) {
-
-        MapperDetail mapperDetail = new MapperDetail();
+        FieldMapper mapperDetail = new FieldMapper();
         mapperDetail.setMapperStr(mapperStr);
 
         String[] sentences = mapperStr.split(GroovyConstant.SENTENCE_SPLIT);
@@ -67,17 +81,17 @@ public class MapperDetail {
         if (strArray.length != 4) {
             throw new RuntimeException("不符合映射声明语义， " + fieldMapper);
         }
-        mapperDetail.setOriginVal(strArray[0]);
+        mapperDetail.setOriginFieldPath(strArray[0]);
         mapperDetail.setOriginFieldType(strArray[1]);
 
         mapperDetail.setTargetFieldType(strArray[3]);
-        mapperDetail.setTargetVal(strArray[2]);
+        mapperDetail.setTargetFieldPath(strArray[2]);
 
         String[] targetFields = strArray[2].split(GroovyConstant.POINT_SPLIT);
-        mapperDetail.setTargetField(targetFields[targetFields.length - 1]);
+        mapperDetail.setTargetFieldName(targetFields[targetFields.length - 1]);
 
         String[] fields = strArray[0].split(GroovyConstant.POINT_SPLIT);
-        mapperDetail.setParent(fields.length > 1 ? fields[0] : null);
+        mapperDetail.setOriginFieldParentName(fields.length > 1 ? fields[0] : null);
 
         return mapperDetail;
     }
@@ -102,7 +116,7 @@ public class MapperDetail {
         // TODO 区分类型
         // TODO 补充操作
 
-        String originField = originVal.isEmpty() ? originParentPath : originParentPath  + "?." + originVal;
+        String originField = originFieldPath.isEmpty() ? originParentPath : originParentPath  + "?." + originFieldPath;
 
         if (isNotNull) {
             groovyBuilder.appendWithSpaceEnter("if (!" + originField + ") {", level);
@@ -114,9 +128,10 @@ public class MapperDetail {
         // 类型转换 操作补充
         originField = GroovyUtil.caseType(originFieldType, targetFieldType, originField);
 
+        // 对象或数组 需要不同处理
         if (FieldType.OBJECT.equals(targetParentFieldType)) {
             groovyBuilder.appendWithSpaceEnter(
-                    targetParentField + ".put(\"" + targetField + "\", " + originField + ")", level);
+                    targetParentField + ".put(\"" + targetFieldName + "\", " + originField + ")", level);
         } else {
             groovyBuilder.appendWithSpaceEnter(
                     targetParentField + ".add(" + originField + ")", level);
@@ -131,12 +146,12 @@ public class MapperDetail {
         this.originFieldType = originFieldType;
     }
 
-    public String getOriginVal() {
-        return originVal;
+    public String getOriginFieldPath() {
+        return originFieldPath;
     }
 
-    public void setOriginVal(String originVal) {
-        this.originVal = originVal;
+    public void setOriginFieldPath(String originFieldPath) {
+        this.originFieldPath = originFieldPath;
     }
 
     public String getTargetFieldType() {
@@ -147,12 +162,12 @@ public class MapperDetail {
         this.targetFieldType = targetFieldType;
     }
 
-    public String getTargetVal() {
-        return targetVal;
+    public String getTargetFieldPath() {
+        return targetFieldPath;
     }
 
-    public void setTargetVal(String targetVal) {
-        this.targetVal = targetVal;
+    public void setTargetFieldPath(String targetFieldPath) {
+        this.targetFieldPath = targetFieldPath;
     }
 
     public List<Operate> getOperates() {
@@ -163,12 +178,12 @@ public class MapperDetail {
         this.operates = operates;
     }
 
-    public String getParent() {
-        return parent;
+    public String getOriginFieldParentName() {
+        return originFieldParentName;
     }
 
-    public void setParent(String parent) {
-        this.parent = parent;
+    public void setOriginFieldParentName(String originFieldParentName) {
+        this.originFieldParentName = originFieldParentName;
     }
 
     public String getMapperStr() {
@@ -179,11 +194,11 @@ public class MapperDetail {
         this.mapperStr = mapperStr;
     }
 
-    public String getTargetField() {
-        return targetField;
+    public String getTargetFieldName() {
+        return targetFieldName;
     }
 
-    public void setTargetField(String targetField) {
-        this.targetField = targetField;
+    public void setTargetFieldName(String targetFieldName) {
+        this.targetFieldName = targetFieldName;
     }
 }

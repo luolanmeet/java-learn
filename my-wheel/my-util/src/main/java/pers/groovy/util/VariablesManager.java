@@ -1,9 +1,14 @@
-package pers.groovy;
+package pers.groovy.util;
 
-import java.util.*;
+import pers.groovy.constant.FieldType;
+import pers.groovy.constant.GroovyConstant;
+
+import java.util.HashMap;
+import java.util.Map;
+import java.util.StringJoiner;
 
 /**
- * 变量管理
+ * 脚本变量管理类
  * @auther ken.ck
  * @date 2021/4/30 10:40
  */

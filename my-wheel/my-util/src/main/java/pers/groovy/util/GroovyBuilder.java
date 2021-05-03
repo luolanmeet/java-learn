@@ -1,9 +1,10 @@
-package pers.groovy;
+package pers.groovy.util;
 
-import static pers.groovy.GroovyConstant.ENTER;
-import static pers.groovy.GroovyConstant.SPACE4;
+import static pers.groovy.constant.GroovyConstant.ENTER;
+import static pers.groovy.constant.GroovyConstant.SPACE4;
 
 /**
+ * 脚本构造类
  * @auther ken.ck
  * @date 2021/4/29 16:48
  */
@@ -20,12 +21,12 @@ public class GroovyBuilder {
 
     public static GroovyBuilder builder() {
         GroovyBuilder groovyBuilder = new GroovyBuilder();
-        groovyBuilder.appendWithEnter("import com.fasterxml.jackson.databind.ObjectMapper");
-        groovyBuilder.appendWithEnter("import groovy.json.JsonSlurper").append(ENTER);
-        groovyBuilder.appendWithEnter("def execute(v, f) {");
-        groovyBuilder.appendWithSpaceEnter("def map = ['value': '', 'format': 'JSON', 'success': false, 'error': 'init']");
-        groovyBuilder.appendWithSpaceEnter("def jsonObject = new JsonSlurper().parseText(v)");
-        groovyBuilder.appendWithSpaceEnter("def target = [:]");
+        groovyBuilder.appendWithEnter("import com.fasterxml.jackson.databind.ObjectMapper")
+                .appendWithEnter("import groovy.json.JsonSlurper").append(ENTER)
+                .appendWithEnter("def execute(v, f) {").append(ENTER)
+                .appendWithSpaceEnter("def map = ['value': '', 'format': 'JSON', 'success': false, 'error': 'init']")
+                .appendWithSpaceEnter("def jsonObject = new JsonSlurper().parseText(v)")
+                .appendWithSpaceEnter("def target = [:]");
         return groovyBuilder;
     }
 
@@ -71,7 +72,8 @@ public class GroovyBuilder {
     }
 
     public String build() {
-        this.appendWithSpaceEnter("ObjectMapper mapper = new ObjectMapper()")
+        this.appendWithEnter("")
+                .appendWithSpaceEnter("ObjectMapper mapper = new ObjectMapper()")
                 .appendWithSpaceEnter("map.put('value', mapper.writeValueAsString(target))")
                 .appendWithSpaceEnter("map.put('success', true)")
                 .appendWithSpaceEnter("return map")

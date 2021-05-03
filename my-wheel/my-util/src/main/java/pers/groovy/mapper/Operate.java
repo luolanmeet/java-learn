@@ -1,14 +1,20 @@
-package pers.groovy;
+package pers.groovy.mapper;
 
 /**
- * 操作
+ * 字段操作类
  * @auther ken.ck
  * @date 2021/4/29 20:41
  */
 public class Operate {
 
+    /**
+     * 操作类型
+     */
     private String operateType;
 
+    /**
+     * 操作值
+     */
     private String operateVal;
 
     public Operate(String operateType, String operateVal) {

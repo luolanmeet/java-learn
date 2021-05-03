@@ -1,4 +1,4 @@
-package pers.groovy;
+package pers.groovy.constant;
 
 /**
  * 字段类型
@@ -15,17 +15,17 @@ public class FieldType {
     /**
      * 字符串
      */
-    static final String STRING = "string";
+    public static final String STRING = "string";
 
     /**
      * 整形
      */
-    static final String INT = "int";
+    public static final String INT = "int";
 
     /**
      * 浮点型
      */
-    static final String FLOAT = "float";
+    public static final String FLOAT = "float";
 
     /*
      *************************
@@ -35,16 +35,16 @@ public class FieldType {
     /**
      * 对象
      */
-    static final String OBJECT = "object";
+    public static final String OBJECT = "object";
 
     /**
      * 字符串数组
      */
-    static final String STRING_ARRAY = "stringArray";
+    public static final String STRING_ARRAY = "stringArray";
 
     /**
      * 对象数组
      */
-    static final String OBJECT_ARRAY = "objectArray";
+    public static final String OBJECT_ARRAY = "objectArray";
 
 }
