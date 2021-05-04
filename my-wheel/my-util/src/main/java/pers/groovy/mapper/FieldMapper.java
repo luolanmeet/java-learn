@@ -130,17 +130,18 @@ public class FieldMapper {
             // 非空检验
             if (OperateType.NOT_NULL.equals(operateSentence[0])) {
                 this.isNotNull = true;
+                this.defaultValOperate = null;
                 continue;
             }
 
             if (OperateType.DEFAULT_VALUE.equals(operateSentence[0])) {
 
                 // 非空判断 和 空设默认值 是互斥的
-                if (isNotNull) {
+                if (this.isNotNull) {
                     continue;
                 }
 
-                defaultValOperate = new Operate(operateSentence[0], operateSentence[1]);
+                this.defaultValOperate = new Operate(operateSentence[0], operateSentence[1]);
                 continue;
             }
 

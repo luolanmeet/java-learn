@@ -120,15 +120,15 @@ public class ObjectMapper {
 
             ObjectMapper objectMapper = mapperEntry.getValue();
 
+            String originFieldPath = originParentPath + "?." + objectMapper.getFieldName();
+
             // 处理 对象/数组 非空校验
             if (objectMapper.selfMapper != null && objectMapper.selfMapper.isNotNull()) {
-                GroovyUtil.appendNotNull(builder, originParentPath + "." + objectMapper.getFieldName(), level);
+                GroovyUtil.appendNotNull(builder, originFieldPath, level);
                 if (GroovyUtil.isBaseTypeArray(objectMapper.fieldType)) {
                     objectMapper.selfMapper.setNotNull(false);
                 }
             }
-
-            String originFieldPath = originParentPath + "?." + objectMapper.getFieldName();
 
             // 是否有声明为空时设值的操作 -- 添加开始的判断
             Operate defaultValOperate = objectMapper.selfMapper.getDefaultValOperate();
@@ -161,8 +161,17 @@ public class ObjectMapper {
 
     }
 
-    private void generateArrayScript(GroovyBuilder builder, String originFieldPath, String targetParentField, int level, ObjectMapper objectMapper) {
-
+    /**
+     * 生成数组类型字段的脚本映射
+     * @param builder
+     * @param originFieldPath
+     * @param targetParentField
+     * @param level
+     * @param objectMapper
+     */
+    private void generateArrayScript(
+            GroovyBuilder builder, String originFieldPath, String targetParentField,
+            int level, ObjectMapper objectMapper) {
 
         // 先创建变量
         buildVariables(builder, targetParentField, level, objectMapper.selfMapper);
