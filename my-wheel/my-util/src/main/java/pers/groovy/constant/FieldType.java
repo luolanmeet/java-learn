@@ -24,7 +24,7 @@ public class FieldType {
     /**
      * 整形
      */
-    public static final String INT = "int";
+    public static final String LONG = "long";
 
     /**
      * 浮点型
@@ -49,7 +49,7 @@ public class FieldType {
     /**
      * 整形数组
      */
-    public static final String INT_ARRAY = "intArray";
+    public static final String LONG_ARRAY = "longArray";
 
     /**
      * 字符串数组

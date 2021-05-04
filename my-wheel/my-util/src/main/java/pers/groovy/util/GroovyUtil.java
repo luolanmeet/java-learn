@@ -152,9 +152,9 @@ public class GroovyUtil {
 
         if (FieldType.STRING.equals(originFieldType) || FieldType.STRING_ARRAY.equals(originFieldType)) {
             switch (targetFieldType) {
-                case FieldType.INT:
-                case FieldType.INT_ARRAY:
-                    return originField + "?.toInteger()";
+                case FieldType.LONG:
+                case FieldType.LONG_ARRAY:
+                    return originField + "?.toLong()";
                 case FieldType.FLOAT:
                 case FieldType.FLOAT_ARRAY:
                     return originField + "?.toFloat()";
@@ -163,7 +163,7 @@ public class GroovyUtil {
             }
         }
 
-        if (FieldType.INT.equals(originFieldType) || FieldType.INT_ARRAY.equals(originFieldType)) {
+        if (FieldType.LONG.equals(originFieldType) || FieldType.LONG_ARRAY.equals(originFieldType)) {
             switch (targetFieldType) {
                 case FieldType.STRING:
                 case FieldType.STRING_ARRAY:
@@ -178,9 +178,9 @@ public class GroovyUtil {
 
         if (FieldType.FLOAT.equals(originFieldType) || FieldType.FLOAT_ARRAY.equals(originFieldType)) {
             switch (targetFieldType) {
-                case FieldType.INT:
-                case FieldType.INT_ARRAY:
-                    return originField + "?.toInteger()";
+                case FieldType.LONG:
+                case FieldType.LONG_ARRAY:
+                    return originField + "?.toLong()";
                 case FieldType.STRING:
                 case FieldType.STRING_ARRAY:
                     return originField + "?.toString()";
