@@ -96,7 +96,7 @@ public class VariablesManager {
     public String registerVariables(GroovyBuilder builder, String variablesPath,
                                     String parentField, String parentFieldPath, String variablesName, Integer level) {
 
-        // 如果父类型是对象类型数组
+        /* 如果父类型是对象类型数组 */
         String parentFieldType = variablesTypeMap.get(parentFieldPath);
         if (GroovyUtil.isArray(parentFieldType) && !GroovyUtil.isBaseTypeArray(parentFieldType)) {
 

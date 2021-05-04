@@ -46,9 +46,9 @@ public class OperateType {
      */
     public static final String DATA_FORMAT = "dataFormat";
     /**
-     * 填充默认值
+     * 默认值
      */
-    public static final String DEFAULT_VAL = "defaultVal";
+    public static final String DEFAULT_VALUE = "defaultValue";
 
     /**
      * 支持的操作

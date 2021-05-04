@@ -36,6 +36,10 @@ public class GroovyUtil {
                     originField = changeType(originFieldType, operate.getOperateVal(), originField);
                     originFieldType = operate.getOperateVal();
                     break;
+                case OperateType.DATA_FORMAT:
+                    String dateFormatVariables = variablesManager.dateFormatVariablesNameMap.get(operate.getOperateVal());
+                    originField = dateFormatVariables + ".format(" + originField + ")";
+                    break;
                 case OperateType.MULTIPLY:
                     if (hasPlusOrReduce) {
                         originField = "(" + originField + ") * " + operate.getOperateVal();
@@ -60,9 +64,6 @@ public class GroovyUtil {
                     originField += " - " + operate.getOperateVal();
                     hasPlusOrReduce = true;
                     break;
-                case OperateType.DATA_FORMAT:
-                    String dateFormatVariables = variablesManager.dateFormatVariablesNameMap.get(operate.getOperateVal());
-                    originField = dateFormatVariables + ".format(" + originField + ")";
                 default:
                     break;
             }
@@ -190,6 +191,22 @@ public class GroovyUtil {
         }
 
         return originField;
+    }
+
+    /**
+     * 获取默认值
+     * @param targetFieldType
+     * @param defaultVla
+     * @return
+     */
+    public static String getDefaultValue(String targetFieldType, String defaultVla) {
+
+        switch (targetFieldType) {
+            case FieldType.STRING:
+                return "\"" + defaultVla + "\"";
+            default:
+                return defaultVla;
+        }
     }
 
 }

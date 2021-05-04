@@ -75,6 +75,11 @@ public class FieldMapper {
      */
     private boolean isAutoChangeType = true;
 
+    /**
+     * 为空时，设置默认值的操作
+     */
+    private Operate defaultValOperate;
+
     public static FieldMapper getSimpleMapper(String mapperStr, VariablesManager variablesManager) {
 
         FieldMapper fieldMapper = new FieldMapper();
@@ -128,6 +133,11 @@ public class FieldMapper {
                 continue;
             }
 
+            if (OperateType.DEFAULT_VALUE.equals(operateSentence[0])) {
+                defaultValOperate = new Operate(operateSentence[0], operateSentence[1]);
+                continue;
+            }
+
             if (OperateType.DATA_FORMAT.equals(operateSentence[0])) {
                 variablesManager.registerDateFormatVariables(operateSentence[1]);
             }
@@ -155,6 +165,13 @@ public class FieldMapper {
             GroovyUtil.appendNotNull(groovyBuilder, originField, level);
         }
 
+        // 是否有声明为空时设值的操作 -- 添加开始的判断
+        if (defaultValOperate != null) {
+            groovyBuilder
+                    .appendWithSpaceEnter("if (" + originField + ") {", level);
+            level++;
+        }
+
         // 进行默认的类型转换
         if (isAutoChangeType) {
             originField = GroovyUtil.changeType(originFieldType, targetFieldType, originField);
@@ -170,6 +187,24 @@ public class FieldMapper {
         } else {
             groovyBuilder.appendWithSpaceEnter(
                     targetParentField + ".add(" + originField + ")", level);
+        }
+
+        // 是否有声明为空时设值的操作 -- 添加结束的设置默认值
+        if (defaultValOperate != null) {
+
+            // 处理默认值
+            String defaultValue = GroovyUtil.getDefaultValue(targetFieldType, defaultValOperate.getOperateVal());
+
+            level--;
+            groovyBuilder.appendWithSpaceEnter("} else {", level);
+            if (FieldType.OBJECT.equals(targetParentFieldType)) {
+                groovyBuilder.appendWithSpaceEnter(
+                        targetParentField + ".put(\"" + targetFieldName + "\", " + defaultValue + ")", level + 1);
+            } else {
+                groovyBuilder.appendWithSpaceEnter(
+                        targetParentField + ".add(" + defaultValue + ")", level + 1);
+            }
+            groovyBuilder.appendWithSpaceEnter("}", level);
         }
     }
 
@@ -251,5 +286,13 @@ public class FieldMapper {
 
     public void setAutoChangeType(boolean autoChangeType) {
         isAutoChangeType = autoChangeType;
+    }
+
+    public Operate getDefaultValOperate() {
+        return defaultValOperate;
+    }
+
+    public void setDefaultValOperate(Operate defaultValOperate) {
+        this.defaultValOperate = defaultValOperate;
     }
 }

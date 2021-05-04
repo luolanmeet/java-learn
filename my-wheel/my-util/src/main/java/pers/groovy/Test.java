@@ -21,18 +21,21 @@ public class Test {
         List<String> mapperStrs = new ArrayList<>();
 
         // 基本属性转对象
-        mapperStrs.add("id:long:baseinfo.id1:long;changeType:string;changeType:long;multiply:100;reduce:100;plus:200;divide:10");
+//        mapperStrs.add("id:long:baseinfo.id1:long;changeType:string;changeType:long;multiply:100;reduce:100;plus:200;divide:10");
 //        mapperStrs.add("name:string:baseinfo.name1:string;");
-        mapperStrs.add("birthday:long:baseinfo.birthday1:string;dataFormat:yyyy-MM-dd HH:mm:ss");
+//        mapperStrs.add("birthday:long:baseinfo.birthday1:string;dataFormat:yyyy-MM-dd HH:mm:ss");
         // 基本类型数组转基本类型数组
 //        mapperStrs.add("hobby:stringArray:baseinfo.hobby1:stringArray;");
 //        mapperStrs.add("numbers:stringArray:baseinfo.numbers1:longArray;notNull");
+        mapperStrs.add("hobbyNotExist:stringArray:baseinfo.hobbyNotExist1:stringArray;");
 
 //        // 对象转对象
 //        mapperStrs.add("bestFriend:object:bestFriend1:object;notNull");
 //        mapperStrs.add("bestFriend.id:long:bestFriend1.id:long;notNull");
-        mapperStrs.add("bestFriend.name:string:bestFriend1.name:string;");
-        mapperStrs.add("bestFriend.birthday:long:bestFriend1.birthday:string;dataFormat:yyyy-MM-dd");
+//        mapperStrs.add("bestFriend.name:string:bestFriend1.name:string;");
+//        mapperStrs.add("bestFriend.birthday:long:bestFriend1.birthday:string;dataFormat:yyyy-MM-dd");
+//        mapperStrs.add("bestFriend.sex:string:bestFriend1.sex:string;defaultValue:男");
+//        mapperStrs.add("bestFriend.height:long:bestFriend1.height:long;defaultValue:1000");
         // 对象中存在 对象数组
 //        mapperStrs.add("bestFriend.childs:objectArray:bestFriend1.childs1:objectArray;");
 //        mapperStrs.add("bestFriend.childs.age:long:bestFriend1.childs1.age:float;");
@@ -47,6 +50,7 @@ public class Test {
 //        mapperStrs.add("friends:objectArray:friends1:objectArray;notNull");
 //        mapperStrs.add("friends.id:long:friends1.id:long;notNull;");
 //        mapperStrs.add("friends.name:string:friends1.name:string;");
+//        mapperStrs.add("friends.sex:string:friends1.sex:string;defaultValue:男");
 
 //        mapperStrs.add("::baseinfos:objectArray;");
 //        mapperStrs.add("id:long:baseinfos.id1:string;");
