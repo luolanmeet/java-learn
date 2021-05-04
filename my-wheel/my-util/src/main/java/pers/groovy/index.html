@@ -1,0 +1,107 @@
+<html>  
+    <head><title>脚本映射生命生成器</title></head>
+    <body>  
+		<center>
+			<br><br><br><br>
+			<table border="1">  
+				<thead>
+					<tr>  
+						<td>源数据路径</td>
+						<td>源数据类型</td>
+						<td>目标数据路径</td>
+						<td>目标数据类型</td>
+						<td>数据操作</td>
+						<td>删除</td>  
+					</tr>  
+				<thead>
+				<tbody id="tb">  
+					<tr id = "1st">
+						<td><input /></td>
+						<td>
+							<select>
+								<option>string</option>
+								<option>long</option>
+								<option>float</option>
+								<option>object</option>
+								<option>stringArray</option>
+								<option>longArray</option>
+								<option>floatArray</option>
+								<option>objectArray</option>
+							</select>
+						</td>
+						<td><input /></td>
+						<td>
+							<select>
+								<option>string</option>
+								<option>long</option>
+								<option>float</option>
+								<option>object</option>
+								<option>stringArray</option>
+								<option>longArray</option>
+								<option>floatArray</option>
+								<option>objectArray</option>
+							</select>
+						</td>
+						<td><input /></td>
+						<td><input type='button' value='Del' onclick='del(this)'></td>
+					</tr>  
+				</tbody>  
+			</table>
+			<br>
+			<input type="button" value="增加" onclick="add()">
+			<input type="button" value="生成声明" onclick="generate()">
+			
+			<br><br>
+			<textarea id="showText" rows="20" cols="80" readonly></textarea>
+			
+		</center>
+    </body>  
+</html>  
+
+<script>  
+
+    function add() {  
+
+        var trObj = document.createElement("tr");  
+
+        trObj.id = new Date().getTime();  
+
+        trObj.innerHTML = "<td><input/></td><td><select><option>string</option><option>long</option><option>float</option><option>object</option><option>stringArray</option><option>longArray</option><option>floatArray</option><option>objectArray</option></select></td><td><input/></td><td><select><option>string</option><option>long</option><option>float</option><option>object</option><option>stringArray</option><option>longArray</option><option>floatArray</option><option>objectArray</option></select></td><td><input/></td><td><input type='button'value='Del'onclick='del(this)'></td>";  
+
+        document.getElementById("tb").appendChild(trObj);  
+    }  
+
+    function del(obj) {  
+        var trId = obj.parentNode.parentNode.id;  
+        var trObj = document.getElementById(trId);  
+        document.getElementById("tb").removeChild(trObj);  
+    }
+
+	function generate() {
+		
+		var tb = document.getElementById("tb")
+		var rows = tb.rows;           
+		
+		var textArea = document.getElementById("showText")
+		textArea.value = ""
+		
+		// 遍历表格所有行
+		for(var i = 0; i < rows.length; i++ ){
+			// 源数据路径
+			var originPath = rows[i].cells[0].getElementsByTagName("input")[0].value;
+			// 源数据类型
+			var originType = rows[i].cells[1].getElementsByTagName("select")[0].value;
+			
+			// 目标数据路径
+			var targetPath = rows[i].cells[2].getElementsByTagName("input")[0].value;
+			// 目标数据类型
+			var targetType = rows[i].cells[3].getElementsByTagName("select")[0].value;
+					
+			// 操作
+			var operate = rows[i].cells[4].getElementsByTagName("input")[0].value;
+			
+			textArea.value += originPath + ":" + originType + ":" + targetPath + ":" + targetType + ";" + operate + "\r\n";
+		}
+	}
+
+</script>
