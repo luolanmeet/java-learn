@@ -44,7 +44,7 @@ public class Test {
 //
 //        // 对象数组转对象数组
         mapperStrs.add("friends:objectArray:friends1:objectArray;notNull");
-        mapperStrs.add("friends.id:int:friends1.id:int;notNull");
+        mapperStrs.add("friends.id:int:friends1.id:int;notNull;");
         mapperStrs.add("friends.name:string:friends1.name:string;");
 
 //        mapperStrs.add("::baseinfos:objectArray;");

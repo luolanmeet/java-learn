@@ -1,5 +1,9 @@
 package pers.groovy.constant;
 
+import java.lang.reflect.Field;
+import java.util.HashSet;
+import java.util.Set;
+
 /**
  * 字段类型
  * @auther ken.ck
@@ -56,5 +60,22 @@ public class FieldType {
      * 对象数组
      */
     public static final String OBJECT_ARRAY = "objectArray";
+
+    /**
+     * 支持的类型
+     */
+    public static final Set<String> SUPPORT_TYPE = new HashSet<String>() {
+        {
+            for (Field field : FieldType.class.getDeclaredFields()) {
+                try {
+                    if (String.class.equals(field.getType())) {
+                        add(field.get(FieldType.class).toString());
+                    }
+                } catch (IllegalAccessException e) {
+                    e.printStackTrace();
+                }
+            }
+        }
+    };
 
 }

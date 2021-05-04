@@ -68,6 +68,11 @@ public class FieldMapper {
      */
     private boolean isNotNull;
 
+    /**
+     * 是否声明做类型转换
+     */
+    private boolean isChangeType;
+
     public static FieldMapper getSimpleMapper(String mapperStr) {
 
         FieldMapper fieldMapper = new FieldMapper();
@@ -104,13 +109,22 @@ public class FieldMapper {
 
         String[] sentences = mapperStr.split(GroovyConstant.SENTENCE_SPLIT);
         for (int i = 1; i < sentences.length; i++) {
-            // TODO 校验操作 入参是否正确
-            String[] split = sentences[i].split(GroovyConstant.SENTENCE_INNER_SPLIT);
-            if (OperateType.NOT_NULL.equals(split[0])) {
+
+            String[] operateSentence = sentences[i].split(GroovyConstant.SENTENCE_INNER_SPLIT);
+
+            // 校验操作声明
+            GroovyUtil.checkOperate(operateSentence);
+
+            if (OperateType.CHANGE_TYPE.equals(operateSentence[0])) {
+                this.isChangeType = true;
+            }
+
+            if (OperateType.NOT_NULL.equals(operateSentence[0])) {
                 this.isNotNull = true;
                 continue;
             }
-            operates.add(new Operate(split[0], split.length > 1 ? split[1] : null));
+
+            operates.add(new Operate(operateSentence[0], operateSentence.length > 1 ? operateSentence[1] : null));
         }
     }
 
@@ -124,8 +138,10 @@ public class FieldMapper {
             GroovyUtil.appendNotNull(groovyBuilder, originField, level);
         }
 
-        // 类型转换 操作补充
-        originField = GroovyUtil.caseType(originFieldType, targetFieldType, originField);
+        // 未主动声明类型转换，则进行默认的类型转换
+        if (!isChangeType) {
+            originField = GroovyUtil.caseType(originFieldType, targetFieldType, originField);
+        }
 
         // 对象或数组 需要不同处理
         if (FieldType.OBJECT.equals(targetParentFieldType)) {
@@ -207,5 +223,13 @@ public class FieldMapper {
 
     public void setNotNull(boolean notNull) {
         isNotNull = notNull;
+    }
+
+    public boolean isChangeType() {
+        return isChangeType;
+    }
+
+    public void setChangeType(boolean changeType) {
+        isChangeType = changeType;
     }
 }

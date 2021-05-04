@@ -1,6 +1,7 @@
 package pers.groovy.util;
 
 import pers.groovy.constant.FieldType;
+import pers.groovy.constant.OperateType;
 
 /**
  * 工具类
@@ -8,6 +9,22 @@ import pers.groovy.constant.FieldType;
  * @date 2021/5/2 15:11
  */
 public class GroovyUtil {
+
+    private static final String ARRAY = "Array";
+
+    public static void checkOperate(String[] operateSentence) {
+
+        // 检验操作类型是否支持
+        if (!OperateType.SUPPORT_OPERATE.contains(operateSentence[0])) {
+            throw new RuntimeException("not support operate:" + operateSentence[0]);
+        }
+
+        // 检验操作入参
+        if (operateSentence.length < 2 && !OperateType.WITHOUT_PARAM_OPERATE.contains(operateSentence[0])) {
+            throw new RuntimeException("operate:" + operateSentence[0] + " need a param");
+        }
+
+    }
 
     /**
      * 填充非空判断语句
@@ -22,8 +39,6 @@ public class GroovyUtil {
                     .appendWithSpaceEnter("return map", level + 1)
                 .appendWithSpaceEnter("}", level);
     }
-
-    private static final String ARRAY = "Array";
 
     /**
      * 是否为数组类型
