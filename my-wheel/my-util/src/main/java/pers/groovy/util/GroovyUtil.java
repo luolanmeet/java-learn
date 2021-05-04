@@ -2,6 +2,9 @@ package pers.groovy.util;
 
 import pers.groovy.constant.FieldType;
 import pers.groovy.constant.OperateType;
+import pers.groovy.mapper.Operate;
+
+import java.util.List;
 
 /**
  * 工具类
@@ -12,6 +15,61 @@ public class GroovyUtil {
 
     private static final String ARRAY = "Array";
 
+    /**
+     * 执行操作
+     * @param operates
+     * @param operates
+     * @param originField
+     * @return
+     */
+    public static String executeOperate(
+            List<Operate> operates, String originFieldType, String originField) {
+
+        boolean hasPlusOrReduce = false;
+
+        for (Operate operate : operates) {
+
+            switch (operate.getOperateType()) {
+                case OperateType.CHANGE_TYPE:
+                    originField = changeType(originFieldType, operate.getOperateVal(), originField);
+                    originFieldType = operate.getOperateVal();
+                    break;
+                case OperateType.MULTIPLY:
+                    if (hasPlusOrReduce) {
+                        originField = "(" + originField + ") * " + operate.getOperateVal();
+                    } else {
+                        originField += " * " + operate.getOperateVal();
+                    }
+                    hasPlusOrReduce = false;
+                    break;
+                case OperateType.DIVIDE:
+                    if (hasPlusOrReduce) {
+                        originField = "(" + originField + ") / " + operate.getOperateVal();
+                    } else {
+                        originField += " / " + operate.getOperateVal();
+                    }
+                    hasPlusOrReduce = false;
+                    break;
+                case OperateType.PLUS:
+                    originField += " + " + operate.getOperateVal();
+                    hasPlusOrReduce = true;
+                    break;
+                case OperateType.REDUCE:
+                    originField += " - " + operate.getOperateVal();
+                    hasPlusOrReduce = true;
+                    break;
+                default:
+                    break;
+            }
+        }
+
+        return originField;
+    }
+
+    /**
+     * 校验操作
+     * @param operateSentence
+     */
     public static void checkOperate(String[] operateSentence) {
 
         // 检验操作类型是否支持
@@ -23,7 +81,6 @@ public class GroovyUtil {
         if (operateSentence.length < 2 && !OperateType.WITHOUT_PARAM_OPERATE.contains(operateSentence[0])) {
             throw new RuntimeException("operate:" + operateSentence[0] + " need a param");
         }
-
     }
 
     /**
@@ -71,7 +128,7 @@ public class GroovyUtil {
      * @param originField
      * @return
      */
-    public static String caseType(String originFieldType, String targetFieldType, String originField) {
+    public static String changeType(String originFieldType, String targetFieldType, String originField) {
 
         if (originFieldType.equals(targetFieldType)) {
             return originField;

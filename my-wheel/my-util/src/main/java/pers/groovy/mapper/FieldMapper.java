@@ -6,6 +6,7 @@ import pers.groovy.constant.OperateType;
 import pers.groovy.util.GroovyBuilder;
 import pers.groovy.util.GroovyUtil;
 
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -61,7 +62,7 @@ public class FieldMapper {
      * 操作
      * notNull、changeType
      */
-    private List<Operate> operates;
+    private List<Operate> operates = new ArrayList<>();
 
     /**
      * 是否做非空校验
@@ -128,6 +129,14 @@ public class FieldMapper {
         }
     }
 
+    /**
+     * 生成脚本
+     * @param groovyBuilder
+     * @param originParentPath
+     * @param targetParentField
+     * @param targetParentFieldType
+     * @param level
+     */
     public void generateScript(
             GroovyBuilder groovyBuilder, String originParentPath,
             String targetParentField, String targetParentFieldType, int level) {
@@ -140,8 +149,11 @@ public class FieldMapper {
 
         // 未主动声明类型转换，则进行默认的类型转换
         if (!isChangeType) {
-            originField = GroovyUtil.caseType(originFieldType, targetFieldType, originField);
+            originField = GroovyUtil.changeType(originFieldType, targetFieldType, originField);
         }
+
+        // 执行操作
+        originField = GroovyUtil.executeOperate(operates, originFieldType, originField);
 
         // 对象或数组 需要不同处理
         if (FieldType.OBJECT.equals(targetParentFieldType)) {

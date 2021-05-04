@@ -26,6 +26,22 @@ public class OperateType {
      */
     public static final String CHANGE_TYPE = "changeType";
     /**
+     * 乘
+     */
+    public static final String MULTIPLY = "multiply";
+    /**
+     * 除
+     */
+    public static final String DIVIDE = "divide";
+    /**
+     * 加
+     */
+    public static final String PLUS = "plus";
+    /**
+     * 减
+     */
+    public static final String REDUCE = "reduce";
+    /**
      * 日期格式转换
      */
     public static final String DATA_FORMAT = "dataFormat";
