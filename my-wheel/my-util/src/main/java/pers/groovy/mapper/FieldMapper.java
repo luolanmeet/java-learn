@@ -134,6 +134,12 @@ public class FieldMapper {
             }
 
             if (OperateType.DEFAULT_VALUE.equals(operateSentence[0])) {
+
+                // 非空判断 和 空设默认值 是互斥的
+                if (isNotNull) {
+                    continue;
+                }
+
                 defaultValOperate = new Operate(operateSentence[0], operateSentence[1]);
                 continue;
             }

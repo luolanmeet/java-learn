@@ -128,56 +128,62 @@ public class ObjectMapper {
                 }
             }
 
-            // 处理对象类型字段 映射
-            if (!GroovyUtil.isArray(objectMapper.fieldType)) {
-                objectMapper.generateScript(builder, originParentPath + "." + objectMapper.getFieldName(), targetParentField, level);
-                continue;
-            }
+            String originFieldPath = originParentPath + "?." + objectMapper.getFieldName();
 
-            // 要循环的原数据的字段的路径
-            String loopOriginFieldPath = originParentPath + "?." + objectMapper.getFieldName();
-
-            // 处理数组的默认值
-            Operate arrayDefaultValOperate = objectMapper.selfMapper.getDefaultValOperate();
-            if (arrayDefaultValOperate != null) {
+            // 是否有声明为空时设值的操作 -- 添加开始的判断
+            Operate defaultValOperate = objectMapper.selfMapper.getDefaultValOperate();
+            if (defaultValOperate != null) {
                 objectMapper.selfMapper.setDefaultValOperate(null);
-                builder.appendWithSpaceEnter("if (" + loopOriginFieldPath + ") {", level);
+                builder.appendWithSpaceEnter("if (" + originFieldPath + ") {", level);
                 level++;
             }
 
-            // 先创建变量
-            buildVariables(builder, targetParentField, level, objectMapper.selfMapper);
-
-            // 遍历数组类型时的变量名
-            String itemVariables = "item" + variablesManager.getOriginArrayVariablesNo();
-
-            // 基础类型数组
-            if (GroovyUtil.isBaseTypeArray(objectMapper.fieldType)) {
-                // 数组
-                builder.appendWithSpaceEnter("for (def "+ itemVariables + " : " + loopOriginFieldPath + ") {", level);
-                generateScript(builder, itemVariables, targetParentField, FieldType.OBJECT_ARRAY, level + 1, objectMapper.selfMapper);
-                builder.appendWithSpaceEnter("}", level);
+            // 处理对象类型字段 映射
+            if (FieldType.OBJECT.equals(objectMapper.fieldType)) {
+                objectMapper.generateScript(builder, originParentPath, targetParentField, level);
+            } else {
+                // 处理数组类型字段 映射
+                generateArrayScript(builder, originFieldPath, targetParentField, level, objectMapper);
             }
 
-            // 对象数组
-            if (GroovyUtil.isObjectTypeArray(objectMapper.fieldType)) {
-                // 对象数组
-                builder.appendWithSpaceEnter("for (def " + itemVariables + " : " + loopOriginFieldPath + ") {", level);
-                objectMapper.generateScript(builder, itemVariables, targetParentField, level + 1);
-                builder.appendWithSpaceEnter("}", level);
-            }
-
-            if (arrayDefaultValOperate != null) {
+            // 是否有声明为空时设值的操作 -- 添加结束的设置默认值
+            if (defaultValOperate != null) {
                 // 默认值
-                String defaultValue = arrayDefaultValOperate.getOperateVal();
+                String defaultValue = defaultValOperate.getOperateVal();
 
                 level--;
-                builder
-                        .appendWithSpaceEnter("} else {", level)
-                            .appendWithSpaceEnter(targetParentField + ".put(\"" + objectMapper.selfMapper.getTargetFieldName() + "\", " + defaultValue + ")", level + 1)
+                builder.appendWithSpaceEnter("} else {", level)
+                        .appendWithSpaceEnter(targetParentField + ".put(\"" + objectMapper.selfMapper.getTargetFieldName() + "\", " + defaultValue + ")", level + 1)
                         .appendWithSpaceEnter("}", level);
             }
 
+        }
+
+    }
+
+    private void generateArrayScript(GroovyBuilder builder, String originFieldPath, String targetParentField, int level, ObjectMapper objectMapper) {
+
+
+        // 先创建变量
+        buildVariables(builder, targetParentField, level, objectMapper.selfMapper);
+
+        // 遍历数组类型时的变量名
+        String itemVariables = "item" + variablesManager.getOriginArrayVariablesNo();
+
+        // 基础类型数组
+        if (GroovyUtil.isBaseTypeArray(objectMapper.fieldType)) {
+            // 数组
+            builder.appendWithSpaceEnter("for (def "+ itemVariables + " : " + originFieldPath + ") {", level);
+            generateScript(builder, itemVariables, targetParentField, FieldType.OBJECT_ARRAY, level + 1, objectMapper.selfMapper);
+            builder.appendWithSpaceEnter("}", level);
+        }
+
+        // 对象数组
+        if (GroovyUtil.isObjectTypeArray(objectMapper.fieldType)) {
+            // 对象数组
+            builder.appendWithSpaceEnter("for (def " + itemVariables + " : " + originFieldPath + ") {", level);
+            objectMapper.generateScript(builder, itemVariables, targetParentField, level + 1);
+            builder.appendWithSpaceEnter("}", level);
         }
 
     }

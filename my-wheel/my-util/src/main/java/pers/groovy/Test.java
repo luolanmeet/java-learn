@@ -30,7 +30,8 @@ public class Test {
 //        mapperStrs.add("hobbyNotExist:stringArray:baseinfo.hobbyNotExist1:stringArray;defaultValue:[]");
 
 //        // 对象转对象
-        mapperStrs.add("bestFriend:object:bestFriend1:object;notNull:defaultValue:{\"id\": 1, \"nam\" : \"cc\"}");
+//        mapperStrs.add("bestFriend:object:bestFriend1:object;notNull;defaultValue:{\"id\": 1, \"nam\" : \"cc\"}");
+        mapperStrs.add("bestFriend:object:bestFriend1:object;notNull;defaultValue:[:]");
         mapperStrs.add("bestFriend.id:long:bestFriend1.id:long;notNull");
         mapperStrs.add("bestFriend.name:string:bestFriend1.name:string;");
 //        mapperStrs.add("bestFriend.birthday:long:bestFriend1.birthday:string;dataFormat:yyyy-MM-dd");
