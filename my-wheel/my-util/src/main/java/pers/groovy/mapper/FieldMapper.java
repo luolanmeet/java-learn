@@ -70,33 +70,38 @@ public class FieldMapper {
 
     public static FieldMapper getSimpleMapper(String mapperStr) {
 
-        FieldMapper mapperDetail = new FieldMapper();
-        mapperDetail.setMapperStr(mapperStr);
+        FieldMapper fieldMapper = new FieldMapper();
+        fieldMapper.setMapperStr(mapperStr);
 
+        // 切分声明
         String[] sentences = mapperStr.split(GroovyConstant.SENTENCE_SPLIT);
 
         // 处理字段映射
-        String fieldMapper = sentences[0];
-        String[] strArray = fieldMapper.split(GroovyConstant.SENTENCE_INNER_SPLIT);
+        String fieldMapperStr = sentences[0];
+        String[] strArray = fieldMapperStr.split(GroovyConstant.SENTENCE_INNER_SPLIT);
         if (strArray.length != 4) {
-            throw new RuntimeException("不符合映射声明语义， " + fieldMapper);
+            throw new RuntimeException("不符合映射声明语义， " + fieldMapperStr);
         }
-        mapperDetail.setOriginFieldPath(strArray[0]);
-        mapperDetail.setOriginFieldType(strArray[1]);
+        fieldMapper.setOriginFieldPath(strArray[0]);
+        fieldMapper.setOriginFieldType(strArray[1]);
 
-        mapperDetail.setTargetFieldType(strArray[3]);
-        mapperDetail.setTargetFieldPath(strArray[2]);
+        fieldMapper.setTargetFieldType(strArray[3]);
+        fieldMapper.setTargetFieldPath(strArray[2]);
 
         String[] targetFields = strArray[2].split(GroovyConstant.POINT_SPLIT);
-        mapperDetail.setTargetFieldName(targetFields[targetFields.length - 1]);
+        fieldMapper.setTargetFieldName(targetFields[targetFields.length - 1]);
 
         String[] fields = strArray[0].split(GroovyConstant.POINT_SPLIT);
-        mapperDetail.setOriginFieldParentName(fields.length > 1 ? fields[0] : null);
+        fieldMapper.setOriginFieldParentName(fields.length > 1 ? fields[0] : null);
 
-        return mapperDetail;
+        // 解析操作
+        fieldMapper.parseOperate();
+
+        return fieldMapper;
     }
 
-    public void parseOperate() {
+    private void parseOperate() {
+
         String[] sentences = mapperStr.split(GroovyConstant.SENTENCE_SPLIT);
         for (int i = 1; i < sentences.length; i++) {
             // TODO 校验操作 入参是否正确
@@ -109,20 +114,14 @@ public class FieldMapper {
         }
     }
 
-    public void buildScript(
-            GroovyBuilder groovyBuilder,
-            String originParentPath, String targetParentField, String targetParentFieldType, int level) {
-
-        // TODO 区分类型
-        // TODO 补充操作
+    public void generateScript(
+            GroovyBuilder groovyBuilder, String originParentPath,
+            String targetParentField, String targetParentFieldType, int level) {
 
         String originField = originFieldPath.isEmpty() ? originParentPath : originParentPath  + "?." + originFieldPath;
 
         if (isNotNull) {
-            groovyBuilder.appendWithSpaceEnter("if (!" + originField + ") {", level);
-            groovyBuilder.appendWithSpaceEnter("map.put(\"error\", \"" + originField + "为空\")", level + 1);
-            groovyBuilder.appendWithSpaceEnter("return map", level + 1);
-            groovyBuilder.appendWithSpaceEnter("}", level);
+            GroovyUtil.appendNotNull(groovyBuilder, originField, level);
         }
 
         // 类型转换 操作补充
@@ -200,5 +199,13 @@ public class FieldMapper {
 
     public void setTargetFieldName(String targetFieldName) {
         this.targetFieldName = targetFieldName;
+    }
+
+    public boolean isNotNull() {
+        return isNotNull;
+    }
+
+    public void setNotNull(boolean notNull) {
+        isNotNull = notNull;
     }
 }

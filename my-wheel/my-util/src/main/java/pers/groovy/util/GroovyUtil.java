@@ -1,6 +1,5 @@
 package pers.groovy.util;
 
-import com.sun.javadoc.FieldDoc;
 import pers.groovy.constant.FieldType;
 
 /**
@@ -9,6 +8,20 @@ import pers.groovy.constant.FieldType;
  * @date 2021/5/2 15:11
  */
 public class GroovyUtil {
+
+    /**
+     * 填充非空判断语句
+     * @param groovyBuilder
+     * @param originField
+     * @param level
+     */
+    public static void appendNotNull(GroovyBuilder groovyBuilder, String originField, int level) {
+        groovyBuilder
+                .appendWithSpaceEnter("if (!" + originField + ") {", level)
+                    .appendWithSpaceEnter("map.put(\"error\", \"" + originField + "为空\")", level + 1)
+                    .appendWithSpaceEnter("return map", level + 1)
+                .appendWithSpaceEnter("}", level);
+    }
 
     private static final String ARRAY = "Array";
 

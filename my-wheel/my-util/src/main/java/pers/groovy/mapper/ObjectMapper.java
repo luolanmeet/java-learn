@@ -31,9 +31,9 @@ public class ObjectMapper {
     private List<FieldMapper> fieldMappers;
 
     /**
-     * 用于辅助要解析的基础类型数组对象
+     * 存储要解析的对象的信息，主要为操作信息
      */
-    private FieldMapper baseArrayFieldMapper;
+    private FieldMapper selfMapper;
 
     /**
      * 要解析的对象的对象/数组字段映射
@@ -46,6 +46,7 @@ public class ObjectMapper {
     private VariablesManager variablesManager;
 
     public ObjectMapper(String fieldName, String fieldType, VariablesManager variablesManager) {
+
         this.fieldName = fieldName;
         this.fieldType = fieldType;
         this.variablesManager = variablesManager;
@@ -85,7 +86,6 @@ public class ObjectMapper {
         // 基本数据类型映射
         if (!FieldType.OBJECT.equals(fieldMapper.getOriginFieldType())
                 && !GroovyUtil.isArray(fieldMapper.getOriginFieldType())) {
-            fieldMapper.parseOperate();
             fieldMappers.add(fieldMapper);
             return ;
         }
@@ -101,59 +101,70 @@ public class ObjectMapper {
         }
 
         fieldMapper.setOriginFieldPath("");
-        objectMapper.baseArrayFieldMapper = fieldMapper;
-
+        objectMapper.selfMapper = fieldMapper;
     }
 
-    public void buildScript(GroovyBuilder builder, String originParentPath, String targetParentField, int level) {
+    public void generateScript(
+            GroovyBuilder builder, String originParentPath,
+            String targetParentField, int level) {
 
-        // 拼接普通类型数据
+        // 生成 普通类型字段 映射脚本
         for (FieldMapper fieldMapper : fieldMappers) {
-            buildMapperScript(builder, originParentPath, targetParentField, FieldType.OBJECT, level, fieldMapper);
+            generateScript(builder, originParentPath, targetParentField, FieldType.OBJECT, level, fieldMapper);
         }
 
-        // 拼接对象
+        // 生成 对象/数组类型字段 映射脚本
         for (Map.Entry<String, ObjectMapper> mapperEntry : childMapper.entrySet()) {
 
             builder.appendWithEnter("");
 
             ObjectMapper objectMapper = mapperEntry.getValue();
+
+            // 处理 对象/数组 非空校验
+            if (objectMapper.selfMapper != null && objectMapper.selfMapper.isNotNull()) {
+                GroovyUtil.appendNotNull(builder, originParentPath + "." + objectMapper.getFieldName(), level);
+                if (GroovyUtil.isBaseTypeArray(objectMapper.fieldType)) {
+                    objectMapper.selfMapper.setNotNull(false);
+                }
+            }
+
+            // 处理对象类型字段
             if (!GroovyUtil.isArray(objectMapper.fieldType)) {
-                objectMapper.buildScript(builder, originParentPath + "." + mapperEntry.getKey(), targetParentField, level);
+                objectMapper.generateScript(builder, originParentPath + "." + objectMapper.getFieldName(), targetParentField, level);
                 continue;
             }
 
             // 遍历数组类型时的变量名
-            int originArrayVariablesNo = variablesManager.getOriginArrayVariablesNo();
-            String itemVariables = "item" + originArrayVariablesNo;
+            String itemVariables = "item" + variablesManager.getOriginArrayVariablesNo();
 
             // 先创建变量
-            buildVariables(builder, targetParentField, level, objectMapper.baseArrayFieldMapper);
+            buildVariables(builder, targetParentField, level, objectMapper.selfMapper);
 
             // 基础类型数组
             if (GroovyUtil.isBaseTypeArray(objectMapper.fieldType)) {
                 // 数组
                 builder.appendWithSpaceEnter("for (def "+ itemVariables + " : " + originParentPath + "?." + objectMapper.getFieldName() + ") {", level);
-                buildMapperScript(builder, itemVariables, targetParentField, FieldType.OBJECT_ARRAY, level + 1, objectMapper.baseArrayFieldMapper);
+                generateScript(builder, itemVariables, targetParentField, FieldType.OBJECT_ARRAY, level + 1, objectMapper.selfMapper);
                 builder.appendWithSpaceEnter("}", level);
                 continue;
             }
 
             // 对象数组
             builder.appendWithSpaceEnter("for (def " + itemVariables + ": " + originParentPath + "?." + objectMapper.getFieldName() + ") {", level);
-            objectMapper.buildScript(builder, itemVariables, targetParentField, level + 1);
+            objectMapper.generateScript(builder, itemVariables, targetParentField, level + 1);
             builder.appendWithSpaceEnter("}", level);
         }
 
     }
 
-    private void buildMapperScript(
+    private void generateScript(
             GroovyBuilder builder, String originParentPath,
             String targetParentField, String targetParentFieldType,
             int level, FieldMapper fieldMapper) {
 
+        // 构造变量
         targetParentField = buildVariables(builder, targetParentField, level, fieldMapper);
-        fieldMapper.buildScript(builder, originParentPath, targetParentField, targetParentFieldType, level);
+        fieldMapper.generateScript(builder, originParentPath, targetParentField, targetParentFieldType, level);
     }
 
     private String buildVariables(GroovyBuilder builder, String targetParentField, int level, FieldMapper fieldMapper) {
