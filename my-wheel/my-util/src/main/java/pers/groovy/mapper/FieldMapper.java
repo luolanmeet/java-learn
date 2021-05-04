@@ -167,8 +167,7 @@ public class FieldMapper {
 
         // 是否有声明为空时设值的操作 -- 添加开始的判断
         if (defaultValOperate != null) {
-            groovyBuilder
-                    .appendWithSpaceEnter("if (" + originField + ") {", level);
+            groovyBuilder.appendWithSpaceEnter("if (" + originField + ") {", level);
             level++;
         }
 

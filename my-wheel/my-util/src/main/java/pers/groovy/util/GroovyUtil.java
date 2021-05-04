@@ -129,15 +129,27 @@ public class GroovyUtil {
     }
 
     /**
-     * 是否为基本数据类
+     * 是否为基本数据数组
      */
     public static boolean isBaseTypeArray(String fieldType) {
 
-        if (fieldType == null || fieldType.isEmpty()) {
+        if (fieldType == null || fieldType.isEmpty() || !isArray(fieldType)) {
             return false;
         }
 
         return !fieldType.equals(FieldType.OBJECT_ARRAY);
+    }
+
+    /**
+     * 是否为对象数组
+     */
+    public static boolean isObjectTypeArray(String fieldType) {
+
+        if (fieldType == null || fieldType.isEmpty() || !isArray(fieldType)) {
+            return false;
+        }
+
+        return fieldType.equals(FieldType.OBJECT_ARRAY);
     }
 
     /**

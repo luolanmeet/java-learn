@@ -27,12 +27,12 @@ public class Test {
         // 基本类型数组转基本类型数组
 //        mapperStrs.add("hobby:stringArray:baseinfo.hobby1:stringArray;");
 //        mapperStrs.add("numbers:stringArray:baseinfo.numbers1:longArray;notNull");
-        mapperStrs.add("hobbyNotExist:stringArray:baseinfo.hobbyNotExist1:stringArray;");
+//        mapperStrs.add("hobbyNotExist:stringArray:baseinfo.hobbyNotExist1:stringArray;defaultValue:[]");
 
 //        // 对象转对象
-//        mapperStrs.add("bestFriend:object:bestFriend1:object;notNull");
-//        mapperStrs.add("bestFriend.id:long:bestFriend1.id:long;notNull");
-//        mapperStrs.add("bestFriend.name:string:bestFriend1.name:string;");
+        mapperStrs.add("bestFriend:object:bestFriend1:object;notNull:defaultValue:{\"id\": 1, \"nam\" : \"cc\"}");
+        mapperStrs.add("bestFriend.id:long:bestFriend1.id:long;notNull");
+        mapperStrs.add("bestFriend.name:string:bestFriend1.name:string;");
 //        mapperStrs.add("bestFriend.birthday:long:bestFriend1.birthday:string;dataFormat:yyyy-MM-dd");
 //        mapperStrs.add("bestFriend.sex:string:bestFriend1.sex:string;defaultValue:男");
 //        mapperStrs.add("bestFriend.height:long:bestFriend1.height:long;defaultValue:1000");
@@ -47,7 +47,7 @@ public class Test {
 //        mapperStrs.add("bestFriend.childs.name:string:bestFriend1.childs.name:string;");
 //
 //        // 对象数组转对象数组
-//        mapperStrs.add("friends:objectArray:friends1:objectArray;notNull");
+//        mapperStrs.add("friends:objectArray:friends1:objectArray;notNull;defaultValue:[{\"id\": 1, \"name\" : \"ccc\"}]");
 //        mapperStrs.add("friends.id:long:friends1.id:long;notNull;");
 //        mapperStrs.add("friends.name:string:friends1.name:string;");
 //        mapperStrs.add("friends.sex:string:friends1.sex:string;defaultValue:男");
