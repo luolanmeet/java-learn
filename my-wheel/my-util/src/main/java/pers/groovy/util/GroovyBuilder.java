@@ -21,13 +21,21 @@ public class GroovyBuilder {
 
     public static GroovyBuilder builder() {
         GroovyBuilder groovyBuilder = new GroovyBuilder();
-        groovyBuilder.appendWithEnter("import com.fasterxml.jackson.databind.ObjectMapper")
-                .appendWithEnter("import groovy.json.JsonSlurper").append(ENTER)
-                .appendWithEnter("def execute(v, f) {").append(ENTER)
+        groovyBuilder
+                .appendWithEnter("import com.fasterxml.jackson.databind.ObjectMapper")
+                .appendWithEnter("import groovy.json.JsonSlurper").append(ENTER);
+        return groovyBuilder;
+    }
+
+    public GroovyBuilder importSimpleDateFormat() {
+        return this.appendWithEnter("import java.text.SimpleDateFormat").append(ENTER);
+    }
+
+    public GroovyBuilder start() {
+        return this.appendWithEnter("def execute(v, f) {").append(ENTER)
                 .appendWithSpaceEnter("def map = ['value': '', 'format': 'JSON', 'success': false, 'error': 'init']")
                 .appendWithSpaceEnter("def jsonObject = new JsonSlurper().parseText(v)")
                 .appendWithSpaceEnter("def target = [:]");
-        return groovyBuilder;
     }
 
     public GroovyBuilder append(String str) {

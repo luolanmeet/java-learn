@@ -57,7 +57,7 @@ public class ObjectMapper {
 
     public void addMapper(String mapperStr) {
 
-        FieldMapper fieldMapper = FieldMapper.getSimpleMapper(mapperStr);
+        FieldMapper fieldMapper = FieldMapper.getSimpleMapper(mapperStr, variablesManager);
         String originFieldParentName = fieldMapper.getOriginFieldParentName();
 
         // 注册需要声明的变量
@@ -164,7 +164,7 @@ public class ObjectMapper {
 
         // 构造变量
         targetParentField = buildVariables(builder, targetParentField, level, fieldMapper);
-        fieldMapper.generateScript(builder, originParentPath, targetParentField, targetParentFieldType, level);
+        fieldMapper.generateScript(builder, variablesManager, originParentPath, targetParentField, targetParentFieldType, level);
     }
 
     private String buildVariables(GroovyBuilder builder, String targetParentField, int level, FieldMapper fieldMapper) {

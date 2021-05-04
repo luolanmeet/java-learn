@@ -5,6 +5,7 @@ import pers.groovy.constant.GroovyConstant;
 import pers.groovy.constant.OperateType;
 import pers.groovy.util.GroovyBuilder;
 import pers.groovy.util.GroovyUtil;
+import pers.groovy.util.VariablesManager;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -70,11 +71,11 @@ public class FieldMapper {
     private boolean isNotNull;
 
     /**
-     * 是否声明做类型转换
+     * 是否自动做类型转换
      */
-    private boolean isChangeType;
+    private boolean isAutoChangeType = true;
 
-    public static FieldMapper getSimpleMapper(String mapperStr) {
+    public static FieldMapper getSimpleMapper(String mapperStr, VariablesManager variablesManager) {
 
         FieldMapper fieldMapper = new FieldMapper();
         fieldMapper.setMapperStr(mapperStr);
@@ -101,28 +102,34 @@ public class FieldMapper {
         fieldMapper.setOriginFieldParentName(fields.length > 1 ? fields[0] : null);
 
         // 解析操作
-        fieldMapper.parseOperate();
+        fieldMapper.parseOperate(variablesManager);
 
         return fieldMapper;
     }
 
-    private void parseOperate() {
+    private void parseOperate(VariablesManager variablesManager) {
 
         String[] sentences = mapperStr.split(GroovyConstant.SENTENCE_SPLIT);
         for (int i = 1; i < sentences.length; i++) {
 
-            String[] operateSentence = sentences[i].split(GroovyConstant.SENTENCE_INNER_SPLIT);
+            String[] operateSentence = sentences[i].split(GroovyConstant.SENTENCE_INNER_SPLIT, 2);
 
             // 校验操作声明
             GroovyUtil.checkOperate(operateSentence);
 
-            if (OperateType.CHANGE_TYPE.equals(operateSentence[0])) {
-                this.isChangeType = true;
+            // 声明了类型转换 则不进行自动的类型转换
+            if (OperateType.CHANGE_TYPE.equals(operateSentence[0]) || OperateType.DATA_FORMAT.equals(operateSentence[0])) {
+                this.isAutoChangeType = false;
             }
 
+            // 非空检验
             if (OperateType.NOT_NULL.equals(operateSentence[0])) {
                 this.isNotNull = true;
                 continue;
+            }
+
+            if (OperateType.DATA_FORMAT.equals(operateSentence[0])) {
+                variablesManager.registerDateFormatVariables(operateSentence[1]);
             }
 
             operates.add(new Operate(operateSentence[0], operateSentence.length > 1 ? operateSentence[1] : null));
@@ -132,13 +139,14 @@ public class FieldMapper {
     /**
      * 生成脚本
      * @param groovyBuilder
+     * @param variablesManager
      * @param originParentPath
      * @param targetParentField
      * @param targetParentFieldType
      * @param level
      */
     public void generateScript(
-            GroovyBuilder groovyBuilder, String originParentPath,
+            GroovyBuilder groovyBuilder, VariablesManager variablesManager, String originParentPath,
             String targetParentField, String targetParentFieldType, int level) {
 
         String originField = originFieldPath.isEmpty() ? originParentPath : originParentPath  + "?." + originFieldPath;
@@ -147,13 +155,13 @@ public class FieldMapper {
             GroovyUtil.appendNotNull(groovyBuilder, originField, level);
         }
 
-        // 未主动声明类型转换，则进行默认的类型转换
-        if (!isChangeType) {
+        // 进行默认的类型转换
+        if (isAutoChangeType) {
             originField = GroovyUtil.changeType(originFieldType, targetFieldType, originField);
         }
 
         // 执行操作
-        originField = GroovyUtil.executeOperate(operates, originFieldType, originField);
+        originField = GroovyUtil.executeOperate(variablesManager, operates, originFieldType, originField);
 
         // 对象或数组 需要不同处理
         if (FieldType.OBJECT.equals(targetParentFieldType)) {
@@ -237,11 +245,11 @@ public class FieldMapper {
         isNotNull = notNull;
     }
 
-    public boolean isChangeType() {
-        return isChangeType;
+    public boolean isAutoChangeType() {
+        return isAutoChangeType;
     }
 
-    public void setChangeType(boolean changeType) {
-        isChangeType = changeType;
+    public void setAutoChangeType(boolean autoChangeType) {
+        isAutoChangeType = autoChangeType;
     }
 }

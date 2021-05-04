@@ -17,13 +17,15 @@ public class GroovyUtil {
 
     /**
      * 执行操作
-     * @param operates
+     *
+     * @param variablesManager
      * @param operates
      * @param originField
      * @return
      */
     public static String executeOperate(
-            List<Operate> operates, String originFieldType, String originField) {
+            VariablesManager variablesManager, List<Operate> operates,
+            String originFieldType, String originField) {
 
         boolean hasPlusOrReduce = false;
 
@@ -58,12 +60,26 @@ public class GroovyUtil {
                     originField += " - " + operate.getOperateVal();
                     hasPlusOrReduce = true;
                     break;
+                case OperateType.DATA_FORMAT:
+                    String dateFormatVariables = variablesManager.dateFormatVariablesNameMap.get(operate.getOperateVal());
+                    originField = dateFormatVariables + ".format(" + originField + ")";
                 default:
                     break;
             }
         }
 
         return originField;
+    }
+
+    /**
+     * 声明日期转换变量
+     * @param format
+     * @param variablesName
+     * @param builder
+     * @param level
+     */
+    public static void defDateFormatVariables(String format, String variablesName, GroovyBuilder builder, int level) {
+        builder.appendWithSpaceEnter("def " + variablesName + " = new SimpleDateFormat(\"" + format + "\")", level);
     }
 
     /**

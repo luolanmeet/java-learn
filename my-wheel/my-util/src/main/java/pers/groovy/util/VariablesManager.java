@@ -15,16 +15,25 @@ import java.util.StringJoiner;
 public class VariablesManager {
 
     /**
+     * 变量类型注册
      * key : path
      * value : type
      */
     public Map<String, String> variablesTypeMap = new HashMap<>();
 
     /**
+     * 变量名注册
      * key : path
      * value : define name
      */
     public Map<String, String> variablesNameMap = new HashMap<>();
+
+    /**
+     * 日期格式化工具变量注册
+     * key : 字符串格式
+     * value : name
+     */
+    public Map<String, String> dateFormatVariablesNameMap = new HashMap<>();
 
     /**
      * 原数据数组变量编号
@@ -35,6 +44,11 @@ public class VariablesManager {
      * 目标数据数组变量编号
      */
     public int targetArrayVariablesNo = 1000;
+
+    /**
+     * 日期变量编号
+     */
+    public int dataFormatVariablesNo = 1;
 
     public int getOriginArrayVariablesNo() {
         return originArrayVariablesNo++;
@@ -130,6 +144,18 @@ public class VariablesManager {
 
         variablesNameMap.put(variablesPath, fieldName);
         return fieldName;
+    }
+
+    /**
+     * 注册日期转换变量
+     * @param format
+     */
+    public void registerDateFormatVariables(String format) {
+        String variablesName = dateFormatVariablesNameMap.get(format);
+        if (variablesName == null) {
+            variablesName = "dateFormat" + dataFormatVariablesNo++;
+            dateFormatVariablesNameMap.put(format, variablesName);
+        }
     }
 
 }
