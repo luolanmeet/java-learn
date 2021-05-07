@@ -30,3 +30,4 @@ build
 .recommenders
 **/Servers
 **/out
+**DS_Store
