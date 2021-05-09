@@ -101,7 +101,11 @@ public class ObjectMapper {
             objectMapper.setFieldType(fieldMapper.getOriginFieldType());
         }
 
+        // 生成脚本时，会用此字段拼接源数据字段路径
+        // 对于数组，遍历数组时，不需要知道上级节点的路径。 因此设置为空。
+        // 对于对象，则不会使用到此字段
         fieldMapper.setOriginFieldPath("");
+
         if (!objectMapper.selfMapperMap.containsKey(fieldMapper.getTargetFieldPath())) {
             objectMapper.selfMapperMap.put(fieldMapper.getTargetFieldPath(), fieldMapper);
         }
