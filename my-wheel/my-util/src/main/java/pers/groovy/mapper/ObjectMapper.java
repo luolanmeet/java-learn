@@ -155,7 +155,7 @@ public class ObjectMapper {
 
             // 处理对象类型字段 映射
             if (FieldType.OBJECT.equals(objectMapper.fieldType)) {
-                objectMapper.generateScript(builder, originParentPath, targetParentField, level);
+                objectMapper.generateScript(builder, originFieldPath, targetParentField, level);
             } else {
                 // 处理数组类型字段 映射
                 generateArrayScript(builder, originFieldPath, targetParentField, level, objectMapper);
