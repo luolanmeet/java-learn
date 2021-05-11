@@ -26,6 +26,11 @@ public class ObjectMapper {
     private String fieldType;
 
     /**
+     * 要解析的对象的完整路径
+     */
+    private String fieldPath;
+
+    /**
      * 要解析的对象的基本类型字段映射
      */
     private List<FieldMapper> fieldMappers;
@@ -45,8 +50,9 @@ public class ObjectMapper {
      */
     private VariablesManager variablesManager;
 
-    public ObjectMapper(String fieldName, String fieldType, VariablesManager variablesManager) {
+    public ObjectMapper(String parentFieldPath, String fieldName, String fieldType, VariablesManager variablesManager) {
 
+        this.fieldPath = parentFieldPath.isEmpty() ? fieldName : parentFieldPath + "." + fieldName;
         this.fieldName = fieldName;
         this.fieldType = fieldType;
         this.variablesManager = variablesManager;
@@ -58,7 +64,7 @@ public class ObjectMapper {
 
     public void addMapper(String mapperStr) {
 
-        FieldMapper fieldMapper = FieldMapper.getSimpleMapper(mapperStr, variablesManager);
+        FieldMapper fieldMapper = FieldMapper.getSimpleMapper(this.fieldPath, mapperStr, variablesManager);
         String originFieldParentName = fieldMapper.getOriginFieldParentName();
 
         // 注册需要声明的变量
@@ -77,7 +83,7 @@ public class ObjectMapper {
             ObjectMapper objectMapper = childMapperMap.get(originFieldParentName);
             if (objectMapper == null) {
                 // 默认父节点是对象类型
-                objectMapper = new ObjectMapper(originFieldParentName, FieldType.OBJECT, variablesManager);
+                objectMapper = new ObjectMapper(this.fieldPath, originFieldParentName, FieldType.OBJECT, variablesManager);
                 childMapperMap.put(originFieldParentName, objectMapper);
             }
             objectMapper.addMapper(mapperStr.split(GroovyConstant.POINT_SPLIT, 2)[1]);
@@ -96,7 +102,7 @@ public class ObjectMapper {
         // 对象/数组类型映射
         ObjectMapper objectMapper = childMapperMap.get(fieldMapper.getOriginFieldPath());
         if (objectMapper == null) {
-            objectMapper = new ObjectMapper(fieldMapper.getOriginFieldPath(), fieldMapper.getOriginFieldType(), variablesManager);
+            objectMapper = new ObjectMapper(this.fieldPath, fieldMapper.getOriginFieldPath(), fieldMapper.getOriginFieldType(), variablesManager);
             childMapperMap.put(fieldMapper.getOriginFieldPath(), objectMapper);
         } else {
             // 更新类型
@@ -111,6 +117,14 @@ public class ObjectMapper {
     public void generateScript(
             GroovyBuilder builder, String originParentPath,
             String targetParentField, int level) {
+
+        // 生成变量
+        Set<String> targetFieldPaths = variablesManager.earlyBuildVariablesPathMap.get(fieldPath);
+        if (targetFieldPaths != null) {
+            for (String targetFieldPath : targetFieldPaths) {
+                buildVariables(builder, targetParentField, level, targetFieldPath);
+            }
+        }
 
         // 生成 普通类型字段 映射脚本
         for (FieldMapper fieldMapper : fieldMappers) {
@@ -190,11 +204,18 @@ public class ObjectMapper {
             GroovyBuilder builder, String originFieldPath, String targetParentField,
             int level, ObjectMapper objectMapper) {
 
-        Collection<FieldMapper> selfMappers = objectMapper.selfMapperMap.values();
+        // 创建变量
+        Set<String> targetFieldPaths = variablesManager.earlyBuildVariablesPathMap.get(objectMapper.getFieldPath());
+        if (targetFieldPaths != null) {
+            for (String targetFieldPath : targetFieldPaths) {
+                buildVariables(builder, targetParentField, level, targetFieldPath);
+            }
+        }
 
-        // 先创建变量
+        Collection<FieldMapper> selfMappers = objectMapper.selfMapperMap.values();
+        // 创建变量
         for (FieldMapper selfMapper : selfMappers) {
-            buildVariables(builder, targetParentField, level, selfMapper);
+            buildVariables(builder, targetParentField, level, selfMapper.getTargetFieldPath());
         }
 
         // 遍历数组类型时的变量名
@@ -230,14 +251,13 @@ public class ObjectMapper {
             int level, FieldMapper fieldMapper) {
 
         // 构造变量
-        targetParentField = buildVariables(builder, targetParentField, level, fieldMapper);
+        targetParentField = buildVariables(builder, targetParentField, level, fieldMapper.getTargetFieldPath());
         fieldMapper.generateScript(builder, variablesManager, originParentPath, targetParentField, targetParentFieldType, level);
     }
 
-    private String buildVariables(GroovyBuilder builder, String targetParentField, int level, FieldMapper fieldMapper) {
+    private String buildVariables(GroovyBuilder builder, String targetParentField, int level, String targetFieldPath) {
 
-        String targetVal = fieldMapper.getTargetFieldPath();
-        String[] fields = targetVal.split(GroovyConstant.POINT_SPLIT);
+        String[] fields = targetFieldPath.split(GroovyConstant.POINT_SPLIT);
 
         StringJoiner tmpFieldPath = new StringJoiner(".");
         StringJoiner tmpParentFieldPath = new StringJoiner(".");
@@ -266,5 +286,13 @@ public class ObjectMapper {
 
     public void setFieldType(String fieldType) {
         this.fieldType = fieldType;
+    }
+
+    public String getFieldPath() {
+        return fieldPath;
+    }
+
+    public void setFieldPath(String fieldPath) {
+        this.fieldPath = fieldPath;
     }
 }

@@ -1,10 +1,12 @@
 package pers.groovy.util;
 
 import pers.groovy.constant.FieldType;
+import pers.groovy.constant.GroovyConstant;
 import pers.groovy.constant.OperateType;
 import pers.groovy.mapper.Operate;
 
 import java.util.List;
+import java.util.StringJoiner;
 
 /**
  * 工具类
@@ -219,6 +221,21 @@ public class GroovyUtil {
             default:
                 return defaultVla;
         }
+    }
+
+    public static String getNewPath(String path, int length) {
+        return getNewPath(path.split(GroovyConstant.POINT_SPLIT), length);
+    }
+
+    public static String getNewPath(String[] fields, int length) {
+
+        length = Math.min(fields.length, length);
+
+        StringJoiner tmpJoiner = new StringJoiner(".");
+        for (int i = 0; i < length; i++) {
+            tmpJoiner.add(fields[i]);
+        }
+        return tmpJoiner.toString();
     }
 
 }

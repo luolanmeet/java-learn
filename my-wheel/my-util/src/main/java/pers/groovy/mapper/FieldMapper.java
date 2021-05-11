@@ -24,13 +24,13 @@ public class FieldMapper {
     private String mapperStr;
 
     /**
-     * 源数据字段路径
+     * 源数据字段路径（相对于上级节点）
      * user.info.name
      */
     private String originFieldPath;
 
     /**
-     * 源数据字段上级字段名
+     * 祖先字段字段名
      * user
      */
     private String originFieldParentName;
@@ -40,6 +40,12 @@ public class FieldMapper {
      * string
      */
     private String originFieldType;
+
+    /**
+     * 源数据字段路径（完整的路径）
+     * result.user.info.name
+     */
+    private String completeOriginFieldPath;
 
     /**
      * 目标数据字段路径
@@ -80,9 +86,12 @@ public class FieldMapper {
      */
     private Operate defaultValOperate;
 
-    public static FieldMapper getSimpleMapper(String mapperStr, VariablesManager variablesManager) {
+    public static FieldMapper getSimpleMapper(
+            String parentCompleteOriginFieldPath,
+            String mapperStr, VariablesManager variablesManager) {
 
         FieldMapper fieldMapper = new FieldMapper();
+        fieldMapper.setMapperStr(mapperStr);
 
         // 切分声明
         String[] sentences = mapperStr.split(GroovyConstant.SENTENCE_SPLIT);
@@ -93,11 +102,13 @@ public class FieldMapper {
         if (strArray.length != 4) {
             throw new RuntimeException("不符合映射声明语义， " + fieldMapperStr);
         }
+
+        fieldMapper.setCompleteOriginFieldPath(parentCompleteOriginFieldPath.isEmpty() ? strArray[0] : parentCompleteOriginFieldPath + "." + strArray[0]);
         fieldMapper.setOriginFieldPath(strArray[0]);
         fieldMapper.setOriginFieldType(strArray[1]);
 
-        fieldMapper.setTargetFieldType(strArray[3]);
         fieldMapper.setTargetFieldPath(strArray[2]);
+        fieldMapper.setTargetFieldType(strArray[3]);
 
         String[] targetFields = strArray[2].split(GroovyConstant.POINT_SPLIT);
         fieldMapper.setTargetFieldName(targetFields[targetFields.length - 1]);
@@ -299,5 +310,13 @@ public class FieldMapper {
 
     public void setDefaultValOperate(Operate defaultValOperate) {
         this.defaultValOperate = defaultValOperate;
+    }
+
+    public String getCompleteOriginFieldPath() {
+        return completeOriginFieldPath;
+    }
+
+    public void setCompleteOriginFieldPath(String completeOriginFieldPath) {
+        this.completeOriginFieldPath = completeOriginFieldPath;
     }
 }

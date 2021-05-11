@@ -34,18 +34,18 @@ public class VariablesManager {
     public Map<String, String> dateFormatVariablesNameMap = new HashMap<>();
 
     /**
-     * 需要先创建的变量
+     * 需要先创建的变量，暂存数据
      * key : 需要创建的变量的路径
      * value : 用到同个变量的原数据的路径
      */
-    public Map<String, Set<String>> earlyVariablesMap = new HashMap<>();
+    private Map<String, Set<String>> earlyBuildVariablesMap = new HashMap<>();
 
     /**
      * 需要先创建的变量
      * key : 遍历至此路径时，需要声明value路径的变量
      * value : 需要创建的变量的路径
      */
-    public Map<String, Set<String>> defEarlyVariablesPathMap = new HashMap<>();
+    public Map<String, Set<String>> earlyBuildVariablesPathMap = new HashMap<>();
 
     /**
      * 原数据数组变量编号
@@ -82,7 +82,7 @@ public class VariablesManager {
             String targetFieldPath, String targetFieldType) {
 
         // 当多个域使用到同一变量时，则该变量在进入某个域之前被创建
-        registerEarlyVariables(originFieldPath, originFieldType, targetFieldPath, targetFieldType);
+        registerEarlyBuildVariables(originFieldPath, originFieldType, targetFieldPath, targetFieldType);
 
         // 直接指定变量类型的优先级最高
         if (FieldType.OBJECT.equals(targetFieldType) || GroovyUtil.isArray(targetFieldType)) {
@@ -104,13 +104,13 @@ public class VariablesManager {
     }
 
     /**
-     *
+     * 注册需要提前创建的变量
      * @param originFieldPath
      * @param originFieldType
      * @param targetFieldPath
      * @param targetFieldType
      */
-    private void registerEarlyVariables(
+    private void registerEarlyBuildVariables(
             String originFieldPath, String originFieldType,
             String targetFieldPath, String targetFieldType) {
 
@@ -121,16 +121,13 @@ public class VariablesManager {
             if (split.length <= 1) {
                 return ;
             }
-            StringJoiner tmpJoiner = new StringJoiner(".");
-            for (int i = 0; i < split.length - 1; i++) {
-                tmpJoiner.add(split[i]);
-            }
-            originFieldPath = tmpJoiner.toString();
+            // 去除最后一个字段
+            originFieldPath = GroovyUtil.getNewPath(split, split.length - 1);
         }
 
         String[] targetFields = targetFieldPath.split(GroovyConstant.POINT_SPLIT);
         int targetFieldSize = targetFields.length;
-        // 不需要处理基础类型
+        // 只处理对象类型
         if (!FieldType.OBJECT.equals(targetFieldType) && !GroovyUtil.isArray(targetFieldType)) {
             targetFieldSize--;
         }
@@ -139,22 +136,26 @@ public class VariablesManager {
 
         for (int j = 0; j < targetFieldSize; j++) {
             tmpTargetFieldPath.add(targetFields[j]);
-            Set<String> paths = earlyVariablesMap.computeIfAbsent(tmpTargetFieldPath.toString(), t -> new HashSet<>());
+            Set<String> paths = earlyBuildVariablesMap.computeIfAbsent(tmpTargetFieldPath.toString(), t -> new HashSet<>());
             paths.add(originFieldPath);
         }
 
     }
 
     /**
-     * 构建defEarlyVariablesPathMap
+     * 构建 buildEarlyBuildVariablesPathMap
      */
-    public void buildEarlyVariablesPathMap() {
+    public void buildEarlyBuildVariablesPathMap() {
 
-        for (Map.Entry<String, Set<String>> entry : earlyVariablesMap.entrySet()) {
+        for (Map.Entry<String, Set<String>> entry : earlyBuildVariablesMap.entrySet()) {
 
             int level = Integer.MAX_VALUE;
 
             Set<String> originPaths = entry.getValue();
+
+            if (originPaths.size() == 1) {
+                continue;
+            }
 
             // 找到这个变量在哪个最小层级的域就被使用到
             for (String originPath : originPaths) {
@@ -164,12 +165,7 @@ public class VariablesManager {
             // 把所有原数据路径都处理成同个层级数量
             Set<String> tmpOriginPaths = new HashSet<>();
             for (String originPath : originPaths) {
-                String[] split = originPath.split(GroovyConstant.POINT_SPLIT);
-                StringJoiner tmpOriginPath = new StringJoiner(".");
-                for (int i = 0; i < level; i++) {
-                    tmpOriginPath.add(split[i]);
-                }
-                tmpOriginPaths.add(tmpOriginPath.toString());
+                tmpOriginPaths.add(GroovyUtil.getNewPath(originPath, level));
             }
 
             // 判断同个层级的路径是否在同个路径
@@ -177,7 +173,7 @@ public class VariablesManager {
 
             String targetField = entry.getKey();
             for (String tmpOriginPath : tmpOriginPaths) {
-                Set<String> variables = defEarlyVariablesPathMap.computeIfAbsent(tmpOriginPath, t -> new HashSet<>());
+                Set<String> variables = earlyBuildVariablesPathMap.computeIfAbsent(tmpOriginPath, t -> new HashSet<>());
                 variables.add(targetField);
             }
         }
@@ -214,12 +210,7 @@ public class VariablesManager {
         if (isFindLevel) {
             Set<String> result = new HashSet<>();
             for (String originPath : originPaths) {
-                String[] split = originPath.split(GroovyConstant.POINT_SPLIT);
-                StringJoiner tmpOriginPath = new StringJoiner(".");
-                for (int i = 0; i <= idx; i++) {
-                    tmpOriginPath.add(split[i]);
-                }
-                result.add(tmpOriginPath.toString());
+                result.add(GroovyUtil.getNewPath(originPath, idx + 1));
             }
             return result;
         }

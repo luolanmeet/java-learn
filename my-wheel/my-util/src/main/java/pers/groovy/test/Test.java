@@ -18,67 +18,22 @@ public class Test {
 
     public static void main(String[] args) {
 
-        List<String> mapperStrs = new ArrayList<>();
-
-        // 基本属性转对象
-//        mapperStrs.add("id:long:baseinfo.id1:long;changeType:string;changeType:long;multiply:100;reduce:100;plus:200;divide:10");
-//        mapperStrs.add("name:string:baseinfo.name1:string;");
-//        mapperStrs.add("birthday:long:baseinfo.birthday1:string;dataFormat:yyyy-MM-dd HH:mm:ss");
-        // 基本类型数组转基本类型数组
-//        mapperStrs.add("hobby:stringArray:baseinfo.hobby1:stringArray;");
-//        mapperStrs.add("hobby:stringArray:baseinfo.hobby2:stringArray;");
-//        mapperStrs.add("numbers:stringArray:baseinfo.numbers1:longArray;notNull");
-//        mapperStrs.add("hobbyNotExist:stringArray:baseinfo.hobbyNotExist1:stringArray;defaultValue:[]");
-
-//        // 对象转对象
-//        mapperStrs.add("bestFriend:object:bestFriend1:object;");
-//        mapperStrs.add("bestFriend.id:long:bestFriend1.id:long;");
-//        mapperStrs.add("bestFriend.name:string:bestFriend1.name:string;");
-//        mapperStrs.add("bestFriend.birthday:long:bestFriend1.birthday:string;dataFormat:yyyy-MM-dd");
-//        mapperStrs.add("bestFriend.sex:string:bestFriend1.sex:string;defaultValue:男");
-//        mapperStrs.add("bestFriend.height:long:bestFriend1.height:long;defaultValue:1000");
-//        mapperStrs.add("bestFriend:object:bestFriend2:object;");
-//        mapperStrs.add("bestFriend.id:long:bestFriend2.id:long;");
-//        mapperStrs.add("bestFriend.name:string:bestFriend2.name:string;");
-//        mapperStrs.add("bestFriend.birthday:long:bestFriend2.birthday:string;dataFormat:yyyy-MM-dd");
-
-        mapperStrs.add("HEADER.PLANT:string:deliveryOrder.warehouseCode:string;");
-
-        mapperStrs.add("ZMM_RESERVATION_ITEMS:objectArray:orderLines:objectArray;");
-        mapperStrs.add("ZMM_RESERVATION_ITEMS.WEMPF:string:orderLines.extendProps.areaCode:string;");
-        mapperStrs.add("ZMM_RESERVATION_ITEMS.PLANT:string:deliveryOrder.warehouseCode:string;");
-
-        // 对象中存在 对象数组
-//        mapperStrs.add("bestFriend.childs:objectArray:bestFriend1.childs1:objectArray;");
-//        mapperStrs.add("bestFriend.childs.age:long:bestFriend1.childs1.age:float;");
-//        mapperStrs.add("bestFriend.childs.name:string:bestFriend1.childs1.name:string;");
-
-        // 数组转对象
-//        mapperStrs.add("bestFriend.childs:objectArray:bestFriend1.childs:object;");
-//        mapperStrs.add("bestFriend.childs.age:long:bestFriend1.childs.age:long;");
-//        mapperStrs.add("bestFriend.childs.name:string:bestFriend1.childs.name:string;");
-
-//        // 对象数组转对象数组
-//        mapperStrs.add("friends:objectArray:friends1:objectArray;defaultValue:[:]");
-//        mapperStrs.add("friends.id:long:friends1.id:long;");
-//        mapperStrs.add("friends.name:string:friends1.name:string;");
-//        mapperStrs.add("friends.sex:string:friends1.sex:string;defaultValue:男");
-          // 遍历同个对象数组多次
-//        mapperStrs.add("friends:objectArray:friends2:objectArray;defaultValue:[:]");
-//        mapperStrs.add("friends.id:long:friends2.id:long");
-//        mapperStrs.add("friends.name:string:friends2.name:string;");
-//        mapperStrs.add("friends.sex:string:friends2.sex:string;defaultValue:男");
-
-//        mapperStrs.add("::baseinfos:objectArray;");
-//        mapperStrs.add("id:long:baseinfos.id1:string;");
-//        mapperStrs.add("name:string:baseinfos.name1:string;");
+        String [] mapperStrs = {
+                "HEADER.PLANT:string:deliveryOrder.warehouseCode:string;",
+                "ZMM_RESERVATION_ITEMS:objectArray:orderLines:objectArray;",
+                "ZMM_RESERVATION_ITEMS.WEMPF:string:orderLines.areaCode:string;",
+                "ZMM_RESERVATION_ITEMS.PLANT:string:deliveryOrder.warehouseCode:string;",
+        };
 
         VariablesManager variablesManager = new VariablesManager();
-        ObjectMapper objectMapper = new ObjectMapper("jsonObject", FieldType.OBJECT, variablesManager);
+        ObjectMapper objectMapper = new ObjectMapper("", "jsonObject", FieldType.OBJECT, variablesManager);
+        objectMapper.setFieldPath("");
+
         for (String mapperStr : mapperStrs) {
             objectMapper.addMapper(mapperStr);
         }
-        variablesManager.buildEarlyVariablesPathMap();
+
+        variablesManager.buildEarlyBuildVariablesPathMap();
 
         // json -> json
         GroovyBuilder builder = GroovyBuilder.builder();

@@ -1,0 +1,51 @@
+
+// 基本属性转对象
+"id:long:baseinfo.id1:long;changeType:string;changeType:long;multiply:100;reduce:100;plus:200;divide:10",
+"name:string:baseinfo.name1:string;",
+"birthday:long:baseinfo.birthday1:string;dataFormat:yyyy-MM-dd HH:mm:ss",
+
+// 基本类型数组转基本类型数组
+"hobby:stringArray:baseinfo.hobby1:stringArray;",
+"hobby:stringArray:baseinfo.hobby2:stringArray;",
+"numbers:stringArray:baseinfo.numbers1:longArray",
+"hobbyNotExist:stringArray:baseinfo.hobbyNotExist1:stringArray;",
+
+// 对象转对象
+"bestFriend:object:bestFriend1:object;",
+"bestFriend.id:long:bestFriend1.id:long;",
+"bestFriend.name:string:bestFriend1.name:string;",
+"bestFriend.birthday:long:bestFriend1.birthday:string;dataFormat:yyyy-MM-dd",
+"bestFriend.sex:string:bestFriend1.sex:string;defaultValue:男",
+"bestFriend.height:long:bestFriend1.height:long;defaultValue:1000",
+"bestFriend:object:bestFriend2:object;",
+"bestFriend.id:long:bestFriend2.id:long;",
+"bestFriend.name:string:bestFriend2.name:string;",
+"bestFriend.birthday:long:bestFriend2.birthday:string;dataFormat:yyyy-MM-dd",
+
+// 对象中存在 对象数组
+"bestFriend.childs:objectArray:bestFriend1.childs1:objectArray;",
+"bestFriend.childs.age:long:bestFriend1.childs1.age:float;",
+"bestFriend.childs.name:string:bestFriend1.childs1.name:string;",
+
+// 数组转对象
+"bestFriend.childs:objectArray:bestFriend1.childs:object;",
+"bestFriend.childs.age:long:bestFriend1.childs.age:long;",
+"bestFriend.childs.name:string:bestFriend1.childs.name:string;",
+
+// 对象数组转对象数组
+"friends:objectArray:friends1:objectArray;",
+"friends.id:long:friends1.id:long;",
+"friends.name:string:friends1.name:string;",
+"friends.sex:string:friends1.sex:string;",
+// 遍历同个对象数组多次
+"friends:objectArray:friends2:objectArray;",
+"friends.id:long:friends2.id:long",
+"friends.name:string:friends2.name:string;",
+"friends.sex:string:friends2.sex:string;defaultValue:男",
+
+// 测试不同域 用到同一变量 变量的声明是否正确
+"HEADER.PLANT:string:deliveryOrder.warehouseCode:string;",
+"ZMM_RESERVATION_ITEMS:objectArray:orderLines:objectArray;",
+"ZMM_RESERVATION_ITEMS.WEMPF:string:orderLines.areaCode:string;",
+"ZMM_RESERVATION_ITEMS.PLANT:string:deliveryOrder.warehouseCode:string;",
+
