@@ -62,7 +62,9 @@ public class ObjectMapper {
         String originFieldParentName = fieldMapper.getOriginFieldParentName();
 
         // 注册需要声明的变量
-        variablesManager.registerVariablesType(fieldMapper.getTargetFieldPath(), fieldMapper.getTargetFieldType());
+        variablesManager.registerVariablesType(
+                fieldMapper.getOriginFieldPath(), fieldMapper.getOriginFieldType(),
+                fieldMapper.getTargetFieldPath(), fieldMapper.getTargetFieldType());
 
         // 只是做了变量声明
         if (fieldMapper.getOriginFieldPath() == null || fieldMapper.getOriginFieldPath().isEmpty()) {

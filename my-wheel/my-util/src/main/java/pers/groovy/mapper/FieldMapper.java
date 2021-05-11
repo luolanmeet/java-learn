@@ -83,7 +83,6 @@ public class FieldMapper {
     public static FieldMapper getSimpleMapper(String mapperStr, VariablesManager variablesManager) {
 
         FieldMapper fieldMapper = new FieldMapper();
-        fieldMapper.setMapperStr(mapperStr);
 
         // 切分声明
         String[] sentences = mapperStr.split(GroovyConstant.SENTENCE_SPLIT);
@@ -107,12 +106,12 @@ public class FieldMapper {
         fieldMapper.setOriginFieldParentName(fields.length > 1 ? fields[0] : null);
 
         // 解析操作
-        fieldMapper.parseOperate(variablesManager);
+        fieldMapper.parseOperate(mapperStr, variablesManager);
 
         return fieldMapper;
     }
 
-    private void parseOperate(VariablesManager variablesManager) {
+    private void parseOperate(String mapperStr, VariablesManager variablesManager) {
 
         String[] sentences = mapperStr.split(GroovyConstant.SENTENCE_SPLIT);
         for (int i = 1; i < sentences.length; i++) {

@@ -1,4 +1,4 @@
-package pers.groovy;
+package pers.groovy.test;
 
 import pers.groovy.constant.FieldType;
 import pers.groovy.mapper.ObjectMapper;
@@ -31,16 +31,22 @@ public class Test {
 //        mapperStrs.add("hobbyNotExist:stringArray:baseinfo.hobbyNotExist1:stringArray;defaultValue:[]");
 
 //        // 对象转对象
-        mapperStrs.add("bestFriend:object:bestFriend1:object;");
-        mapperStrs.add("bestFriend.id:long:bestFriend1.id:long;");
-        mapperStrs.add("bestFriend.name:string:bestFriend1.name:string;");
-        mapperStrs.add("bestFriend.birthday:long:bestFriend1.birthday:string;dataFormat:yyyy-MM-dd");
+//        mapperStrs.add("bestFriend:object:bestFriend1:object;");
+//        mapperStrs.add("bestFriend.id:long:bestFriend1.id:long;");
+//        mapperStrs.add("bestFriend.name:string:bestFriend1.name:string;");
+//        mapperStrs.add("bestFriend.birthday:long:bestFriend1.birthday:string;dataFormat:yyyy-MM-dd");
 //        mapperStrs.add("bestFriend.sex:string:bestFriend1.sex:string;defaultValue:男");
 //        mapperStrs.add("bestFriend.height:long:bestFriend1.height:long;defaultValue:1000");
-        mapperStrs.add("bestFriend:object:bestFriend2:object;");
-        mapperStrs.add("bestFriend.id:long:bestFriend2.id:long;");
-        mapperStrs.add("bestFriend.name:string:bestFriend2.name:string;");
-        mapperStrs.add("bestFriend.birthday:long:bestFriend2.birthday:string;dataFormat:yyyy-MM-dd");
+//        mapperStrs.add("bestFriend:object:bestFriend2:object;");
+//        mapperStrs.add("bestFriend.id:long:bestFriend2.id:long;");
+//        mapperStrs.add("bestFriend.name:string:bestFriend2.name:string;");
+//        mapperStrs.add("bestFriend.birthday:long:bestFriend2.birthday:string;dataFormat:yyyy-MM-dd");
+
+        mapperStrs.add("HEADER.PLANT:string:deliveryOrder.warehouseCode:string;");
+
+        mapperStrs.add("ZMM_RESERVATION_ITEMS:objectArray:orderLines:objectArray;");
+        mapperStrs.add("ZMM_RESERVATION_ITEMS.WEMPF:string:orderLines.extendProps.areaCode:string;");
+        mapperStrs.add("ZMM_RESERVATION_ITEMS.PLANT:string:deliveryOrder.warehouseCode:string;");
 
         // 对象中存在 对象数组
 //        mapperStrs.add("bestFriend.childs:objectArray:bestFriend1.childs1:objectArray;");
@@ -69,10 +75,10 @@ public class Test {
 
         VariablesManager variablesManager = new VariablesManager();
         ObjectMapper objectMapper = new ObjectMapper("jsonObject", FieldType.OBJECT, variablesManager);
-
         for (String mapperStr : mapperStrs) {
             objectMapper.addMapper(mapperStr);
         }
+        variablesManager.buildEarlyVariablesPathMap();
 
         // json -> json
         GroovyBuilder builder = GroovyBuilder.builder();
