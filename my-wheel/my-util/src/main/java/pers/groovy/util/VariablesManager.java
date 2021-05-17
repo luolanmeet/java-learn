@@ -157,7 +157,7 @@ public class VariablesManager {
                 continue;
             }
 
-            // 找到这个变量在哪个最小层级的域就被使用到
+            // 找到此变量在哪个最大的作用域被使用
             for (String originPath : originPaths) {
                 level = Integer.min(level, originPath.split(GroovyConstant.POINT_SPLIT).length);
             }
