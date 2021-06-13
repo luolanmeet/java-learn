@@ -12,6 +12,7 @@
         <module>origin-http</module>
         <module>okhttp</module>
         <module>resttemplate</module>
+        <module>http-status-code</module>
     </modules>
 
     <build>
