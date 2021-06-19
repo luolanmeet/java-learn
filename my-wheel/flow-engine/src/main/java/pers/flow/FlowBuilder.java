@@ -1,6 +1,7 @@
 package pers.flow;
 
 import org.springframework.beans.factory.InitializingBean;
+import org.springframework.context.annotation.DependsOn;
 import org.springframework.stereotype.Service;
 import pers.flow.annotation.JavaMethod;
 import pers.flow.annotation.JavaNode;
@@ -17,6 +18,7 @@ import java.util.Map;
  * @date 2021/6/19 16:07
  */
 @Service
+@DependsOn({"ApplicationUtil"})
 public class FlowBuilder implements InitializingBean {
 
     /**

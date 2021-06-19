@@ -14,7 +14,7 @@ import java.util.Map;
 /**
  * spring 上下文工具类
  */
-@Component
+@Component("ApplicationUtil")
 public class ApplicationUtil implements ApplicationContextAware {
 
     private static ApplicationContext applicationContext = null;
@@ -100,4 +100,5 @@ public class ApplicationUtil implements ApplicationContextAware {
         }
         return activeProfiles[0];
     }
+
 }
