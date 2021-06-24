@@ -1,5 +1,7 @@
 package pers.flow.annotation;
 
+import org.springframework.stereotype.Component;
+
 import java.lang.annotation.*;
 
 /**
@@ -7,8 +9,9 @@ import java.lang.annotation.*;
  * @auther ken.ck
  * @date 2021/6/19 16:37
  */
+@Component
 @Documented
-@Target(ElementType.TYPE_PARAMETER)
+@Target(ElementType.TYPE)
 @Retention(RetentionPolicy.RUNTIME)
 public @interface JavaNode {
 
