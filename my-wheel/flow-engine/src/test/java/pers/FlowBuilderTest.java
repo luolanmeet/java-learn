@@ -5,7 +5,7 @@ import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
-import pers.flow.FlowBuilder;
+import pers.flow.FlowNodeManager;
 
 /**
  * @auther ken.ck
@@ -16,7 +16,7 @@ import pers.flow.FlowBuilder;
 public class FlowBuilderTest {
 
     @Autowired
-    private FlowBuilder flowBuilder;
+    private FlowNodeManager flowBuilder;
 
     @Test
     public void testGetJavaNode() {
