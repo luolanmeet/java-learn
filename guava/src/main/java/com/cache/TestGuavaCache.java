@@ -19,7 +19,8 @@ public class TestGuavaCache {
 //        testDateChange();
 //        testBase();
 //        testTTL();
-        testTTL2();
+//        testTTL2();
+        testTTL3();
     }
 
     private static void testDateChange() throws InterruptedException {
@@ -77,9 +78,33 @@ public class TestGuavaCache {
         }).start();
 
         TimeUnit.SECONDS.sleep(4);
-        System.out.println(cache.size()); // 不get一下，过期了数量还是不会减少
+
+        // 不get一下，过期了数量还是不会减少
+        // com.google.common.cache.LocalCache.Segment.getLiveEntry
+        System.out.println(cache.size());
+
         System.out.println(cache.getIfPresent(userId));
         System.out.println(cache.size());
+    }
+
+    private static void testTTL3() throws InterruptedException {
+
+        // 设置大小
+        Cache<Integer, User> cache = CacheBuilder.newBuilder()
+                .expireAfterWrite(3, TimeUnit.SECONDS) // 3秒过期
+                .build();
+        System.out.println("初始：" + cache.getIfPresent(userId));
+        cache.put(userId, user);
+        System.out.println("第一次写入：" + cache.getIfPresent(userId));
+
+        TimeUnit.SECONDS.sleep(4);
+        // 重新写之后，还是会过期
+        System.out.println("第一次过期：" + cache.getIfPresent(userId));
+        cache.put(userId, user);
+        System.out.println("第二次写入：" + cache.getIfPresent(userId));
+
+        TimeUnit.SECONDS.sleep(4);
+        System.out.println("第二次过期：" + cache.getIfPresent(userId));
     }
 
     private static void testBase() {
