@@ -52,16 +52,16 @@ public class JavaRestTempleNode {
         return responseEntity.toString();
     }
 
-    public static void main(String[] args) {
-        System.out.println(UUID.randomUUID().toString().replace("-", ""));
-    }
-
     private HttpEntity<String> getHttpEntity(String param) {
         HttpHeaders headers = new HttpHeaders();
         headers.setContentType(MediaType.APPLICATION_JSON);
         headers.setAccept(Collections.singletonList(MediaType.APPLICATION_JSON));
         headers.setAcceptCharset(Collections.singletonList(StandardCharsets.UTF_8));
         return new HttpEntity<>(param, headers);
+    }
+
+    public static void main(String[] args) {
+        System.out.println(UUID.randomUUID().toString().replace("-", ""));
     }
 
 }

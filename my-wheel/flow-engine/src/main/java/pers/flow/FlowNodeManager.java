@@ -5,7 +5,7 @@ import org.springframework.context.annotation.DependsOn;
 import org.springframework.stereotype.Service;
 import pers.flow.annotation.JavaMethod;
 import pers.flow.annotation.JavaNode;
-import pers.flow.node.AbstractFlowNode;
+import pers.flow.node.FlowNode;
 import pers.flow.util.ApplicationUtil;
 
 import java.lang.reflect.Method;
@@ -13,13 +13,13 @@ import java.util.HashMap;
 import java.util.Map;
 
 /**
- * 流程构造器
+ * 流程节点管理
  * @auther ken.ck
  * @date 2021/6/19 16:07
  */
 @Service
 @DependsOn({"ApplicationUtil"})
-public class FlowBuilder implements InitializingBean {
+public class FlowNodeManager implements InitializingBean {
 
     /**
      * <JavaCode, Java对象>
@@ -30,18 +30,6 @@ public class FlowBuilder implements InitializingBean {
      * <Java对象, <方法Code, 方法对象>>
      */
     private Map<Object, Map<String, Method>> methodMap;
-
-    /**
-     * 构造流程图
-     * @param flowMsg
-     * @return
-     */
-    public AbstractFlowNode buildFlow(String flowMsg) {
-
-        // TODO 解析流程定义
-
-        return null;
-    }
 
     @Override
     public void afterPropertiesSet() throws Exception {
