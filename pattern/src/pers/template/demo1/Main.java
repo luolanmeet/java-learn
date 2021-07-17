@@ -1,7 +1,7 @@
-package pers.template;
+package pers.template.demo1;
 
-import pers.template.dao.UserDao;
-import pers.template.entity.User;
+import pers.template.demo1.dao.UserDao;
+import pers.template.demo1.entity.User;
 
 import javax.sql.DataSource;
 import java.util.List;

@@ -1,4 +1,4 @@
-package pers.template.entity;
+package pers.template.demo1.entity;
 
 public class User {
 

@@ -1,6 +1,6 @@
-package pers.template.dao;
+package pers.template.demo1.dao;
 
-import pers.template.entity.User;
+import pers.template.demo1.entity.User;
 
 import javax.sql.DataSource;
 import java.sql.ResultSet;

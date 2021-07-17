@@ -1,4 +1,4 @@
-package pers.template.dao;
+package pers.template.demo1.dao;
 
 import javax.sql.DataSource;
 import java.sql.Connection;
