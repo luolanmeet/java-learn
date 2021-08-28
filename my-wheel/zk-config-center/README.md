@@ -31,3 +31,13 @@
 7. 测试新增配置
     1. 在zkCli执行语句`create /zk-config-center/db-user-config/port 3306`
     2. 观察项目控制台输出
+   
+   
+   
+> 使用上还是有对代码的侵入
+> * 直接使用，则需要用ZkConfigCenter去获取配置
+> * 用start去管理，也需要用Template去get配置
+> * 用start去管理，并且配合@Bean注解，新增配置也需要配置Bean，并且注入Bean
+> 
+> 可考虑用静态字段存放配置，使用方直接是 `XxxClass.xxField` 就能使用，这样对使用方是完全无感知的。
+> 类和字段使用注解标志是配置属性，属性变化时用放射设值即可。
