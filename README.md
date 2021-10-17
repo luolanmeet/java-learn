@@ -24,6 +24,7 @@
 📝 [pdf]            | pdf处理
 📃 [xml]            | xml处理
 📜 [json]           | json处理
+🖥 [machine-learning]  | 机器学习
 
 ## 导入项目
 > 此仓库中包含多个maven项目，每个项目均为独立的项目。<br/>
@@ -54,3 +55,4 @@
 [json]: https://github.com/luolanmeet/java-learn/tree/master/json
 [xml]: https://github.com/luolanmeet/java-learn/tree/master/xml
 [pattern]: https://github.com/luolanmeet/java-learn/tree/master/pattern
+[machine-learning]: https://github.com/luolanmeet/java-learn/tree/master/machine-learning
