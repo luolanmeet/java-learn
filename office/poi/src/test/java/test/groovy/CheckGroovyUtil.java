@@ -34,21 +34,17 @@ public class CheckGroovyUtil {
         groovyLine = groovyLine.trim();
         Matcher matcher = PATTERN.matcher(groovyLine);
 
-        return matcher.find() && !groovyLine.startsWith(DEF)
+        return !groovyLine.startsWith(DEF)
                 && !groovyLine.startsWith(IGNORE_ONE)
-                && !groovyLine.startsWith(IGNORE_TWO);
+                && !groovyLine.startsWith(IGNORE_TWO)
+                && matcher.find();
     }
 
-
     public static void main(String[] args) {
-//        String groovyLine = "def orderLineMap =     [:];";
-//        System.out.println(checkLine(groovyLine));
 
         String groovy = "\"import com.fasterxml.jackson.databind.ObjectMapper\n" +
                 "\n" +
                 "/**\n" +
-                " * @author kwokhung.lee* @Classname Demo* @Description TODO* @Date 2020/2/12 10:20\n" +
-                " * @Created by wb-lgx631785@cainiao.com\n" +
                 " * 转换插件实现方法\n" +
                 " * 编排引擎会调用 execute\n" +
                 " */\n" +

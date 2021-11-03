@@ -34,5 +34,6 @@
         <module>my-util</module>
         <module>job-scheduling-circle-queue</module>
         <module>flow-engine</module>
+        <module>numerology</module>
     </modules>
 </project>
