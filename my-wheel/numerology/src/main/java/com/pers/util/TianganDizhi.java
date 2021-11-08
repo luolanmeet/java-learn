@@ -3,6 +3,8 @@ package com.pers.util;
 import com.sun.tools.javac.util.Assert;
 
 /**
+ * https://wannianli.tianqi.com/huangli
+ *
  * @auther ken.ck
  * @date 2021/10/31 18:48
  */
@@ -11,10 +13,15 @@ public final class TianganDizhi {
     private final static String[] TIAN_GAM = new String[] {"甲","乙","丙","丁","戊","己","庚","辛","壬","癸"};
     private final static String[] DI_ZHI = new String[] {"子","丑","寅","卯","辰","巳","午","未","申","酉","戌","亥"};
 
-    public static String getChronicle() {
+    public static String getChronicle(int year, int month, int day, int hour) {
         return null;
     }
 
+    /**
+     * 干支纪年
+     * @param year
+     * @return
+     */
     public static String getYear(int year) {
 
         Assert.check(year != 0);
@@ -29,9 +36,108 @@ public final class TianganDizhi {
         return TIAN_GAM[a] + DI_ZHI[b];
     }
 
+    public static String getMonth(int month) {
+        return null;
+    }
+
+    /**
+     * 干支纪日
+     * @param year
+     * @param month
+     * @param day
+     * @return
+     */
+    public static String getDay(int year, int month, int day) {
+
+        CenturyConstantUtil.CenturyConstant centuryConstant
+                = CenturyConstantUtil.getCenturyConstant(year);
+        Assert.checkNonNull(centuryConstant);
+
+        int add = isLeapYear(year) && month > 2 ? 1 : 0;
+
+        int s = (year % 100 - 1) / 4;
+        int u = (year - 1) % 4;
+        int r = s * 6 + (s * 3 + u) * 5
+                + CenturyConstantUtil.MONTH_BASE[month - 1]
+                + day + centuryConstant.getX() + add;
+
+        return getJiaZi(r % 60);
+    }
+
+    /**
+     * 干支计时
+     * @param hour
+     * @return
+     */
+    public static String getHour(int year, int month, int day, int hour) {
+
+        String dayTg = getDay(year, month, day).substring(0, 1);
+        int hourTg = 0;
+        switch (dayTg) {
+            case "甲": case "己": hourTg = 0; break;
+            case "乙": case "庚": hourTg = 2; break;
+            case "丙": case "辛": hourTg = 4; break;
+            case "丁": case "壬": hourTg = 6; break;
+            case "戊": case "癸": hourTg = 8; break;
+            default:
+        }
+
+        if (hour == 0 || hour == 23) {
+            return TIAN_GAM[hourTg] + DI_ZHI[0];
+        }
+
+        int tmp = 1;
+        for (int i = 1; i < DI_ZHI.length; i++) {
+            if (hour >= tmp && hour <= tmp + 1) {
+                hourTg = (hourTg + i) % 10;
+                return TIAN_GAM[hourTg] + DI_ZHI[i];
+            }
+            tmp += 2;
+        }
+        throw new RuntimeException("error hour : " + hour);
+    }
+
+    /**
+     * 根据数字获取甲子
+     * @param num
+     * @return
+     */
+    public static String getJiaZi(int num) {
+
+        Assert.check(num > 0 && num < 61, num);
+
+        int a = (num % 10 + 9) % 10 ;
+        int b = (num % 12 + 11) % 12 ;
+        return TIAN_GAM[a] + DI_ZHI[b];
+    }
+
+    /**
+     * 判断是否为闰年
+     * @param year
+     * @return
+     */
+    public static boolean isLeapYear(int year) {
+        return
+                   (year % 4 == 0 && year % 100 != 0)
+                || (year % 400 == 0 && year % 3200 != 0)
+                || (year % 172800 == 0);
+    }
+
     public static void main(String[] args) {
 
-        System.out.println(getYear(4343));
+//        System.out.println(getDay(1949, 10, 1)); // 甲子
+//        System.out.println(getDay(2008, 5, 12)); // 壬子
+//        System.out.println(getDay(1895, 4, 17)); // 甲午
+//        System.out.println(getDay(2021,  11, 14)); // 丙寅
+//        System.out.println(getDay(2020,  5, 6)); // 己酉
+
+//        for (int i = 1; i <= 60; i++) {
+//            System.out.println(i + " " + getJiaZi(i));
+//        }
+
+        for (int i = 0; i < 24; i++) {
+            System.out.println(i + " " + getHour(2021, 11, 8, i));
+        }
 
 //        for (int i = -10; i < 10; i++) {
 //            if (i == 0) continue;
