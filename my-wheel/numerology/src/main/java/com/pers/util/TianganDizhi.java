@@ -36,8 +36,27 @@ public final class TianganDizhi {
         return TIAN_GAM[a] + DI_ZHI[b];
     }
 
-    public static String getMonth(int month) {
-        return null;
+    /**
+     * 干支纪月
+     * @param month
+     * @return
+     */
+    public static String getMonth(int year, int month) {
+
+        String yearTg = getYear(year).substring(0, 1);
+        int monthTg = 0;
+        switch (yearTg) {
+            case "甲": case "己": monthTg = 2; break;
+            case "乙": case "庚": monthTg = 4; break;
+            case "丙": case "辛": monthTg = 6; break;
+            case "丁": case "壬": monthTg = 8; break;
+            case "戊": case "癸": monthTg = 0; break;
+            default: throw new RuntimeException("error yearTg: " + yearTg);
+        }
+
+        monthTg = (monthTg + month + 9) % 10;
+
+        return TIAN_GAM[monthTg] + DI_ZHI[(month + 1) % 12];
     }
 
     /**
@@ -79,7 +98,7 @@ public final class TianganDizhi {
             case "丙": case "辛": hourTg = 4; break;
             case "丁": case "壬": hourTg = 6; break;
             case "戊": case "癸": hourTg = 8; break;
-            default:
+            default: throw new RuntimeException("error dayTg: " + dayTg);
         }
 
         if (hour == 0 || hour == 23) {
@@ -123,7 +142,10 @@ public final class TianganDizhi {
                 || (year % 172800 == 0);
     }
 
-    public static void main(String[] args) {
+    public static void main(String[] args)  {
+
+//        System.out.println(getMonth(2021, 11)); // 己亥
+        System.out.println(getMonth(2021, 8)); // 丙申
 
 //        System.out.println(getDay(1949, 10, 1)); // 甲子
 //        System.out.println(getDay(2008, 5, 12)); // 壬子
@@ -135,9 +157,9 @@ public final class TianganDizhi {
 //            System.out.println(i + " " + getJiaZi(i));
 //        }
 
-        for (int i = 0; i < 24; i++) {
-            System.out.println(i + " " + getHour(2021, 11, 8, i));
-        }
+//        for (int i = 0; i < 24; i++) {
+//            System.out.println(i + " " + getHour(2021, 11, 8, i));
+//        }
 
 //        for (int i = -10; i < 10; i++) {
 //            if (i == 0) continue;
