@@ -1,4 +1,4 @@
-package test;
+package pers;
 
 import org.apache.poi.xssf.usermodel.XSSFCell;
 import org.apache.poi.xssf.usermodel.XSSFRow;
@@ -19,7 +19,7 @@ import java.util.StringJoiner;
 public class Tmp4TFX {
 
     public static void main(String[] args) throws Exception {
-        InputStream is = new FileInputStream("/Users/chenken/Downloads/成聪待发(1).xlsx");
+        InputStream is = new FileInputStream("/Users/chenken/Downloads/待发.xlsx");
         XSSFWorkbook wb = new XSSFWorkbook(is);
         XSSFSheet sheet = wb.getSheetAt(0);
 
@@ -28,7 +28,6 @@ public class Tmp4TFX {
                         "FROM `sale_order` WHERE `platform` = 836 " +
                         "and `out_shop_id` = {0} and `trade_code` in ({1});";
 
-        int size = 200;
         int count = 0;
 
         List<String> sqls = new ArrayList<>();

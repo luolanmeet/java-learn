@@ -1,4 +1,4 @@
-package test.groovy;
+package pers.groovy;
 
 import java.util.ArrayList;
 import java.util.List;
