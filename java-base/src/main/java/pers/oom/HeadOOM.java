@@ -17,7 +17,6 @@ public class HeadOOM {
         while (true) {
             list.add(new HeadOOM());
         }
-
     }
 
 }

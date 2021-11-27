@@ -9,6 +9,7 @@ package pers.oom;
  * 如果虚拟机栈内存允许动态扩展，当扩展到无法申请到足够内存时，将抛出OutOfMemoryError
  * HotSpot是选择不动态扩展的，虚拟机栈是不会有OOM的
  *
+ *  栈帧越大，栈深度越小
  * -Xss128k
  */
 public class JavaVMStackSOF {
@@ -20,15 +21,29 @@ public class JavaVMStackSOF {
         stackLeak();
     }
 
+    public void stackLeak(int a, int b, int c ,int d) {
+        stackLength++;
+        stackLeak(a, b, c, d);
+    }
+
     public static void main(String[] args) {
 
         JavaVMStackSOF oom = new JavaVMStackSOF();
 
         try {
+            oom.stackLeak(0, 0, 0, 0);
+        } catch (Throwable e) {
+            System.out.println("stack length：" + oom.stackLength);
+            System.out.println(e);
+        }
+
+        oom.stackLength = 1;
+
+        try {
             oom.stackLeak();
         } catch (Throwable e) {
             System.out.println("stack length：" + oom.stackLength);
-            throw e;
+            System.out.println(e);
         }
     }
 

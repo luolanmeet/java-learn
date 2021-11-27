@@ -2,7 +2,7 @@
 
 > 通过agent的方式
 
-把 ObjSizeDemo 和 ObjSizeTool拷贝出去，把package信息去了
+把 ObjSizeDemo 和 ObjSizeTool拷贝出去，把`package`信息去了
 ```java
 // 编译
 javac ObjSizeTool.java
