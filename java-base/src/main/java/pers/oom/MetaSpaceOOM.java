@@ -1,7 +1,10 @@
 package pers.oom;
 
-import java.io.IOException;
-import java.io.InputStream;
+import net.sf.cglib.proxy.Enhancer;
+import net.sf.cglib.proxy.MethodInterceptor;
+import net.sf.cglib.proxy.MethodProxy;
+
+import java.lang.reflect.Method;
 
 /**
  *
@@ -24,27 +27,18 @@ public class MetaSpaceOOM {
     public static void main(String[] args) throws Exception {
 
         while (true) {
-            ClassLoader classLoader = new ClassLoader() {
+            Enhancer enhancer = new Enhancer();
+            enhancer.setSuperclass(MetaSpaceOOM.class);
+            enhancer.setUseCache(false);
+            enhancer.setCallback(new MethodInterceptor() {
                 @Override
-                public Class<?> loadClass(String name) throws ClassNotFoundException {
-                    try {
-                        String fileName = name.substring(name.lastIndexOf(".") + 1) + ".class";
-                        InputStream is = getClass().getResourceAsStream(fileName);
-                        if (is == null) {
-                            return super.loadClass(name);
-                        }
-                        byte[] b = new byte[is.available()];
-                        is.read(b);
-                        return defineClass(name, b, 0, b.length);
-                    } catch (IOException e) {
-                        throw new ClassNotFoundException();
-                    }
+                public Object intercept(Object obj, Method method,
+                                        Object[] args, MethodProxy proxy) throws Throwable {
+                    return proxy.invokeSuper(obj, args);
                 }
-            };
-            Class<?> clazz = classLoader.loadClass("pers.oom.MetaSpaceOOM");
-            System.out.println(clazz);
+            });
+            enhancer.create();
         }
-
     }
 
 }
