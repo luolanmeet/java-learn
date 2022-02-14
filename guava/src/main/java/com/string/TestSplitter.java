@@ -38,8 +38,8 @@ public class TestSplitter {
         list = Splitter.on(";").omitEmptyStrings().splitToList("a;;b;c;");
         System.out.println(list);
         
-        // 转为map
-        Map<String, String> map = Splitter.on("&").withKeyValueSeparator("=")
+        // 转为map，如果字符串中存在重复的key，会抛出异常
+        Map<String, String> map = Splitter.on("&").omitEmptyStrings().withKeyValueSeparator("=")
                 .split("name=cck&password=12345");
         System.out.println(map);
     }
