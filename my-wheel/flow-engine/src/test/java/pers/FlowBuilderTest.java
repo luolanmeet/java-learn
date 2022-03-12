@@ -20,7 +20,7 @@ public class FlowBuilderTest {
 
     @Test
     public void testGetJavaNode() {
-        flowBuilder.buildFlow("");
+//        flowBuilder.buildFlow("");
     }
 
 }

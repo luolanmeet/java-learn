@@ -11,6 +11,7 @@
     <packaging>pom</packaging>
     <modules>
         <module>origin-xxl-job</module>
+        <module>spring-boot-xxl-job</module>
     </modules>
 
     <artifactId>xxl-job</artifactId>
