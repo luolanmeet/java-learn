@@ -39,10 +39,18 @@ public class SampleXxlJob {
 
         XxlJobHelper.log("XXL-JOB, Hello World.");
 
+        // 获取参数
+        String param = XxlJobHelper.getJobParam();
+        System.out.println("demoJobHandler-start" + param);
+
         for (int i = 0; i < 5; i++) {
             XxlJobHelper.log("beat at:" + i);
             TimeUnit.SECONDS.sleep(2);
         }
+
+        param = XxlJobHelper.getJobParam();
+        System.out.println("demoJobHandler-end" + param);
+
         // default success
     }
 
