@@ -7,7 +7,7 @@ import org.springframework.web.bind.annotation.RestController;
 @RestController
 public class HelloController {
 
-    @Reference
+    @Reference(timeout = 5000)
     private IHelloService helloService;
 
     @RequestMapping("sayHello")
