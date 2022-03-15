@@ -24,5 +24,6 @@
 		<module>rabbitMQ</module>
 		<module>activeMQ</module>
 		<module>kafka</module>
+		<module>rocketMQ</module>
 	</modules>
 </project>
