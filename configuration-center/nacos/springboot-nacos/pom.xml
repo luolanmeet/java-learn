@@ -19,10 +19,14 @@
             <version>2.1.7.RELEASE</version>
         </dependency>
 
+        <!-- 如果nacos升级到2.0 以上，需要开放多两个端口
+        https://nacos.io/zh-cn/docs/2.0.0-compatibility.html -->
+
         <dependency>
             <groupId>com.alibaba.boot</groupId>
             <artifactId>nacos-config-spring-boot-starter</artifactId>
-            <version>0.2.3</version>
+            <version>0.2.10</version>
+<!--            <version>0.2.3</version>-->
         </dependency>
 
     </dependencies>
