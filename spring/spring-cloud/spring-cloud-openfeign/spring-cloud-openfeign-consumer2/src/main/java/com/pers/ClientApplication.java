@@ -26,13 +26,14 @@ import java.nio.charset.StandardCharsets;
 @SpringBootApplication
 @EnableDiscoveryClient
 @RestController
-@EnableFeignClients
+@EnableFeignClients // 用openFeign才需要打开
 public class ClientApplication {
 
-	@Autowired
+	@Autowired(required = false)
 	private HelloClient client;
-	@Autowired
+	@Autowired(required = false)
 	private CnaplarkServiceClient cnapClient;
+
 	@Autowired
 	private RestTemplate restTemplate;
 	@Autowired
