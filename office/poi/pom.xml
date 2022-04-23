@@ -28,7 +28,8 @@
 		<dependency>
 			<groupId>poi</groupId>
 			<artifactId>poi-scratchpad</artifactId>
-			<version>4.1.2</version>
+<!--			<version>4.1.2</version>-->
+			<version>3.1-FINAL</version>
 		</dependency>
 
 		<!--sls日志依赖-->
