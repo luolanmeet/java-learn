@@ -5,6 +5,8 @@ import javax.xml.bind.JAXBContext;
 import javax.xml.bind.JAXBException;
 import javax.xml.bind.Marshaller;
 import javax.xml.bind.Unmarshaller;
+import javax.xml.ws.BindingType;
+import javax.xml.ws.soap.SOAPBinding;
 import java.io.StringReader;
 import java.io.StringWriter;
 
@@ -12,6 +14,7 @@ import java.io.StringWriter;
  * @auther ken.ck
  * @date 2022/4/25 10:39
  */
+//@BindingType(SOAPBinding.SOAP12HTTP_BINDING) // 默认 soap是 1.1版本
 @WebService // 标识这是一个WebService
 public class UserService {
 
