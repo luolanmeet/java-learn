@@ -12,7 +12,7 @@
     <artifactId>spring-ioc</artifactId>
 
     <properties>
-            <spring.version>5.1.6.RELEASE</spring.version>
+            <spring.version>5.3.19</spring.version>
     </properties>
 
     <dependencies>
