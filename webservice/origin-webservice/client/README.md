@@ -24,6 +24,7 @@ wsimport -extension -keep -p com.pers.client http://localhost:10001/helloWorld?w
 
 * 请求url:  http://localhost:10001/helloWorld
 * content-type: text/xml
+* 请求数据
 ``` body
 <soapenv:Envelope xmlns:soapenv="http://schemas.xmlsoap.org/soap/envelope/"  <!--命名空间-->
                   xmlns:ser="http://service.cainiao.com/">  <!--服务名称-->
