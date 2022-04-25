@@ -1,5 +1,6 @@
 package com.pers;
 
+import com.pers.client.User;
 import com.pers.client.UserService;
 import com.pers.client.UserServiceService;
 
@@ -15,6 +16,12 @@ public class Main {
         String xmlRequest = "<?xml version=\"1.0\" encoding=\"UTF-8\" standalone=\"yes\"?><user><id>1001</id><name>索隆</name></user>";
         String xmlResponse = userService.queryUser(xmlRequest);
         System.out.println(xmlResponse);
+
+        User user = new User();
+        user.setId("1002");
+        user.setName("山治");
+        user = userService.changeUser(user, "hi ");
+        System.out.println(user.getId() + " " + user.getName());
     }
 
 }

@@ -15,6 +15,13 @@ import java.io.StringWriter;
 @WebService // 标识这是一个WebService
 public class UserService {
 
+    public User changeUser(User user, String prefix) {
+        System.out.println("传入的参数：" + user + " " + prefix);
+        user.setId(prefix + user.getId());
+        user.setName(prefix + user.getName());
+        return user;
+    }
+
     public String queryUser(String xml) {
 
         String result = null;

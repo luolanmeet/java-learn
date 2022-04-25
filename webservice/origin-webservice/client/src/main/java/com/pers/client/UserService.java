@@ -26,6 +26,24 @@ public interface UserService {
 
     /**
      * 
+     * @param arg1
+     * @param arg0
+     * @return
+     *     returns com.pers.client.User
+     */
+    @WebMethod
+    @WebResult(targetNamespace = "")
+    @RequestWrapper(localName = "changeUser", targetNamespace = "http://service.pers/", className = "com.pers.client.ChangeUser")
+    @ResponseWrapper(localName = "changeUserResponse", targetNamespace = "http://service.pers/", className = "com.pers.client.ChangeUserResponse")
+    @Action(input = "http://service.pers/UserService/changeUserRequest", output = "http://service.pers/UserService/changeUserResponse")
+    public User changeUser(
+        @WebParam(name = "arg0", targetNamespace = "")
+        User arg0,
+        @WebParam(name = "arg1", targetNamespace = "")
+        String arg1);
+
+    /**
+     * 
      * @param arg0
      * @return
      *     returns java.lang.String

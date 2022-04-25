@@ -24,7 +24,10 @@ import javax.xml.namespace.QName;
 @XmlRegistry
 public class ObjectFactory {
 
+    private final static QName _User_QNAME = new QName("http://service.pers/", "user");
+    private final static QName _ChangeUserResponse_QNAME = new QName("http://service.pers/", "changeUserResponse");
     private final static QName _QueryUser_QNAME = new QName("http://service.pers/", "queryUser");
+    private final static QName _ChangeUser_QNAME = new QName("http://service.pers/", "changeUser");
     private final static QName _QueryUserResponse_QNAME = new QName("http://service.pers/", "queryUserResponse");
 
     /**
@@ -43,11 +46,53 @@ public class ObjectFactory {
     }
 
     /**
+     * Create an instance of {@link ChangeUser }
+     * 
+     */
+    public ChangeUser createChangeUser() {
+        return new ChangeUser();
+    }
+
+    /**
+     * Create an instance of {@link User }
+     * 
+     */
+    public User createUser() {
+        return new User();
+    }
+
+    /**
      * Create an instance of {@link QueryUser }
      * 
      */
     public QueryUser createQueryUser() {
         return new QueryUser();
+    }
+
+    /**
+     * Create an instance of {@link ChangeUserResponse }
+     * 
+     */
+    public ChangeUserResponse createChangeUserResponse() {
+        return new ChangeUserResponse();
+    }
+
+    /**
+     * Create an instance of {@link JAXBElement }{@code <}{@link User }{@code >}}
+     * 
+     */
+    @XmlElementDecl(namespace = "http://service.pers/", name = "user")
+    public JAXBElement<User> createUser(User value) {
+        return new JAXBElement<User>(_User_QNAME, User.class, null, value);
+    }
+
+    /**
+     * Create an instance of {@link JAXBElement }{@code <}{@link ChangeUserResponse }{@code >}}
+     * 
+     */
+    @XmlElementDecl(namespace = "http://service.pers/", name = "changeUserResponse")
+    public JAXBElement<ChangeUserResponse> createChangeUserResponse(ChangeUserResponse value) {
+        return new JAXBElement<ChangeUserResponse>(_ChangeUserResponse_QNAME, ChangeUserResponse.class, null, value);
     }
 
     /**
@@ -57,6 +102,15 @@ public class ObjectFactory {
     @XmlElementDecl(namespace = "http://service.pers/", name = "queryUser")
     public JAXBElement<QueryUser> createQueryUser(QueryUser value) {
         return new JAXBElement<QueryUser>(_QueryUser_QNAME, QueryUser.class, null, value);
+    }
+
+    /**
+     * Create an instance of {@link JAXBElement }{@code <}{@link ChangeUser }{@code >}}
+     * 
+     */
+    @XmlElementDecl(namespace = "http://service.pers/", name = "changeUser")
+    public JAXBElement<ChangeUser> createChangeUser(ChangeUser value) {
+        return new JAXBElement<ChangeUser>(_ChangeUser_QNAME, ChangeUser.class, null, value);
     }
 
     /**
