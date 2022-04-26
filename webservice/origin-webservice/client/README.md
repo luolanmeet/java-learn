@@ -31,10 +31,10 @@ wsimport -extension -keep -p com.pers.client http://localhost:10001/helloWorld?w
    <soapenv:Header/>
    <soapenv:Body>
       <ser:changeUser>  <!--请求方法-->
-         <arg0>  <!--第一个参数-->
+         <user>  <!--第一个参数-->
             <id>551</id>
             <name>Luffer</name>
-         </arg0>
+         </user>
          <arg1>hi </arg1>  <!--第二个参数-->
       </ser:changeUser>
    </soapenv:Body>

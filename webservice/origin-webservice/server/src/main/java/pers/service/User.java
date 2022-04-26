@@ -13,6 +13,7 @@ public class User implements Serializable {
     private static final long serialVersionUID = -8666985670463091236L;
     private String id;
     private String name;
+    private Cat cat;
 
     public String getId() {
         return id;
@@ -28,6 +29,14 @@ public class User implements Serializable {
 
     public void setName(String name) {
         this.name = name;
+    }
+
+    public Cat getCat() {
+        return cat;
+    }
+
+    public void setCat(Cat cat) {
+        this.cat = cat;
     }
 
     @Override

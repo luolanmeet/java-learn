@@ -1,5 +1,6 @@
 package pers.service;
 
+import javax.jws.WebParam;
 import javax.jws.WebService;
 import javax.xml.bind.JAXBContext;
 import javax.xml.bind.JAXBException;
@@ -18,7 +19,8 @@ import java.io.StringWriter;
 @WebService // 标识这是一个WebService
 public class UserService {
 
-    public User changeUser(User user, String prefix) {
+    // 参数可以用 @WebParam 指定名字，否则按照 arg数字 去命名，如 arg0
+    public User changeUser(@WebParam(name = "user")User user, String prefix) {
         System.out.println("传入的参数：" + user + " " + prefix);
         user.setId(prefix + user.getId());
         user.setName(prefix + user.getName());
