@@ -7,7 +7,7 @@
    <soapenv:Header/>
    <soapenv:Body>
       <ser:queryUser>
-         <arg0>hhhhh</arg0>
+         <xml>hhhhh</xml>
       </ser:queryUser>
    </soapenv:Body>
 </soapenv:Envelope>

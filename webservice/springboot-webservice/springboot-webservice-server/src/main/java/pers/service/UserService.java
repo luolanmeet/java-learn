@@ -2,6 +2,7 @@ package pers.service;
 
 import org.springframework.stereotype.Component;
 
+import javax.jws.WebParam;
 import javax.jws.WebService;
 
 /**
@@ -12,7 +13,14 @@ import javax.jws.WebService;
 @WebService
 public class UserService {
 
-    public String queryUser(String xml) {
+    public User changeUser(@WebParam(name = "user")User user, String prefix) {
+        System.out.println("传入的参数：" + user + " " + prefix);
+        user.setId(prefix + user.getId());
+        user.setName(prefix + user.getName());
+        return user;
+    }
+
+    public String queryUser(@WebParam(name = "xml") String xml) {
         System.out.println("传入的参数：" + xml);
         return "hi " + xml;
     }
