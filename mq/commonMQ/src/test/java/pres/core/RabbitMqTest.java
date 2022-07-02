@@ -22,9 +22,20 @@ public class RabbitMqTest {
     private CommonMqService commonMqService;
 
     @Test
-    public void testSendMsg() {
+    public void testSendQueueMsg() {
         SendMsgReq req = new SendMsgReq();
-        req.mqType = MqType.RABBIT_MQ;
+        req.setMqType(MqType.RABBIT_MQ);
+        req.setQueueName("hello-queue");
+        req.setMessage("hello world");
+        commonMqService.sendMsg(req);
+    }
+
+    @Test
+    public void testSendExchangeMsg() {
+        SendMsgReq req = new SendMsgReq();
+        req.setMqType(MqType.RABBIT_MQ);
+        req.setExchangeName("hello-exchange");
+        req.setMessage("hello world from exchange");
         commonMqService.sendMsg(req);
     }
 

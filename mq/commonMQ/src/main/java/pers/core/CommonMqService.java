@@ -1,13 +1,11 @@
 package pers.core;
 
-import org.springframework.beans.factory.InitializingBean;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import pers.common._interface.MqService;
 import pers.common.model.SendMsgReq;
 import pers.common.model.SendMsgResp;
 
-import java.util.List;
 import java.util.Map;
 
 /**
@@ -22,9 +20,9 @@ public class CommonMqService {
     private Map<String, MqService> mqServiceMap;
 
     public SendMsgResp sendMsg(SendMsgReq req) {
-        MqService mqService = mqServiceMap.get(req.mqType);
+        MqService mqService = mqServiceMap.get(req.getMqType());
         if (mqService == null) {
-            throw new RuntimeException("no support mq type [" + req.mqType + "]");
+            throw new RuntimeException("no support mq type [" + req.getMqType() + "]");
         }
         return mqService.sendMsg(req);
     }
