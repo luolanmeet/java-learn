@@ -14,6 +14,10 @@ public class SendMsgReq {
 
     private String exchangeName;
 
+    private String topicName;
+
+    private String tag;
+
     private String queueName;
 
     private String routingKey;

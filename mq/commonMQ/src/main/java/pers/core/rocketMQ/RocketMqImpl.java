@@ -1,5 +1,6 @@
 package pers.core.rocketMQ;
 
+import org.apache.rocketmq.spring.core.RocketMQTemplate;
 import pers.common._interface.MqService;
 import pers.common.model.SendMsgReq;
 import pers.common.model.SendMsgResp;
@@ -10,9 +11,25 @@ import pers.common.model.SendMsgResp;
  */
 public class RocketMqImpl implements MqService {
 
+    private RocketMQTemplate template;
+
+    public RocketMqImpl(RocketMQTemplate template) {
+        this.template = template;
+    }
+
     @Override
     public SendMsgResp sendMsg(SendMsgReq req) {
-        return null;
+
+        SendMsgResp resp = new SendMsgResp();
+
+        String destination = req.getTopicName();
+        if (req.getTag() != null && !req.getTag().isEmpty()) {
+            destination = destination + ":" + req.getTag();
+        }
+
+        template.convertAndSend(destination, req.getMessage());
+
+        return resp;
     }
 
 }
