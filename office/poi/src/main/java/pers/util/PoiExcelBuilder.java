@@ -35,6 +35,9 @@ public class PoiExcelBuilder {
     /** 当前页中，列中最长的值，用于调整列宽度 */
     private Map<Integer, String> columnMaxByteLenStrMap;
 
+    private static final int MAX_SHEET_NAME_LEN = 31;
+    private static final String DEFAULT_SHEET_NAME = "sheet";
+
     public PoiExcelBuilder(Workbook wb) {
 
         this.wb = wb;
@@ -60,6 +63,19 @@ public class PoiExcelBuilder {
      * @return
      */
     public PoiExcelBuilder newSheet(String sheetName) {
+
+        /**
+         * excel sheet 名字的限制
+         * 名称不多于 31 个字符。
+         * 名称不包含下列任一字符:  :  \  /  ?  *  [  或  ]。
+         * 名称不为空。
+         */
+        if (sheetName == null) {
+            sheetName = DEFAULT_SHEET_NAME;
+        } else if (sheetName.length() >= MAX_SHEET_NAME_LEN) {
+            sheetName = sheetName.substring(0, 30);
+        }
+        sheetName = sheetName.replaceAll("[\\\\|\\/|\\?|\\*|\\[|\\]|？]", "_");
 
         int tmpCount = 0;
         String tmpSheetName = sheetName;
@@ -93,7 +109,7 @@ public class PoiExcelBuilder {
      * @return
      */
     public PoiExcelBuilder addSplitLine(int firstRow, int lastRow, int firstCol, int lastCol,
-                             String rowValue) {
+                                        String rowValue) {
 
         CellRangeAddress region = new CellRangeAddress(firstRow, lastRow, firstCol, lastCol);
         currentSheet.addMergedRegion(region);
