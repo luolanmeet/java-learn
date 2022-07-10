@@ -70,7 +70,7 @@ public class PoiExcelBuilder {
          * 名称不包含下列任一字符:  :  \  /  ?  *  [  或  ]。
          * 名称不为空。
          */
-        if (sheetName == null) {
+        if (sheetName == null || sheetName.isEmpty()) {
             sheetName = DEFAULT_SHEET_NAME;
         } else if (sheetName.length() >= MAX_SHEET_NAME_LEN) {
             sheetName = sheetName.substring(0, 30);
