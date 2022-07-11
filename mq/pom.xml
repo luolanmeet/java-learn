@@ -26,5 +26,6 @@
 		<module>kafka</module>
 		<module>rocketMQ</module>
 		<module>commonMQ</module>
-	</modules>
+        <module>commonMQ2</module>
+    </modules>
 </project>
