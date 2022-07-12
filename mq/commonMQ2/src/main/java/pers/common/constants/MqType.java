@@ -1,8 +1,9 @@
-package pers.constants;
+package pers.common.constants;
 
 /**
+ * 支持的 mq 类型常量
  * @auther ken.ck
- * @date 2022/7/11 15:40
+ * @date 2022/7/12 17:58
  */
 public interface MqType {
 
