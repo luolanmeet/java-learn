@@ -27,5 +27,6 @@
         <module>spring-cloud</module>
         <module>spring-ioc</module>
         <module>spring-statemachine</module>
+        <module>spring-task</module>
     </modules>
 </project>
