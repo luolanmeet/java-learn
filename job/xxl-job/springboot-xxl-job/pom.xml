@@ -12,7 +12,7 @@
     <artifactId>springboot-xxl-job</artifactId>
 
     <properties>
-        <xxl.job.version>2.3.0</xxl.job.version>
+        <xxl.job.version>2.3.1</xxl.job.version>
         <spring-boot.version>2.4.2</spring-boot.version>
     </properties>
 
