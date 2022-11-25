@@ -2,7 +2,7 @@ package pers.mock;
 
 import pers.IUserService;
 
-public class UserServiceMock  implements IUserService {
+public class UserServiceMock implements IUserService {
 
     @Override
     public String sayHello(String str) {
