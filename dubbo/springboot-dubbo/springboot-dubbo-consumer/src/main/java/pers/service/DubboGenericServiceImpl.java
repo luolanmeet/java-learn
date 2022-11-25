@@ -4,10 +4,10 @@ import org.apache.dubbo.common.constants.CommonConstants;
 import org.apache.dubbo.config.ApplicationConfig;
 import org.apache.dubbo.config.ReferenceConfig;
 import org.apache.dubbo.config.RegistryConfig;
-import org.apache.dubbo.config.utils.ReferenceConfigCache;
+import org.apache.dubbo.config.utils.SimpleReferenceCache;
 import org.apache.dubbo.rpc.RpcContext;
 import org.apache.dubbo.rpc.service.GenericService;
-import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 
 /**
@@ -17,6 +17,11 @@ import org.springframework.stereotype.Service;
 @Service
 public class DubboGenericServiceImpl {
 
+    /**
+     * dubbo 2.7 的泛化调用
+     */
+
+/*
     @Autowired
     private RegistryConfig registry;
     @Autowired
@@ -44,11 +49,11 @@ public class DubboGenericServiceImpl {
 
         return genericService.$invoke(methodName, invokeParamTyeps, invokeParamss);
     }
+*/
 
     /**
      * dubbo 3.x 的泛化调用
      */
-/*
     @Value("${dubbo.application.name}")
     private String appName;
     @Value("${dubbo.registry.address}")
@@ -78,7 +83,5 @@ public class DubboGenericServiceImpl {
 
         return genericService.$invoke(methodName, invokeParamTyeps, invokeParamss);
     }
-*/
-
 
 }
