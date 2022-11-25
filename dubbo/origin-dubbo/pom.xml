@@ -17,7 +17,7 @@
     <artifactId>origin-dubbo</artifactId>
 
     <properties>
-        <dubbo.version>2.7.3</dubbo.version>
+        <dubbo.version>2.7.18</dubbo.version>
     </properties>
 
     <dependencyManagement>
