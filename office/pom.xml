@@ -21,7 +21,7 @@
 	</build>
 
 	<modules>
-		<module>poi</module>
+		<module>poi-excel</module>
 		<module>freemarker</module>
 	</modules>
 </project>
