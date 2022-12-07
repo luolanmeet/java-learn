@@ -25,7 +25,7 @@ public class PoiExcelBuilder {
     /** 当前行数 */
     private int currentRowIdx;
     /** 表格样式 */
-    private CellStyle cellStyle;
+    private Map<String, CellStyle> cellStyleMap;
     /** 分隔线（合并单元格）样式 */
     private CellStyle lineStyle;
     /** 文字样式 */
@@ -35,6 +35,8 @@ public class PoiExcelBuilder {
     /** 当前页中，列中最长的值，用于调整列宽度 */
     private Map<Integer, String> columnMaxByteLenStrMap;
 
+    private static final String DEFAULT_CELL_STYLE = "default";
+    private static final String WRAP_TEXT_CELL_STYLE = "wrapText";
     private static final int MAX_SHEET_NAME_LEN = 31;
     private static final String DEFAULT_SHEET_NAME = "sheet";
 
@@ -46,9 +48,21 @@ public class PoiExcelBuilder {
         font.setFontHeightInPoints((short) 12);
         font.setFontName("等线 (正文)");
 
+        cellStyleMap = new HashMap<>();
+        CellStyle cellStyle = wb.createCellStyle();
+        cellStyle.setAlignment(HorizontalAlignment.LEFT);
+        cellStyle.setVerticalAlignment(VerticalAlignment.CENTER);
+        cellStyle.setFont(font);
+        cellStyleMap.put(DEFAULT_CELL_STYLE, cellStyle);
+
         cellStyle = wb.createCellStyle();
         cellStyle.setAlignment(HorizontalAlignment.LEFT);
+        cellStyle.setVerticalAlignment(VerticalAlignment.CENTER);
         cellStyle.setFont(font);
+        cellStyle.setWrapText(true);
+        cellStyleMap.put(WRAP_TEXT_CELL_STYLE, cellStyle);
+
+
 
         lineStyle = wb.createCellStyle();
         lineStyle.setAlignment(HorizontalAlignment.CENTER);
@@ -100,6 +114,22 @@ public class PoiExcelBuilder {
     }
 
     /**
+     * 添加合并区域
+     * @param firstRow
+     * @param lastRow
+     * @param firstCol
+     * @param lastCol
+     * @return
+     */
+    public PoiExcelBuilder addCellRange(int firstRow, int lastRow, int firstCol, int lastCol) {
+        CellRangeAddress region = new CellRangeAddress(firstRow, lastRow, firstCol, lastCol);
+        currentSheet.addMergedRegion(region);
+        // 当前行为分割线的 下一行
+        currentRowIdx = lastRow;
+        return this;
+    }
+
+    /**
      * 添加分割线
      * @param firstRow
      * @param lastRow
@@ -115,7 +145,7 @@ public class PoiExcelBuilder {
         currentSheet.addMergedRegion(region);
 
         Row row = currentSheet.createRow(lastRow);
-        Cell cell = row.createCell(0);
+        Cell cell = row.createCell(firstCol);
         cell.setCellValue(rowValue);
         cell.setCellStyle(lineStyle);
 
@@ -124,13 +154,24 @@ public class PoiExcelBuilder {
         return this;
     }
 
+    public PoiExcelBuilder addWrapTextCell(int columnIdx, String ... values) {
+        addCell(columnIdx, cellStyleMap.get(WRAP_TEXT_CELL_STYLE), values);
+        return this;
+    }
+
+    public PoiExcelBuilder addCell(int columnIdx, String ... values) {
+        addCell(columnIdx, cellStyleMap.get(DEFAULT_CELL_STYLE), values);
+        return this;
+    }
+
     /**
      * 为表格填值
      * @param columnIdx
+     * @param cellStyle
      * @param values
      * @return
      */
-    public PoiExcelBuilder addCell(int columnIdx, String ... values) {
+    private PoiExcelBuilder addCell(int columnIdx, CellStyle cellStyle, String ... values) {
 
         for (String value : values) {
 
@@ -176,6 +217,16 @@ public class PoiExcelBuilder {
         currentSheet = null;
         currentRow = null;
         wb = null;
+    }
+
+    public PoiExcelBuilder rowIdxDecrement() {
+        this.currentRowIdx--;
+        return this;
+    }
+
+    public PoiExcelBuilder rowIdxDecrement(int num) {
+        this.currentRowIdx -= num;
+        return this;
     }
 
     public PoiExcelBuilder rowIdxIncrement() {
