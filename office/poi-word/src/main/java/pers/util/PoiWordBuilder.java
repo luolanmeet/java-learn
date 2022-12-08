@@ -15,13 +15,9 @@ import java.util.Map;
  */
 public class PoiWordBuilder {
 
-    public final static String TEMPLATE_TITLE = "TEMPLATE_TITLE";
-    public final static String TEMPLATE_HEAD_1 = "TEMPLATE_HEAD_1";
-    public final static String TEMPLATE_HEAD_2 = "TEMPLATE_HEAD_2";
-    public final static String TEMPLATE_HEAD_3 = "TEMPLATE_HEAD_3";
-    public final static String TEMPLATE_TABLE_HEAD_CELL = "TEMPLATE_TABLE_HEAD_CELL";
-    public final static String TEMPLATE_TABLE_DATA_CELL = "TEMPLATE_TABLE_DATA_CELL";
-    public final static String TEMPLATE_BODY = "TEMPLATE_BODY";
+    private int templateTableIdx = 1;
+    private final static String TEMPLATE_TABLE_HEAD_CELL = "TEMPLATE_TABLE_HEAD_CELL_";
+    private final static String TEMPLATE_TABLE_DATA_CELL = "TEMPLATE_TABLE_DATA_CELL_";
 
     private Map<String, TemplateStyle> templateMap = new HashMap<>();
 
@@ -32,19 +28,22 @@ public class PoiWordBuilder {
         try (FileInputStream in = new FileInputStream(templatePath);) {
 
             doc = new XWPFDocument(in);
+            templateTableIdx = 1;
 
             // 保存表格数据格式
             List<XWPFTable> tables = doc.getTables();
             if (tables != null && tables.size() > 0) {
-                XWPFTable table = tables.get(0);
-                List<XWPFTableRow> rows = table.getRows();
-                if (rows != null && rows.size() > 0) {
-                    XWPFTableRow row = rows.get(0);
-                    saveTableCellStyle(row, TEMPLATE_TABLE_HEAD_CELL);
-                }
-                if (rows != null && rows.size() > 1) {
-                    XWPFTableRow row = rows.get(1);
-                    saveTableCellStyle(row, TEMPLATE_TABLE_DATA_CELL);
+                for (XWPFTable table : tables) {
+                    List<XWPFTableRow> rows = table.getRows();
+                    if (rows != null && rows.size() > 0) {
+                        XWPFTableRow row = rows.get(0);
+                        saveTableCellStyle(row, TEMPLATE_TABLE_HEAD_CELL + templateTableIdx);
+                    }
+                    if (rows != null && rows.size() > 1) {
+                        XWPFTableRow row = rows.get(1);
+                        saveTableCellStyle(row, TEMPLATE_TABLE_DATA_CELL + templateTableIdx);
+                    }
+                    templateTableIdx++;
                 }
             }
 
@@ -63,32 +62,15 @@ public class PoiWordBuilder {
         }
     }
 
-    private void saveTableCellStyle(XWPFTableRow headRow, String templateStyleKey) {
-        List<XWPFTableCell> tableCells = headRow.getTableCells();
-
-        if (tableCells == null || tableCells.isEmpty()) {
-            return ;
-        }
-
-        XWPFTableCell xwpfTableCell = tableCells.get(0);
-        List<XWPFParagraph> paragraphs = xwpfTableCell.getParagraphs();
-        if (paragraphs == null || paragraphs.isEmpty()) {
-            return ;
-        }
-
-        XWPFParagraph xwpfParagraph = paragraphs.get(0);
-        templateMap.put(templateStyleKey, new TemplateStyle(xwpfParagraph));
-    }
-
     public PoiWordBuilder addBlankLine() {
         doc.createParagraph();
         return this;
     }
 
-    public PoiWordBuilder addTable(String [] tableHead, List<String[]> tableDatas) {
+    public PoiWordBuilder addTable(String [] tableHead, List<String[]> tableDatas, Integer templateTableStyleIdx) {
 
-        TemplateStyle headRowStyle = templateMap.get(TEMPLATE_TABLE_HEAD_CELL);
-        TemplateStyle dataRowStyle = templateMap.get(TEMPLATE_TABLE_DATA_CELL);
+        TemplateStyle headRowStyle = templateMap.get(TEMPLATE_TABLE_HEAD_CELL + templateTableStyleIdx);
+        TemplateStyle dataRowStyle = templateMap.get(TEMPLATE_TABLE_DATA_CELL+ templateTableStyleIdx);
 
         // 设置表头数据
         XWPFTable table = doc.createTable();
@@ -119,6 +101,23 @@ public class PoiWordBuilder {
         return this;
     }
 
+    private void saveTableCellStyle(XWPFTableRow headRow, String templateStyleKey) {
+        List<XWPFTableCell> tableCells = headRow.getTableCells();
+
+        if (tableCells == null || tableCells.isEmpty()) {
+            return ;
+        }
+
+        XWPFTableCell xwpfTableCell = tableCells.get(0);
+        List<XWPFParagraph> paragraphs = xwpfTableCell.getParagraphs();
+        if (paragraphs == null || paragraphs.isEmpty()) {
+            return ;
+        }
+
+        XWPFParagraph xwpfParagraph = paragraphs.get(0);
+        templateMap.put(templateStyleKey, new TemplateStyle(xwpfParagraph));
+    }
+
     private void setXwpfRunStyle(XWPFRun xwpfRun, TemplateStyle templateStyle) {
 
         if (templateStyle == null) {
@@ -135,9 +134,16 @@ public class PoiWordBuilder {
         xwpfRun.setShadow(templateStyle.getShadowed());
     }
 
-    public PoiWordBuilder addTextUseTemplateStyle(String text, String templateStylekey) {
+    public PoiWordBuilder addTextWithStyle(String[] texts, String templateStyleKey) {
+        for (String text : texts) {
+            addTextWithStyle(text, templateStyleKey);
+        }
+        return this;
+    }
 
-        TemplateStyle templateStyle = templateMap.get(templateStylekey);
+    public PoiWordBuilder addTextWithStyle(String text, String templateStyleKey) {
+
+        TemplateStyle templateStyle = templateMap.get(templateStyleKey);
 
         XWPFParagraph paragraph = doc.createParagraph();
         paragraph.setAlignment(templateStyle.getAlignment());
