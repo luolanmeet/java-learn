@@ -23,5 +23,6 @@
 	<modules>
 		<module>poi-excel</module>
 		<module>freemarker</module>
+		<module>poi-word</module>
 	</modules>
 </project>
