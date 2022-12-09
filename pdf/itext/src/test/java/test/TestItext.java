@@ -19,7 +19,7 @@ import com.itextpdf.text.pdf.PdfWriter;
  */
 public class TestItext {
     
-    String PDF_PATH_NAME = "d:\\TestItext.pdf";
+    String PDF_PATH_NAME = "TestItext.pdf";
     
     @Test
     public void testCreatePDF1() throws FileNotFoundException, DocumentException {

@@ -40,7 +40,7 @@ public class PDFCreater {
     final static String BACKGROUND_PIC = "bg.jpg";
     
     // 文件生成之后保存的路径
-    final static String PDF_PATH_NAME = "d:\\TestItext.pdf";
+    final static String PDF_PATH_NAME = "TestItext.pdf";
     
     // 背景颜色
     final static BaseColor BACKGROUND_COLOR = new BaseColor(253, 195, 193, 0);
