@@ -22,5 +22,6 @@
 
 	<modules>
 		<module>itext</module>
+		<module>pdfBox</module>
 	</modules>
 </project>
