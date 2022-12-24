@@ -1,5 +1,7 @@
 package pers.util;
 
+import java.io.FileOutputStream;
+import java.io.IOException;
 import java.util.Arrays;
 
 /**
@@ -16,12 +18,14 @@ public class PoiWordBuilderTest {
     public final static String TEMPLATE_BODY_1 = "TEMPLATE_BODY_1";
     public final static String TEMPLATE_BODY_2 = "TEMPLATE_BODY_2";
 
-    public static void main(String[] args) {
+    public static void main(String[] args) throws IOException {
 
         String basePath = System.getProperty("user.dir") + "/office/poi-word/";
         String templatePath = basePath + "src/main/resources/wordStyle.docx";
         String savePath = basePath + "poiWord.docx";
-        PoiWordBuilder builder = new PoiWordBuilder(templatePath);
+        FileOutputStream out = new FileOutputStream(savePath);
+
+        PoiWordBuilder builder = new PoiWordBuilder(templatePath, out);
 
         builder.addTextWithStyle("xxxx科技接口文档", TEMPLATE_TITLE)
                 .addBlankLine()
@@ -66,7 +70,7 @@ public class PoiWordBuilderTest {
                         TEMPLATE_BODY_2);
 
         builder.addTextWithStyle("......", TEMPLATE_HEAD_2);
-        builder.write(savePath);
+        builder.finish();
     }
 
 }

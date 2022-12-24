@@ -1,13 +1,14 @@
 package pers.util;
 
+import lombok.Data;
+import org.apache.poi.hssf.usermodel.HSSFWorkbook;
 import org.apache.poi.hssf.util.HSSFColor;
 import org.apache.poi.ss.usermodel.*;
 import org.apache.poi.ss.util.CellRangeAddress;
 
-import java.util.HashMap;
-import java.util.HashSet;
-import java.util.Map;
-import java.util.Set;
+import java.io.IOException;
+import java.io.OutputStream;
+import java.util.*;
 
 /**
  * 辅助构造 poi excel 文件
@@ -28,23 +29,25 @@ public class PoiExcelBuilder {
     private Map<String, CellStyle> cellStyleMap;
     /** 分隔线（合并单元格）样式 */
     private CellStyle lineStyle;
-    /** 文字样式 */
-    private Font font;
     /** 页名集合（用于防重名） */
     private Set<String> sheetNameSet = new HashSet<>();
     /** 当前页中，列中最长的值，用于调整列宽度 */
     private Map<Integer, String> columnMaxByteLenStrMap;
+
+    /** 文档最后输出 */
+    private OutputStream out;
 
     private static final String DEFAULT_CELL_STYLE = "default";
     private static final String WRAP_TEXT_CELL_STYLE = "wrapText";
     private static final int MAX_SHEET_NAME_LEN = 31;
     private static final String DEFAULT_SHEET_NAME = "sheet";
 
-    public PoiExcelBuilder(Workbook wb) {
+    public PoiExcelBuilder(OutputStream out) {
 
-        this.wb = wb;
+        this.out = out;
 
-        font = wb.createFont();
+        this.wb = new HSSFWorkbook();
+        Font font = wb.createFont();
         font.setFontHeightInPoints((short) 12);
         font.setFontName("等线 (正文)");
 
@@ -61,8 +64,6 @@ public class PoiExcelBuilder {
         cellStyle.setFont(font);
         cellStyle.setWrapText(true);
         cellStyleMap.put(WRAP_TEXT_CELL_STYLE, cellStyle);
-
-
 
         lineStyle = wb.createCellStyle();
         lineStyle.setAlignment(HorizontalAlignment.CENTER);
@@ -164,6 +165,11 @@ public class PoiExcelBuilder {
         return this;
     }
 
+    public PoiExcelBuilder addCellWithCustomStyle(int columnIdx, String customStyle, String ... values) {
+        addCell(columnIdx, cellStyleMap.get(customStyle), values);
+        return this;
+    }
+
     /**
      * 为表格填值
      * @param columnIdx
@@ -192,6 +198,33 @@ public class PoiExcelBuilder {
     }
 
     /**
+     * 自定义样式
+     * @param customStyle
+     * @return
+     */
+    public String createCustomStyle(CustomStyle customStyle) {
+
+        Font font = wb.createFont();
+        font.setFontName(customStyle.getFontName());
+        font.setFontHeightInPoints(customStyle.getFontSize());
+
+        CellStyle cellStyle = wb.createCellStyle();
+        cellStyle.setAlignment(HorizontalAlignment.forInt(customStyle.getHorizontalAlignment()));
+        cellStyle.setVerticalAlignment(VerticalAlignment.forInt(customStyle.getVerticalAlignment()));
+        cellStyle.setWrapText(customStyle.isWrapText());
+        cellStyle.setFont(font);
+
+        if (customStyle.getFillForegroundColor() != null) {
+            cellStyle.setFillForegroundColor(customStyle.getFillForegroundColor());
+            cellStyle.setFillPattern(FillPatternType.SOLID_FOREGROUND);
+        }
+
+        String key = UUID.randomUUID().toString();
+        cellStyleMap.put(key, cellStyle);
+        return key;
+    }
+
+    /**
      * 当前页完成，自动根据页中的数据调整列的宽度大小
      * @return
      */
@@ -212,11 +245,15 @@ public class PoiExcelBuilder {
     /**
      * excel 编辑完成
      */
-    public void finish() {
+    public void finish() throws IOException {
+
+        wb.write(out);
+
         // help gc
         currentSheet = null;
         currentRow = null;
         wb = null;
+        out = null;
     }
 
     public PoiExcelBuilder rowIdxDecrement() {
@@ -234,12 +271,46 @@ public class PoiExcelBuilder {
         return this;
     }
 
+    public PoiExcelBuilder rowIdxIncrement(int num) {
+        this.currentRowIdx += num;
+        return this;
+    }
+
     public int getCurrentRowIdx() {
         return currentRowIdx;
     }
 
     private int getWidth(String text) {
         return (int) Math.min((text.getBytes().length * 0.5d + 1) * 800, 7000);
+    }
+
+    /**
+     * 自定义样式
+     */
+    @Data
+    public static class CustomStyle {
+
+        public final static int HORIZONTAL_ALIGNMENT_LEFT = HorizontalAlignment.LEFT.getCode();
+        public final static int HORIZONTAL_ALIGNMENT_CENTER = HorizontalAlignment.CENTER.getCode();
+
+        public final static int VERTICAL_ALIGNMENT_CENTER = VerticalAlignment.CENTER.getCode();
+
+        public final static short FILL_FOREGROUND_COLOR_LIGHT_GREEN = HSSFColor.HSSFColorPredefined.LIGHT_GREEN.getIndex();
+        public final static short FILL_FOREGROUND_COLOR_GREY = HSSFColor.HSSFColorPredefined.GREY_25_PERCENT.getIndex();
+
+        /** 水平排列 */
+        private int horizontalAlignment = HORIZONTAL_ALIGNMENT_LEFT;
+        /** 垂直排列 */
+        private int verticalAlignment = VERTICAL_ALIGNMENT_CENTER;
+        /** 字体 */
+        private String fontName = "宋体";
+        /** 字体大小 */
+        private short fontSize = 12;
+        /** 是否自动换行 */
+        private boolean wrapText = false;
+        /** 前景色 */
+        private Short fillForegroundColor;
+
     }
 
 }

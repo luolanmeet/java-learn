@@ -1,8 +1,5 @@
 package pers.util;
 
-import org.apache.poi.hssf.usermodel.HSSFWorkbook;
-import org.apache.poi.ss.usermodel.Workbook;
-
 import java.io.FileOutputStream;
 
 /**
@@ -18,18 +15,22 @@ public class PoiExcelBuilderTest {
         String fileName = "excel" + System.currentTimeMillis() + ".xls";
         String completePath = savePath + fileName;
 
-        try (FileOutputStream fos = new FileOutputStream(completePath);
-             Workbook wb = new HSSFWorkbook()) {
+        try (FileOutputStream fos = new FileOutputStream(completePath);) {
 
-            PoiExcelBuilder builder = new PoiExcelBuilder(wb);
+            PoiExcelBuilder builder = new PoiExcelBuilder(fos);
 
             builder.newSheet("sheetName");
+
+            PoiExcelBuilder.CustomStyle customStyle = new PoiExcelBuilder.CustomStyle();
+            customStyle.setFontSize((short) 30);
+            customStyle.setFillForegroundColor(PoiExcelBuilder.CustomStyle.FILL_FOREGROUND_COLOR_GREY);
+            String customStyleKey = builder.createCustomStyle(customStyle);
 
             builder.addSplitLine(builder.getCurrentRowIdx(), builder.getCurrentRowIdx(),0, 6, "基本信息")
                     .newRow().addCell(0, "xx：", "xxx")
                     .newRow().addCell(0, "xx：", "xxx")
                     .newRow().addCell(0, "xx：", "xxx")
-                    .newRow().addCell(0, "xx：", "xxx");
+                    .newRow().addCellWithCustomStyle(0, customStyleKey,"xx：", "xxx");
 
             builder.rowIdxIncrement().rowIdxIncrement()
                     .addSplitLine(builder.getCurrentRowIdx(), builder.getCurrentRowIdx(), 0, 6, "请求参数")
@@ -37,7 +38,6 @@ public class PoiExcelBuilderTest {
             // ...
 
             builder.finish();
-            wb.write(fos);
         } catch (Exception e) {
             e.printStackTrace();
         }
