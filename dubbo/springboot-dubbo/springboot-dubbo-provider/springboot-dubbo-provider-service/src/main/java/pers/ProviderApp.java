@@ -8,10 +8,10 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
  * @author cck
  */
 @SpringBootApplication
-public class App {
+public class ProviderApp {
     
     public static void main(String[] args) {
-        SpringApplication.run(App.class, args);
+        SpringApplication.run(ProviderApp.class, args);
     }
     
 }

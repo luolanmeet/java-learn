@@ -70,6 +70,7 @@ public class DubboGenericServiceImpl {
         // 声明为泛化接口
         reference.setGeneric("true");
         reference.setVersion(version);
+        // 注意，如果有缓存，重新设置超时时间是不会生效的
         reference.setTimeout(timeout);
         // 失败重试次数
         RpcContext.getContext().setAttachment(CommonConstants.RETRIES_KEY, 0);

@@ -17,7 +17,7 @@ public class UserController {
 
     // 容错指定为 failfast ， 才不会再重试2次（默认）
 //    @Reference(mock="pers.mock.UserServiceMock", timeout=500, cluster = "failfast")
-    @Reference
+    @Reference(check = false)
     private IUserService userService;
 
     // 泛化调用
