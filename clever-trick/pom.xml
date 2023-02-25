@@ -10,6 +10,7 @@
     <modules>
         <module>asyn-responsibility-chain</module>
         <module>level-data-builder</module>
+        <module>config-priority</module>
     </modules>
     <packaging>pom</packaging>
 
