@@ -7,12 +7,21 @@
     <groupId>com.learn</groupId>
     <artifactId>clever-trick</artifactId>
     <version>0.0.1-SNAPSHOT</version>
+    <packaging>pom</packaging>
+
     <modules>
         <module>asyn-responsibility-chain</module>
         <module>level-data-builder</module>
         <module>config-priority</module>
     </modules>
-    <packaging>pom</packaging>
+
+    <dependencies>
+        <dependency>
+            <groupId>org.projectlombok</groupId>
+            <artifactId>lombok</artifactId>
+            <version>1.18.24</version>
+        </dependency>
+    </dependencies>
 
     <build>
         <plugins>
