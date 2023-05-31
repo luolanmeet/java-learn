@@ -7,6 +7,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RestController;
 import pers.IUserService;
 import pers.service.DubboGenericServiceImpl;
+import pers.service.RpcProviderMsgDTO;
 
 /**
  * 
@@ -42,6 +43,16 @@ public class UserController {
                 new Object[]{str},
                 3000);
         return sayHello == null ? null : sayHello.toString();
+    }
+
+    // localhost:8080/hello3
+    @GetMapping("hello3")
+    public RpcProviderMsgDTO getProvider() {
+        // 泛化调用
+        return dubboGenericService.getProviderMsg(
+                "pers.IUserService",
+                "",
+                3000);
     }
 
 }
