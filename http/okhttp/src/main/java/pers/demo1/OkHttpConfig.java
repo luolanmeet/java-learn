@@ -1,7 +1,9 @@
 package pers.demo1;
 
+import okhttp3.Call;
 import okhttp3.ConnectionPool;
 import okhttp3.OkHttpClient;
+import okhttp3.Request;
 
 import javax.net.ssl.SSLContext;
 import javax.net.ssl.SSLSocketFactory;
@@ -31,15 +33,24 @@ public class OkHttpConfig {
         ConnectionPool connectionPool = new ConnectionPool(maxIdleConnections, keepAliveDuration, TimeUnit.MINUTES);
         return new OkHttpClient.Builder()
                 .sslSocketFactory(sslSocketFactory(), x509TrustManager())
-                //链接失效时，进行重试
+                // 拦截器，可用于动态调整配置
+                .addInterceptor(chain -> {
+                    Request request = chain.request();
+//                    // withXXX，会在原来的 chain 再包装一层，然后返回
+//                    chain = chain.withReadTimeout(60, TimeUnit.SECONDS)
+//                            .withWriteTimeout(60, TimeUnit.SECONDS)
+//                            .withConnectTimeout(60, TimeUnit.SECONDS);
+                    return chain.proceed(request);
+                })
+                // 链接失效时，进行重试
                 .retryOnConnectionFailure(true)
-                //连接池
+                // 连接池
                 .connectionPool(connectionPool)
-                //链接超时时间
+                // 链接超时时间
                 .connectTimeout(connectTimeout, TimeUnit.SECONDS)
-                //读超时时间
+                // 读超时时间
                 .readTimeout(readTimeout, TimeUnit.SECONDS)
-                //写超时时间
+                // 写超时时间
                 .writeTimeout(writeTimeout, TimeUnit.SECONDS)
                 .build();
     }
