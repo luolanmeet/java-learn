@@ -5,6 +5,7 @@ import org.apache.poi.xwpf.usermodel.*;
 
 import java.io.FileInputStream;
 import java.io.IOException;
+import java.io.InputStream;
 import java.io.OutputStream;
 import java.util.HashMap;
 import java.util.List;
@@ -38,7 +39,7 @@ public class PoiWordBuilder {
         this.out = out;
 
         // 读取传入的模板文件，暂存样式
-        try (FileInputStream in = new FileInputStream(templatePath);) {
+        try (InputStream in = PoiWordBuilder.class.getClassLoader().getResourceAsStream(templatePath);) {
 
             // 基于传入的文档创建新文档
             doc = new XWPFDocument(in);

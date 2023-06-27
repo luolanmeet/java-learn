@@ -20,8 +20,9 @@ public class PoiWordBuilderTest {
 
     public static void main(String[] args) throws IOException {
 
+        String templatePath = "wordStyle.docx";
+
         String basePath = System.getProperty("user.dir") + "/office/poi-word/";
-        String templatePath = basePath + "src/main/resources/wordStyle.docx";
         String savePath = basePath + "poiWord.docx";
         FileOutputStream out = new FileOutputStream(savePath);
 
