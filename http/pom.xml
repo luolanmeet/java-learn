@@ -13,6 +13,7 @@
         <module>okhttp</module>
         <module>resttemplate</module>
         <module>http-status-code</module>
+        <module>apache-httpclient</module>
     </modules>
 
     <build>
