@@ -1,0 +1,46 @@
+PUT /biz_log_index/_doc/1
+{
+    "uniqueId": "43b340b1559742edb59b9021d5251bf0glfta1699954237791",
+    "traceId": "753e78fd97194545815bc4822fd677ddsblkh",
+    "rpcId": "ef9b7a050d244aa5a59816ea07b59e68faggh",
+    "clientIp": "30.211.48.107",
+    "localIp": "30.211.48.107",
+    "startTime": "2023-11-14 17:30:31.278",
+    "cost": 6533,
+    "interfaceName": "ediLocalFunction(拉单标准接口-获取面单(订阅))->edi",
+    "methodName": "unifiedEntryWrapper",
+    "clazzName": "UnifiedCommon",
+    "packClass": "com.cainiao.starchain.link.web.controller.common.UnifiedCommon",
+    "success": 1,
+    "errorCode": "",
+    "errorMessage": "",
+    "args": [
+        "ediLocalFunction",
+        "platform.waybill.get.sub",
+        null,
+        "edi_platform_solution",
+        "{\"platformShopCode\":\"tb_01\",\"platformCode\":\"TB\",\"orderChannel\":\"TB\",\"companyCode\":\"STO\",\"idempotentId\":\"3628323684797780538-1\",\"outBizOrderCode\":\"3628323684797780538\",\"receiverInfo\":{\"name\":\"名称\",\"country\":\"中国\",\"province\":\"广东省\",\"city\":\"广州市\",\"area\":\"海珠区\",\"detailAddress\":\"阿里中心\",\"town\":\"县/镇\",\"zipCode\":510000,\"mobile\":15814907335},\"senderInfo\":{\"name\":\"名称\",\"country\":\"中国\",\"province\":\"上海\",\"city\":\"上海市\",\"area\":\"青浦区\",\"detailAddress\":\"重达路58号\",\"zipCode\":201700,\"mobile\":15814907335},\"items\":[{\"name\":\"货品名称\",\"quantity\":1}],\"packageInfo\":{\"weight\":1,\"volume\":1,\"length\":1,\"width\":1,\"height\":1}}",
+        null
+    ],
+    "realArgs": "",
+    "result": {
+        "errorCode": "subCode data",
+        "errorMessage": "msg data",
+        "success": true,
+        "traceId": "鹰眼Id",
+        "waybillCode": "面单号, 子母件模式下为子面单号",
+        "printData": "云打印内容（encryptedData表示加密结果，data表示非加密结果）"
+    },
+    "clientApp": "ediLocalFunction",
+    "stack": false,
+    "stackMessage": "",
+    "logType": 1,
+    "extendMap": {},
+    "masterCode": "",
+    "belongCode": "",
+    "orderType": "",
+    "warehouseId": "",
+    "className": "com.cainiao.starchain.link.client.externaldto.logdto.BizPointDTO"
+}
+
+GET /biz_log_index/_doc/1

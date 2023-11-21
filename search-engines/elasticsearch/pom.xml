@@ -8,6 +8,7 @@
   <artifactId>elasticsearch</artifactId>
   <packaging>pom</packaging>
   <modules>
-  	<module>origin-elasticsearch</module>
+    <module>origin-elasticsearch</module>
+    <module>springboot-elasticsearch</module>
   </modules>
 </project>
