@@ -9,12 +9,13 @@ import org.springframework.data.elasticsearch.annotations.Setting;
 import java.util.Map;
 
 /**
- * 业务类日志DTO
+ * @auther ken.ck
+ * @date 2023/11/22 15:36
  */
 @Data
 @Setting(shards = 1, replicas = 3)
-@Document(indexName = "biz_log_index", versionType = Document.VersionType.EXTERNAL)
-public class BizPointDTO extends BaseDTO {
+@Document(indexName = "bottom_log_index", versionType = Document.VersionType.EXTERNAL)
+public class BottomPointDTO {
 
     /**
      * 唯一ID
@@ -104,19 +105,19 @@ public class BizPointDTO extends BaseDTO {
     /**
      * 真实执行参数(请求/方法参数)
      */
-    @Field(type = FieldType.Text)
+    @Field(type = FieldType.Object)
     private Object args;
 
     /**
      * 其他执行参数(用于打印真实的请求参数，如果需要)
      */
-    @Field(type = FieldType.Text)
+    @Field(type = FieldType.Object)
     private Object realArgs;
 
     /**
      * 返回参数(结果参数)Json
      */
-    @Field(type = FieldType.Text)
+    @Field(type = FieldType.Object)
     private Object result;
 
     /**

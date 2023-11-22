@@ -1,3 +1,248 @@
+// 自动添加时间戳字段
+PUT _ingest/pipeline/timestamp_pipeline
+{
+  "description": "Adds a field to a document with the time of ingestion",
+  "processors": [
+    {
+      "set": {
+        "field": "@timestamp",
+        "value": "{{_ingest.timestamp}}"
+      }
+    }
+  ]
+}
+
+// 创建索引
+PUT biz_log_index
+{
+    "aliases": {},
+    "mappings": {
+        "properties": {
+            "args": {
+                "type": "text",
+                "fields": {
+                    "keyword": {
+                        "type": "keyword",
+                        "ignore_above": 256
+                    }
+                }
+            },
+            "belongCode": {
+                "type": "text",
+                "fields": {
+                    "keyword": {
+                        "type": "keyword",
+                        "ignore_above": 256
+                    }
+                }
+            },
+            "className": {
+                "type": "text",
+                "fields": {
+                    "keyword": {
+                        "type": "keyword",
+                        "ignore_above": 256
+                    }
+                }
+            },
+            "clazzName": {
+                "type": "text",
+                "fields": {
+                    "keyword": {
+                        "type": "keyword",
+                        "ignore_above": 256
+                    }
+                }
+            },
+            "clientApp": {
+                "type": "text",
+                "fields": {
+                    "keyword": {
+                        "type": "keyword",
+                        "ignore_above": 256
+                    }
+                }
+            },
+            "clientIp": {
+                "type": "text",
+                "fields": {
+                    "keyword": {
+                        "type": "keyword",
+                        "ignore_above": 256
+                    }
+                }
+            },
+            "cost": {
+                "type": "long"
+            },
+            "errorCode": {
+                "type": "text",
+                "fields": {
+                    "keyword": {
+                        "type": "keyword",
+                        "ignore_above": 256
+                    }
+                }
+            },
+            "errorMessage": {
+                "type": "text",
+                "fields": {
+                    "keyword": {
+                        "type": "keyword",
+                        "ignore_above": 256
+                    }
+                }
+            },
+            "extendMap": {
+                "type": "object"
+            },
+            "interfaceName": {
+                "type": "text",
+                "fields": {
+                    "keyword": {
+                        "type": "keyword",
+                        "ignore_above": 256
+                    }
+                }
+            },
+            "localIp": {
+                "type": "text",
+                "fields": {
+                    "keyword": {
+                        "type": "keyword",
+                        "ignore_above": 256
+                    }
+                }
+            },
+            "logType": {
+                "type": "long"
+            },
+            "masterCode": {
+                "type": "text",
+                "fields": {
+                    "keyword": {
+                        "type": "keyword",
+                        "ignore_above": 256
+                    }
+                }
+            },
+            "methodName": {
+                "type": "text",
+                "fields": {
+                    "keyword": {
+                        "type": "keyword",
+                        "ignore_above": 256
+                    }
+                }
+            },
+            "orderType": {
+                "type": "text",
+                "fields": {
+                    "keyword": {
+                        "type": "keyword",
+                        "ignore_above": 256
+                    }
+                }
+            },
+            "packClass": {
+                "type": "text",
+                "fields": {
+                    "keyword": {
+                        "type": "keyword",
+                        "ignore_above": 256
+                    }
+                }
+            },
+            "realArgs": {
+                "type": "text",
+                "fields": {
+                    "keyword": {
+                        "type": "keyword",
+                        "ignore_above": 256
+                    }
+                }
+            },
+            "result": {
+                "type": "text",
+                "fields": {
+                    "keyword": {
+                        "type": "keyword",
+                        "ignore_above": 256
+                    }
+                }
+            },
+            "rpcId": {
+                "type": "text",
+                "fields": {
+                    "keyword": {
+                        "type": "keyword",
+                        "ignore_above": 256
+                    }
+                }
+            },
+            "stack": {
+                "type": "boolean"
+            },
+            "stackMessage": {
+                "type": "text",
+                "fields": {
+                    "keyword": {
+                        "type": "keyword",
+                        "ignore_above": 256
+                    }
+                }
+            },
+            "startTime": {
+                "type": "text",
+                "fields": {
+                    "keyword": {
+                        "type": "keyword",
+                        "ignore_above": 256
+                    }
+                }
+            },
+            "success": {
+                "type": "long"
+            },
+            "traceId": {
+                "type": "text",
+                "fields": {
+                    "keyword": {
+                        "type": "keyword",
+                        "ignore_above": 256
+                    }
+                }
+            },
+            "uniqueId": {
+                "type": "text",
+                "fields": {
+                    "keyword": {
+                        "type": "keyword",
+                        "ignore_above": 256
+                    }
+                }
+            },
+            "warehouseId": {
+                "type": "text",
+                "fields": {
+                    "keyword": {
+                        "type": "keyword",
+                        "ignore_above": 256
+                    }
+                }
+            }
+        }
+    },
+    "settings": {
+        "index": {
+            "number_of_shards" : "1",
+            "number_of_replicas" : "1"
+        },
+        "default_pipeline": "timestamp_pipeline"
+    }
+}
+
+// 写入数据
 PUT /biz_log_index/_doc/1
 {
     "uniqueId": "43b340b1559742edb59b9021d5251bf0glfta1699954237791",
@@ -23,14 +268,7 @@ PUT /biz_log_index/_doc/1
         null
     ],
     "realArgs": "",
-    "result": {
-        "errorCode": "subCode data",
-        "errorMessage": "msg data",
-        "success": true,
-        "traceId": "鹰眼Id",
-        "waybillCode": "面单号, 子母件模式下为子面单号",
-        "printData": "云打印内容（encryptedData表示加密结果，data表示非加密结果）"
-    },
+    "result": "{\"className\":\"com.cainiao.starchain.link.client.externaldto.commondto.EdiResult\",\"data\":{\"errorCode\":\"isv.permission-ip-whitelist-limit\",\"errorMessage\":\"Insufficient isv permissions\",\"printData\":null,\"success\":false,\"traceId\":\"9f7e1d2eff9b416a852a9f9b1618417evscsn\",\"waybillCode\":null},\"errorCode\":null,\"errorMsg\":\"\",\"extendProps\":null,\"success\":true,\"traceId\":\"9f7e1d2eff9b416a852a9f9b1618417evscsn\"}",
     "clientApp": "ediLocalFunction",
     "stack": false,
     "stackMessage": "",

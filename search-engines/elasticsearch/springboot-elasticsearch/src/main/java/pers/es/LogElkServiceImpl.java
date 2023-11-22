@@ -1,25 +1,22 @@
 package pers.es;
 
-import org.elasticsearch.client.RequestOptions;
-import org.elasticsearch.client.core.CountRequest;
-import org.elasticsearch.client.core.CountResponse;
 import org.elasticsearch.index.query.BoolQueryBuilder;
 import org.elasticsearch.index.query.QueryBuilders;
-import org.elasticsearch.search.builder.SearchSourceBuilder;
+import org.elasticsearch.search.sort.SortBuilders;
+import org.elasticsearch.search.sort.SortOrder;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.data.elasticsearch.core.ElasticsearchRestTemplate;
 import org.springframework.data.elasticsearch.core.SearchHits;
 import org.springframework.data.elasticsearch.core.query.NativeSearchQuery;
 import org.springframework.data.elasticsearch.core.query.NativeSearchQueryBuilder;
 import org.springframework.stereotype.Service;
 import org.springframework.util.StringUtils;
-import pers.es.entity.BizPointDTO;
-import pers.es.entity.HistogramsRequestDTO;
 import pers.es.entity.LogRequestDTO;
+import pers.es.entity.PageResult;
 
 import javax.annotation.Resource;
-import java.io.IOException;
-import java.util.ArrayList;
-import java.util.List;
+import java.text.SimpleDateFormat;
+import java.util.*;
 
 /**
  * @auther ken.ck
@@ -32,57 +29,45 @@ public class LogElkServiceImpl {
     private ElasticsearchRestTemplate elasticsearchRestTemplate;
 
     /**
-     * 查询日志条数
+     * 查询日志
      */
-    public long getHistograms(HistogramsRequestDTO requestDTO) {
+    public <T> PageResult<T> querySLSLogs(LogRequestDTO logRequestDTO, int currentPage, int pageSize, Class<T> clazz) {
+
+        SimpleDateFormat sdfutc = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSS'Z'");
+        sdfutc.setTimeZone(TimeZone.getTimeZone("UTC"));
 
         // 建立一个bool查询
         BoolQueryBuilder boolQueryBuilder = QueryBuilders.boolQuery();
         boolQueryBuilder.must(QueryBuilders.rangeQuery("@timestamp")
-                .gte(requestDTO.getFromDate())
-                .lte(requestDTO.getToDate()));
-        if (StringUtils.hasText(requestDTO.getWord())) {
-            boolQueryBuilder.must(QueryBuilders.queryStringQuery(requestDTO.getWord()));
-        }
-
-        NativeSearchQuery nativeSearchQuery = new NativeSearchQueryBuilder()
-                .withQuery(boolQueryBuilder)
-                .build();
-        long count = elasticsearchRestTemplate.count(nativeSearchQuery, String.class);
-        return count;
-    }
-
-    /**
-     * 查询日志
-     */
-    public <T> List<T> querySLSLogs(LogRequestDTO logRequestDTO, Class<T> clazz) {
-
-        // 建立一个bool查询
-        BoolQueryBuilder boolQueryBuilder = QueryBuilders.boolQuery();
-//        boolQueryBuilder.must(QueryBuilders.rangeQuery("startTime")
-//                .gte(logRequestDTO.getFromDate())
-//                .lte(logRequestDTO.getToDate()));
+                .gte(sdfutc.format(logRequestDTO.getFrom()))
+                .lte(sdfutc.format(logRequestDTO.getTo())));
         if (StringUtils.hasText(logRequestDTO.getKword())) {
             boolQueryBuilder.must(QueryBuilders.queryStringQuery(logRequestDTO.getKword()));
         }
 
         NativeSearchQuery nativeSearchQuery = new NativeSearchQueryBuilder()
                 .withQuery(boolQueryBuilder)
+                .withSorts(Arrays.asList(SortBuilders.fieldSort("@timestamp").order(SortOrder.DESC)))
+                .withPageable(PageRequest.of(currentPage, pageSize))
                 .build();
 
+        // 查询总数
+        long total = elasticsearchRestTemplate.count(nativeSearchQuery, clazz);
+        PageResult<T> result = new PageResult<>();
+        result.setCurrentPage(currentPage);
+        result.setPageSize(pageSize);
+        result.setTotalCount(total);
+        if (total <= 0) {
+            return result;
+        }
+
+        // 查询数据
         SearchHits<T> search = elasticsearchRestTemplate.search(nativeSearchQuery, clazz);
+        List<T> queryResult = new ArrayList<>((int) search.getTotalHits());
+        search.stream().iterator().forEachRemaining(hit -> queryResult.add(hit.getContent()));
 
-        List<T> result = new ArrayList<>((int) search.getTotalHits());
-        search.stream().iterator().forEachRemaining(hit -> result.add(hit.getContent()));
-
+        result.setData(queryResult);
         return result;
-    }
-
-    /**
-     * 获取projectName 列表
-     */
-    public List<String> listProject() {
-        return null;
     }
 
 }
