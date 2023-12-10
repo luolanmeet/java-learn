@@ -32,7 +32,7 @@ public class DemoController {
         SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
         LogRequestDTO logRequestDTO = new LogRequestDTO();
         logRequestDTO.setFrom(sdf.parse("2023-11-14 11:30:31"));
-        logRequestDTO.setTo(sdf.parse("2023-11-23 21:30:31"));
+        logRequestDTO.setTo(sdf.parse("2028-11-23 21:30:31"));
 
         if (StringUtils.hasText(msg)) {
             logRequestDTO.setKword(msg);
@@ -41,7 +41,7 @@ public class DemoController {
             page = 0;
         }
         if (size == null) {
-            size = 1;
+            size = 10;
         }
         PageResult<BizPointDTO> result = logElkServiceImpl.querySLSLogs(logRequestDTO, page, size, BizPointDTO.class);
         return result;

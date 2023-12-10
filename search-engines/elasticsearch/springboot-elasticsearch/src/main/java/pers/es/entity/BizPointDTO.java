@@ -13,7 +13,7 @@ import java.util.Map;
  */
 @Data
 @Setting(shards = 1, replicas = 3)
-@Document(indexName = "biz_log_index", versionType = Document.VersionType.EXTERNAL)
+@Document(indexName = "edi_biz_log_alias", versionType = Document.VersionType.EXTERNAL)
 public class BizPointDTO extends BaseDTO {
 
     /**

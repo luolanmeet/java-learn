@@ -38,11 +38,12 @@ public class LogElkServiceImpl {
 
         // 建立一个bool查询
         BoolQueryBuilder boolQueryBuilder = QueryBuilders.boolQuery();
-        boolQueryBuilder.must(QueryBuilders.rangeQuery("@timestamp")
+        boolQueryBuilder.filter(QueryBuilders.rangeQuery("@timestamp")
                 .gte(sdfutc.format(logRequestDTO.getFrom()))
                 .lte(sdfutc.format(logRequestDTO.getTo())));
         if (StringUtils.hasText(logRequestDTO.getKword())) {
-            boolQueryBuilder.must(QueryBuilders.queryStringQuery(logRequestDTO.getKword()));
+//            boolQueryBuilder.must(QueryBuilders.queryStringQuery(logRequestDTO.getKword()));
+            boolQueryBuilder.filter(QueryBuilders.queryStringQuery(logRequestDTO.getKword()));
         }
 
         NativeSearchQuery nativeSearchQuery = new NativeSearchQueryBuilder()
