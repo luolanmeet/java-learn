@@ -26,6 +26,7 @@ public class LazySingleton {
                     // 2. 调用 LazySingleton 的构造方法
                     // 3. 将 instance 对象指向分配的内存空间（之后instance就不为空了）
                     // 指令重排的原因，执行顺序可能为 1-2-3 或 1-3-2。加上 volatile ，禁止指令重排，保证顺序为1-2-3
+                    // 避免了出现重排为 1-3-2，2还未执行的情况下，另外的线程判断 instance 不为 null，直接使用了未构造完成的 instance
                     instance = new LazySingleton();
                 }
             }
