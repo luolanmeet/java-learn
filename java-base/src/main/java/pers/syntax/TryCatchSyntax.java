@@ -24,12 +24,18 @@ public class TryCatchSyntax {
         // finally 中的 return 会覆盖 try 和 catch 中的 return
         // finally 中的 return 会覆盖 try 和 catch 中再次抛出的异常
         Supplier<String> action = () -> {
+            int a = 0;
             try {
                 System.out.println("Inside try");
-                if (1 == 1) {
+                if (a == 1) {
                     throw new RuntimeException("");
                 }
                 return "from try";
+            } catch (Exception e) {
+                if (a == 2) {
+                    throw new RuntimeException("");
+                }
+                return "from catch";
             } finally {
                 System.out.println("Inside finally");
                 return "from finally";

@@ -9,6 +9,6 @@ import pers.flow.content.FlowContent;
  */
 public abstract class FlowNode {
 
-    abstract void invode(FlowContent content);
+    abstract void invoke(FlowContent content);
 
 }
