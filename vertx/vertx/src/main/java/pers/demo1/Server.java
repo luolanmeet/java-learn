@@ -1,4 +1,4 @@
-package pers;
+package pers.demo1;
 
 import io.vertx.core.AbstractVerticle;
 import io.vertx.core.Vertx;
